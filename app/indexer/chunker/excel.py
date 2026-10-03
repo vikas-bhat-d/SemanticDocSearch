@@ -4,6 +4,8 @@ from app.indexer.chunker.base import BaseChunker, ChunkResult
 
 
 class ExcelChunker(BaseChunker):
+    _EMPTY_CELL_VALUES = {"", "nan", "none", "null", "nat", "<na>"}
+
     def __init__(self, rows_per_chunk: int = 15):
         self.rows_per_chunk = rows_per_chunk
 
@@ -85,31 +87,41 @@ class ExcelChunker(BaseChunker):
         return table_lines
 
     def _clean_table(self, table_lines: List[str]) -> List[str]:
-        # Parse into grid
+        # Parse into a normalized grid. MarkItDown can represent empty Excel
+        # cells as literal strings such as "NaN" or "Unnamed: 3". Normalize
+        # those before both embedding and payload storage so search excerpts
+        # do not expose conversion artifacts.
         grid = []
         for line in table_lines:
-            cells = [c.strip() for c in line.strip("|").split("|")]
-            # Filter out completely empty or nan rows
-            if any(c and c.lower() not in ("nan", "none", "null") for c in cells):
-                grid.append((line, cells))
+            cells = [self._normalize_cell(c) for c in line.strip("|").split("|")]
+            if any(c for c in cells):
+                grid.append(cells)
 
         if not grid:
             return []
 
         # Find columns that have at least one non-empty value
-        max_cols = max(len(cells) for _, cells in grid)
+        max_cols = max(len(cells) for cells in grid)
         col_has_val = [False] * max_cols
-        for _, cells in grid:
+        for cells in grid:
             for i, c in enumerate(cells):
-                if c and c.lower() not in ("nan", "none", "null"):
+                if c:
                     col_has_val[i] = True
 
         cleaned_lines = []
-        for orig_line, cells in grid:
+        for cells in grid:
             filtered_cells = [cells[i] if i < len(cells) else "" for i in range(max_cols) if col_has_val[i]]
             cleaned_lines.append("| " + " | ".join(filtered_cells) + " |")
 
         return cleaned_lines
+
+    def _normalize_cell(self, cell: str) -> str:
+        value = cell.strip()
+        if value.lower() in self._EMPTY_CELL_VALUES:
+            return ""
+        if re.fullmatch(r"unnamed\s*:\s*\d+", value, flags=re.IGNORECASE):
+            return ""
+        return value
 
     def _batch_rows_with_overlap(self, rows: List[str], batch_size: int, overlap: int) -> List[List[str]]:
         batches = []

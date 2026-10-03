@@ -81,39 +81,6 @@ def delete_points_by_file_path(client: QdrantClient, collection_name: str, file_
         return 0
 
 
-def delete_points_by_folder_prefix(client: QdrantClient, collection_name: str, folder_prefix: str) -> int:
-    norm_prefix = folder_prefix.replace('/', '\\').lower()
-    points_to_delete = []
-    offset = None
-
-    try:
-        while True:
-            records, next_offset = client.scroll(
-                collection_name=collection_name,
-                limit=100,
-                offset=offset,
-                with_payload=True,
-                with_vectors=False
-            )
-            for r in records:
-                fp = (r.payload.get("file_path") or "").replace('/', '\\').lower()
-                if fp.startswith(norm_prefix):
-                    points_to_delete.append(r.id)
-
-            if next_offset is None or not records:
-                break
-            offset = next_offset
-
-        if points_to_delete:
-            client.delete(
-                collection_name=collection_name,
-                points_selector=rest_models.PointIdsList(points=points_to_delete)
-            )
-        return len(points_to_delete)
-    except Exception:
-        return 0
-
-
 def upsert_file_chunks(
     client: QdrantClient,
     collection_name: str,

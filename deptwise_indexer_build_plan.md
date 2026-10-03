@@ -1,4 +1,4 @@
-# DeptWise Indexer — Full Build Plan
+# DocSearch indexer — Full Build Plan
 
 > **IMPLEMENTATION STATUS: FULLY IMPLEMENTED (35/35 STEPS COMPLETED)**
 > All core application modules, chunkers, database schema, Qdrant operations, search engine, admin UI pages, styling, scripts, and test suite have been built according to specification.
@@ -777,7 +777,8 @@ Only one run can be RUNNING at a time. Start button is disabled if a run is RUNN
 6. Once all workers have stopped:
    a. Run status → 'stopped'
    b. stopped_at → now()
-7. Next run: picks up files with status='pending' from last stopped run first,
+7. Next run: if the immediately previous run was stopped, picks up its files
+   with status='pending' first,
    then continues folder traversal for not-yet-seen files
 ```
 
@@ -787,12 +788,12 @@ Only one run can be RUNNING at a time. Start button is disabled if a run is RUNN
 
 ```python
 def get_files_to_index(db, run_id, folders, excluded_paths):
-    # Phase 1: Resume pending files from last stopped run
-    last_stopped = db.query(IndexRun).filter_by(status='stopped')
+    # Phase 1: Resume pending files only from the immediately previous run
+    previous_run = db.query(IndexRun).filter(IndexRun.id < run_id)
                      .order_by(desc('id')).first()
-    if last_stopped:
+    if previous_run and previous_run.status == 'stopped':
         pending = db.query(IndexRunFile)
-                    .filter_by(run_id=last_stopped.id, status='pending')
+                    .filter_by(run_id=previous_run.id, status='pending')
                     .all()
         yield from [f.file_path for f in pending]
 
@@ -826,15 +827,14 @@ Live counters: indexed / skipped / failed / deleted
 ```xml
 <NewDataSet>
   <FILELIST>
-    <Type>FOLDER</Type>
-    <Value>E:\Winman Backup\Daily_INCREMENTAL(1)\Final-16-Jul-2015\PC135(D.)\Desktop</Value>
-  </FILELIST>
-  <FILELIST>
     <Type>FILE</Type>
     <Value>E:\Winman Backup\Daily_INCREMENTAL(1)\Final-16-Jul-2015\PC135(D.)\Desktop\file.xlsx</Value>
   </FILELIST>
 </NewDataSet>
 ```
+
+Only `FILE` entries are supported. `FOLDER` entries and any other entry types
+are ignored so an incremental run never deletes or reindexes an entire folder.
 
 ### Path conversion logic
 
@@ -873,14 +873,12 @@ def convert_backup_path(backup_path: str) -> str:
 ### Processing flow on run start
 
 ```
-1. Parse changed_xml_path → list of (type, converted_path) tuples
-2. Parse deleted_xml_path → list of (type, converted_path) tuples
-3. For each path in both lists:
-   - If type=FILE: delete all Qdrant points where file_path == converted_path
-   - If type=FOLDER: delete all Qdrant points where file_path starts_with converted_path
-     (use Qdrant scroll + filter + delete_vectors)
+1. Parse changed_xml_path → file-only list of `(FILE, converted_path)` tuples
+2. Parse deleted_xml_path → file-only list of `(FILE, converted_path)` tuples
+3. For each file path in both lists, delete Qdrant points where
+   `file_path == converted_path`
 4. Log: "Deleted N points for M files from changed/deleted XML"
-5. Update run: deleted_files = count of paths processed
+5. Update run: deleted_files = count of files processed
 6. Continue to normal folder traversal
    — files deleted in step 3 will now appear as "not in Qdrant" and get re-indexed
 ```
@@ -1379,7 +1377,7 @@ On settings save: call `logging.getLogger("deptwise").setLevel(new_level)` — t
 - Path with `PC135(D.)` → correct UNC output
 - Path with `SERVER01(C.)` → correct output
 - No machine pattern → returned as-is with warning
-- FOLDER type → correct prefix
+- FOLDER type → ignored
 - FILE type → correct full path
 - Duplicate paths → handled idempotently
 
@@ -1434,7 +1432,8 @@ On settings save: call `logging.getLogger("deptwise").setLevel(new_level)` — t
 **`test_runner.py`**
 - Stop flag: file in progress completes, next file not started
 - Rollback: incomplete file's Qdrant points deleted on stop
-- Resume: pending files from stopped run processed first
+- Resume: pending files from the immediately previous stopped run processed first
+- Completed run after a stopped run does not replay stale pending files
 
 ---
 
@@ -1521,8 +1520,18 @@ On settings save: call `logging.getLogger("deptwise").setLevel(new_level)` — t
 - Added `pytest.ini` with `--import-mode=importlib` to support the existing `tests/test_search.py` module alongside the `tests/test_search/` package.
 - Updated the test SQLite fixture to use a shared in-memory connection so FastAPI request-thread tests see the initialized schema.
 - Corrected test setup for the seeded synonym term and form-login redirect behavior.
+- Renamed the visible product to **DocSearch indexer** across the application metadata, page titles, branding, and login screen.
+- Replaced UI emojis with a consistent inline SVG icon sprite and accessible decorative icon markup; no external icon dependency was added.
+- Added inline Edit/Save/Cancel controls for Department and Doc Type classification rules, with duplicate-name validation on updates and regression coverage.
+- Improved Excel preprocessing to normalize `NaN`, `None`, `null`, `NaT`, and `Unnamed: N` conversion artifacts before the cleaned text is both embedded and stored in search payloads.
+- Verified the converted `Messy_WebView_Research.xlsx` output: 222 chunks produced with zero `NaN`, `Unnamed:`, or `None` artifacts.
+- Direct conversion verification of `SampleFolders/04_office/Messy_WebView_Research.xlsx` also produced 222 clean chunks with zero `NaN`, `Unnamed:`, or `None` artifacts.
+- Existing Qdrant payloads require a re-index after this preprocessing change; the live app was unavailable on port 8000 during verification.
+- Added a thread-safe `Embedder` cache keyed by model name and dimensions so search requests reuse the loaded SentenceTransformer model instead of loading it per request.
+- Extended incremental XML path handling to preserve direct local and UNC paths, normalize forward slashes, and continue converting legacy `PC135(D.)` backup paths. Incremental processing now accepts only `FILE` entries; `FOLDER` entries are ignored.
+- Fixed resume behavior so a completed run cannot replay stale pending files from an older stopped run; duplicate per-run skipped records are also prevented.
 - Validation completed successfully:
-  - `python -m pytest -q` → **32 passed** (6 non-blocking dependency deprecation warnings)
+  - `python -m pytest -q` → **40 passed** (11 non-blocking dependency deprecation warnings)
   - `python -m compileall -q app tests` → passed
   - Uvicorn smoke test → `/login` 200, `/docs` 200, unauthenticated `/api/index/status` 401
 - No package dependencies were added or changed; `requirements.txt` remains unchanged.

@@ -20,9 +20,28 @@ from app.indexer.qdrant_ops import (
     get_qdrant_client,
     ensure_collection,
     delete_points_by_file_path,
-    delete_points_by_folder_prefix,
     upsert_file_chunks
 )
+
+
+def _pending_files_from_previous_stopped_run(db: Session, run_id: int):
+    """Return pending files only when the immediately previous run was stopped."""
+    previous_run = (
+        db.query(IndexRun)
+        .filter(IndexRun.id < run_id)
+        .order_by(IndexRun.id.desc())
+        .first()
+    )
+    if not previous_run or previous_run.status != "stopped":
+        return []
+
+    return [
+        run_file.file_path
+        for run_file in db.query(IndexRunFile).filter_by(
+            run_id=previous_run.id,
+            status="pending"
+        ).all()
+    ]
 
 
 class IndexerRunner:
@@ -163,8 +182,6 @@ class IndexerRunner:
                     for type_str, path in entries:
                         if type_str == "FILE":
                             deleted_count += delete_points_by_file_path(qdrant, config.collection_name, path)
-                        elif type_str == "FOLDER":
-                            deleted_count += delete_points_by_folder_prefix(qdrant, config.collection_name, path)
 
             run = db.query(IndexRun).get(run_id)
             run.deleted_files = deleted_count
@@ -172,11 +189,9 @@ class IndexerRunner:
 
             # 2. Collect pending files from previous stopped run
             pending_from_stopped = []
-            last_stopped = db.query(IndexRun).filter_by(status="stopped").order_by(IndexRun.id.desc()).first()
-            if last_stopped:
-                prev_pending = db.query(IndexRunFile).filter_by(run_id=last_stopped.id, status="pending").all()
-                for pf in prev_pending:
-                    pending_from_stopped.append(pf.file_path)
+            for file_path in _pending_files_from_previous_stopped_run(db, run_id):
+                if file_path not in pending_from_stopped:
+                    pending_from_stopped.append(file_path)
 
             # 3. Collect files from folder traverser
             files_to_process = []
@@ -193,6 +208,9 @@ class IndexerRunner:
             for item in walk_folders(db, qdrant_client=qdrant, collection_name=config.collection_name):
                 fp = item["file_path"]
                 if item["status"] == "skipped":
+                    if fp in seen_paths:
+                        continue
+                    seen_paths.add(fp)
                     skipped_count += 1
                     rf = IndexRunFile(run_id=run_id, file_path=fp, status="skipped", error_message=item.get("reason"))
                     db.add(rf)

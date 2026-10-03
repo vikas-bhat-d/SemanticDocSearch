@@ -32,7 +32,7 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(
-    title="DeptWise Indexer & Search",
+    title="DocSearch indexer",
     description="Local semantic document searcher with department classification and incremental XML support.",
     version="1.0.0",
     lifespan=lifespan

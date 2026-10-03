@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Settings — DeptWise Indexer{% endblock %}
+{% block title %}Settings — DocSearch indexer{% endblock %}
 {% block page_title %}System Settings & Security{% endblock %}
 
 {% block content %}
@@ -9,7 +9,8 @@
     <div class="card margin-bottom">
         <h3>Embedding Model</h3>
         <div class="alert alert-warning">
-            ⚠️ Changing the embedding model or vector dimensions requires clearing and re-indexing the Qdrant collection.
+            <svg class="ui-icon alert-icon" aria-hidden="true"><use href="#icon-alert"></use></svg>
+            <span>Changing the embedding model or vector dimensions requires clearing and re-indexing the Qdrant collection.</span>
         </div>
         <div class="form-grid">
             <div class="form-group">
@@ -114,12 +115,12 @@
             {% endif %}
             <div id="new-key-display"></div>
             <button type="button" class="btn btn-warning margin-top-sm" onclick="regenerateApiKey()">
-                🔑 Regenerate API Key
+                <svg class="ui-icon" aria-hidden="true"><use href="#icon-key"></use></svg> Regenerate API Key
             </button>
         </div>
     </div>
 
-    <button type="submit" class="btn btn-primary btn-lg">💾 Save System Settings</button>
+    <button type="submit" class="btn btn-primary btn-lg"><svg class="ui-icon" aria-hidden="true"><use href="#icon-save"></use></svg> Save System Settings</button>
 </form>
 {% endblock %}
 

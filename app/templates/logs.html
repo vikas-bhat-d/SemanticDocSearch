@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Live Logs — DeptWise Indexer{% endblock %}
+{% block title %}Live Logs — DocSearch indexer{% endblock %}
 {% block page_title %}Real-time Application Logs{% endblock %}
 
 {% block content %}
@@ -19,13 +19,13 @@
 
         <div class="button-group">
             <button id="btn-toggle-stream" class="btn btn-secondary" onclick="toggleLogStream()">
-                ⏸️ Pause Live Tail
+                <svg class="ui-icon" aria-hidden="true"><use href="#icon-pause"></use></svg> Pause Live Tail
             </button>
             <button class="btn btn-secondary" onclick="clearLogConsole()">
-                🧹 Clear View
+                <svg class="ui-icon" aria-hidden="true"><use href="#icon-eraser"></use></svg> Clear View
             </button>
             <button class="btn btn-primary" onclick="downloadLogHistory()">
-                📥 Download History
+                <svg class="ui-icon" aria-hidden="true"><use href="#icon-download"></use></svg> Download History
             </button>
         </div>
     </div>

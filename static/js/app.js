@@ -3,6 +3,26 @@ let dashboardInterval = null;
 let eventSource = null;
 let isStreamPaused = false;
 let logHistoryCache = [];
+const departmentCache = new Map();
+const docTypeCache = new Map();
+
+function inlineIcon(name) {
+    return `<svg class="ui-icon" aria-hidden="true" focusable="false"><use href="#icon-${name}"></use></svg>`;
+}
+
+function escapeHtml(value) {
+    return String(value ?? '').replace(/[&<>"']/g, character => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+    }[character]));
+}
+
+function parsePathPatterns(value) {
+    return value.split('\n').map(pattern => pattern.trim()).filter(Boolean);
+}
 
 // Helper API Request wrapper
 async function apiRequest(url, options = {}) {
@@ -275,15 +295,21 @@ async function loadDepartments() {
         const list = await apiRequest('/api/config/departments');
         const tbody = document.querySelector('#departments-table tbody');
         if (!tbody) return;
+        departmentCache.clear();
         tbody.innerHTML = '';
 
         list.forEach(d => {
+            departmentCache.set(d.id, d);
             const tr = document.createElement('tr');
+            tr.id = `department-row-${d.id}`;
             tr.innerHTML = `
                 <td>#${d.id}</td>
-                <td><strong>${d.name}</strong></td>
-                <td><code>${d.path_patterns.join(', ')}</code></td>
-                <td><button class="btn btn-danger" onclick="deleteDepartment(${d.id})">Delete</button></td>
+                <td><strong>${escapeHtml(d.name)}</strong></td>
+                <td><code>${escapeHtml(d.path_patterns.join(', '))}</code></td>
+                <td class="table-actions">
+                    <button class="btn btn-secondary btn-sm" onclick="editDepartment(${d.id})">${inlineIcon('edit')} Edit</button>
+                    <button class="btn btn-danger btn-sm" onclick="deleteDepartment(${d.id})">${inlineIcon('trash')} Delete</button>
+                </td>
             `;
             tbody.appendChild(tr);
         });
@@ -292,12 +318,48 @@ async function loadDepartments() {
     }
 }
 
+function editDepartment(id) {
+    const department = departmentCache.get(id);
+    const row = document.getElementById(`department-row-${id}`);
+    if (!department || !row) return;
+
+    row.innerHTML = `
+        <td>#${id}</td>
+        <td><input type="text" id="department-edit-name-${id}" value="${escapeHtml(department.name)}" aria-label="Department name"></td>
+        <td><textarea id="department-edit-patterns-${id}" rows="2" aria-label="Department path patterns">${escapeHtml(department.path_patterns.join('\n'))}</textarea></td>
+        <td class="table-actions">
+            <button class="btn btn-primary btn-sm" onclick="saveDepartmentEdit(${id})">${inlineIcon('save')} Save</button>
+            <button class="btn btn-secondary btn-sm" onclick="loadDepartments()">${inlineIcon('x-circle')} Cancel</button>
+        </td>
+    `;
+    document.getElementById(`department-edit-name-${id}`).focus();
+}
+
+async function saveDepartmentEdit(id) {
+    const name = document.getElementById(`department-edit-name-${id}`).value.trim();
+    const patterns = parsePathPatterns(document.getElementById(`department-edit-patterns-${id}`).value);
+    if (!name || patterns.length === 0) {
+        alert('Department name and at least one path pattern are required.');
+        return;
+    }
+
+    try {
+        await apiRequest(`/api/config/departments/${id}`, {
+            method: 'PUT',
+            body: { name, path_patterns: patterns }
+        });
+        loadDepartments();
+    } catch (err) {
+        alert(err.message);
+    }
+}
+
 async function addDepartment() {
     const name = document.getElementById('dept-name').value.trim();
     const patternsRaw = document.getElementById('dept-patterns').value.trim();
     if (!name || !patternsRaw) return;
 
-    const patterns = patternsRaw.split('\n').map(p => p.trim()).filter(Boolean);
+    const patterns = parsePathPatterns(patternsRaw);
     try {
         await apiRequest('/api/config/departments', { method: 'POST', body: { name: name, path_patterns: patterns } });
         document.getElementById('dept-name').value = '';
@@ -324,15 +386,21 @@ async function loadDocTypes() {
         const list = await apiRequest('/api/config/doc-types');
         const tbody = document.querySelector('#doctypes-table tbody');
         if (!tbody) return;
+        docTypeCache.clear();
         tbody.innerHTML = '';
 
         list.forEach(dt => {
+            docTypeCache.set(dt.id, dt);
             const tr = document.createElement('tr');
+            tr.id = `doctype-row-${dt.id}`;
             tr.innerHTML = `
                 <td>#${dt.id}</td>
-                <td><strong>${dt.name}</strong></td>
-                <td><code>${dt.path_patterns.join(', ')}</code></td>
-                <td><button class="btn btn-danger" onclick="deleteDocType(${dt.id})">Delete</button></td>
+                <td><strong>${escapeHtml(dt.name)}</strong></td>
+                <td><code>${escapeHtml(dt.path_patterns.join(', '))}</code></td>
+                <td class="table-actions">
+                    <button class="btn btn-secondary btn-sm" onclick="editDocType(${dt.id})">${inlineIcon('edit')} Edit</button>
+                    <button class="btn btn-danger btn-sm" onclick="deleteDocType(${dt.id})">${inlineIcon('trash')} Delete</button>
+                </td>
             `;
             tbody.appendChild(tr);
         });
@@ -341,12 +409,48 @@ async function loadDocTypes() {
     }
 }
 
+function editDocType(id) {
+    const docType = docTypeCache.get(id);
+    const row = document.getElementById(`doctype-row-${id}`);
+    if (!docType || !row) return;
+
+    row.innerHTML = `
+        <td>#${id}</td>
+        <td><input type="text" id="doctype-edit-name-${id}" value="${escapeHtml(docType.name)}" aria-label="Doc type name"></td>
+        <td><textarea id="doctype-edit-patterns-${id}" rows="2" aria-label="Doc type path patterns">${escapeHtml(docType.path_patterns.join('\n'))}</textarea></td>
+        <td class="table-actions">
+            <button class="btn btn-primary btn-sm" onclick="saveDocTypeEdit(${id})">${inlineIcon('save')} Save</button>
+            <button class="btn btn-secondary btn-sm" onclick="loadDocTypes()">${inlineIcon('x-circle')} Cancel</button>
+        </td>
+    `;
+    document.getElementById(`doctype-edit-name-${id}`).focus();
+}
+
+async function saveDocTypeEdit(id) {
+    const name = document.getElementById(`doctype-edit-name-${id}`).value.trim();
+    const patterns = parsePathPatterns(document.getElementById(`doctype-edit-patterns-${id}`).value);
+    if (!name || patterns.length === 0) {
+        alert('Doc type name and at least one path pattern are required.');
+        return;
+    }
+
+    try {
+        await apiRequest(`/api/config/doc-types/${id}`, {
+            method: 'PUT',
+            body: { name, path_patterns: patterns }
+        });
+        loadDocTypes();
+    } catch (err) {
+        alert(err.message);
+    }
+}
+
 async function addDocType() {
     const name = document.getElementById('dt-name').value.trim();
     const patternsRaw = document.getElementById('dt-patterns').value.trim();
     if (!name || !patternsRaw) return;
 
-    const patterns = patternsRaw.split('\n').map(p => p.trim()).filter(Boolean);
+    const patterns = parsePathPatterns(patternsRaw);
     try {
         await apiRequest('/api/config/doc-types', { method: 'POST', body: { name: name, path_patterns: patterns } });
         document.getElementById('dt-name').value = '';
@@ -569,7 +673,9 @@ function toggleLogStream() {
     isStreamPaused = !isStreamPaused;
     const btn = document.getElementById('btn-toggle-stream');
     if (btn) {
-        btn.innerText = isStreamPaused ? '▶ Resume Live Tail' : '⏸️ Pause Live Tail';
+        btn.innerHTML = isStreamPaused
+            ? `${inlineIcon('play')} Resume Live Tail`
+            : `${inlineIcon('pause')} Pause Live Tail`;
     }
 }
 

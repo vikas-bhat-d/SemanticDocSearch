@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Departments — DeptWise Indexer{% endblock %}
+{% block title %}Departments — DocSearch indexer{% endblock %}
 {% block page_title %}Department Classification Rules{% endblock %}
 
 {% block content %}
@@ -15,7 +15,7 @@
             <label for="dept-patterns">Path Patterns (one per line, e.g. *\HR\*)</label>
             <textarea id="dept-patterns" rows="3" placeholder="*\HR\*&#10;*\Human Resources\*" required></textarea>
         </div>
-        <button type="submit" class="btn btn-primary">+ Save Department</button>
+        <button type="submit" class="btn btn-primary"><svg class="ui-icon" aria-hidden="true"><use href="#icon-plus"></use></svg> Save Department</button>
     </form>
 </div>
 
@@ -28,7 +28,7 @@
                     <th>ID</th>
                     <th>Name</th>
                     <th>Path Patterns</th>
-                    <th>Action</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>

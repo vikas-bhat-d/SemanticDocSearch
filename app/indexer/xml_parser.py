@@ -5,13 +5,17 @@ from typing import List, Tuple
 
 
 def convert_backup_path(backup_path: str) -> str:
-    """
-    Finds the segment matching pattern MACHINENAME(DRIVELETTER.)
-    e.g. PC135(D.) → machine=pc135, drive=D
-    Everything after that segment becomes the UNC path.
+    r"""
+    Converts legacy backup paths containing a MACHINENAME(DRIVELETTER.)
+    segment to UNC, while preserving direct local and UNC paths.
+
+    Examples:
+      PC135(D.)\Desktop\file.xlsx → \\pc135\D\Desktop\file.xlsx
+      C:\Projects\SampleFolders\04_office → C:\Projects\SampleFolders\04_office
     """
     pattern = re.compile(r'([A-Za-z0-9_-]+)\(([A-Za-z])\.\)')
-    parts = backup_path.replace('/', '\\').split('\\')
+    normalized_path = backup_path.replace('/', '\\')
+    parts = normalized_path.split('\\')
 
     for i, part in enumerate(parts):
         match = pattern.fullmatch(part)
@@ -23,13 +27,18 @@ def convert_backup_path(backup_path: str) -> str:
                 return f"\\\\{machine}\\{drive}\\{rest}"
             return f"\\\\{machine}\\{drive}"
 
-    return backup_path
+    # Direct local paths and existing UNC paths do not need conversion.
+    return normalized_path
 
 
 def parse_incremental_xml(xml_path_or_content: str) -> List[Tuple[str, str]]:
     """
-    Parses an incremental XML file or string and returns a list of (type, converted_path) tuples.
-    Type is either 'FILE' or 'FOLDER'.
+    Parses an incremental XML file or string and returns file entries as
+    ``(type, converted_path)`` tuples.
+
+    Incremental processing is intentionally file-only. Entries with any other
+    type, including ``FOLDER``, are ignored so a folder-level XML entry cannot
+    trigger a full-folder delete or reindex.
     """
     results = []
 
@@ -54,8 +63,10 @@ def parse_incremental_xml(xml_path_or_content: str) -> List[Tuple[str, str]]:
             type_str = (type_elem.text or "").strip().upper()
             val_str = (val_elem.text or "").strip()
 
-            if val_str:
-                converted = convert_backup_path(val_str)
-                results.append((type_str, converted))
+            if type_str != "FILE" or not val_str:
+                continue
+
+            converted = convert_backup_path(val_str)
+            results.append(("FILE", converted))
 
     return results

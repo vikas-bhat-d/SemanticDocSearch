@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Dashboard — DeptWise Indexer{% endblock %}
+{% block title %}Dashboard — DocSearch indexer{% endblock %}
 {% block page_title %}Indexing Control Dashboard{% endblock %}
 
 {% block content %}
@@ -30,10 +30,10 @@
 
         <div class="action-buttons">
             <button id="btn-start-index" class="btn btn-success" onclick="startIndexing()">
-                ▶ Start Indexing
+                <svg class="ui-icon" aria-hidden="true"><use href="#icon-play"></use></svg> Start Indexing
             </button>
             <button id="btn-stop-index" class="btn btn-danger" onclick="stopIndexing()" disabled>
-                ⏹ Stop Indexing
+                <svg class="ui-icon" aria-hidden="true"><use href="#icon-square"></use></svg> Stop Indexing
             </button>
         </div>
     </div>
@@ -41,7 +41,7 @@
     <!-- Live Counter Cards -->
     <div class="stats-grid">
         <div class="card stat-box stat-indexed">
-            <div class="stat-icon">✅</div>
+            <div class="stat-icon"><svg class="ui-icon" aria-hidden="true"><use href="#icon-check-circle"></use></svg></div>
             <div class="stat-content">
                 <span class="stat-number" id="stat-indexed">0</span>
                 <span class="stat-label">Indexed Files</span>
@@ -49,7 +49,7 @@
         </div>
 
         <div class="card stat-box stat-skipped">
-            <div class="stat-icon">⏭️</div>
+            <div class="stat-icon"><svg class="ui-icon" aria-hidden="true"><use href="#icon-skip"></use></svg></div>
             <div class="stat-content">
                 <span class="stat-number" id="stat-skipped">0</span>
                 <span class="stat-label">Skipped Files</span>
@@ -57,7 +57,7 @@
         </div>
 
         <div class="card stat-box stat-failed">
-            <div class="stat-icon">❌</div>
+            <div class="stat-icon"><svg class="ui-icon" aria-hidden="true"><use href="#icon-x-circle"></use></svg></div>
             <div class="stat-content">
                 <span class="stat-number" id="stat-failed">0</span>
                 <span class="stat-label">Failed Files</span>
@@ -65,7 +65,7 @@
         </div>
 
         <div class="card stat-box stat-deleted">
-            <div class="stat-icon">🗑️</div>
+            <div class="stat-icon"><svg class="ui-icon" aria-hidden="true"><use href="#icon-trash"></use></svg></div>
             <div class="stat-content">
                 <span class="stat-number" id="stat-deleted">0</span>
                 <span class="stat-label">Deleted Files (XML)</span>

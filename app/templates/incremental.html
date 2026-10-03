@@ -1,11 +1,12 @@
 {% extends "base.html" %}
 
-{% block title %}Incremental XML — DeptWise Indexer{% endblock %}
+{% block title %}Incremental XML — DocSearch indexer{% endblock %}
 {% block page_title %}Incremental Change & Delete XML Input{% endblock %}
 
 {% block content %}
 <div class="card margin-bottom">
     <h3>Incremental XML Configuration</h3>
+    <p class="subtitle margin-bottom">XML values may use legacy backup paths such as <code>PC135(D.)\Desktop\file.xlsx</code> or direct local paths such as <code>C:\Projects\SampleFolders\04_office</code>.</p>
     <form id="xml-config-form" onsubmit="event.preventDefault(); saveXmlConfig();">
         <div class="form-group">
             <label for="changed-xml-path">Changed Files XML Path</label>
@@ -16,8 +17,8 @@
             <input type="text" id="deleted-xml-path" placeholder="e.g. C:\backups\deleted.xml or \\server\share\deleted.xml">
         </div>
         <div class="button-group">
-            <button type="submit" class="btn btn-primary">💾 Save XML Paths</button>
-            <button type="button" class="btn btn-secondary" onclick="previewXml()">🔍 Preview Affected Paths</button>
+            <button type="submit" class="btn btn-primary"><svg class="ui-icon" aria-hidden="true"><use href="#icon-save"></use></svg> Save XML Paths</button>
+            <button type="button" class="btn btn-secondary" onclick="previewXml()"><svg class="ui-icon" aria-hidden="true"><use href="#icon-search"></use></svg> Preview Affected Paths</button>
         </div>
     </form>
 </div>

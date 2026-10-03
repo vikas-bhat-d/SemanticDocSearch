@@ -1,1 +1,1 @@
-# DeptWise Indexer app package
+# DocSearch indexer app package

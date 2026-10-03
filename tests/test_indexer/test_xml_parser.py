@@ -18,6 +18,17 @@ def test_convert_backup_path_no_pattern():
     assert convert_backup_path(input_path) == input_path
 
 
+def test_convert_backup_path_direct_local_folder():
+    input_path = r"C:\vikas\BE\Projects\SemanticDocSearcher\SampleFolders\04_office"
+    assert convert_backup_path(input_path) == input_path
+
+
+def test_convert_backup_path_direct_forward_slash_path():
+    input_path = "C:/vikas/BE/Projects/SemanticDocSearcher/SampleFolders/04_office"
+    expected = r"C:\vikas\BE\Projects\SemanticDocSearcher\SampleFolders\04_office"
+    assert convert_backup_path(input_path) == expected
+
+
 def test_parse_incremental_xml_content():
     xml_data = """<NewDataSet>
   <FILELIST>
@@ -31,6 +42,16 @@ def test_parse_incremental_xml_content():
 </NewDataSet>"""
 
     results = parse_incremental_xml(xml_data)
-    assert len(results) == 2
-    assert results[0] == ("FOLDER", r"\\pc135\D\Desktop")
-    assert results[1] == ("FILE", r"\\pc135\D\Desktop\file.xlsx")
+    assert results == [("FILE", r"\\pc135\D\Desktop\file.xlsx")]
+
+
+def test_parse_incremental_xml_ignores_folder_entries():
+    local_folder = r"C:\vikas\BE\Projects\SemanticDocSearcher\SampleFolders\04_office"
+    xml_data = f"""<NewDataSet>
+  <FILELIST>
+    <Type>FOLDER</Type>
+    <Value>{local_folder}</Value>
+  </FILELIST>
+</NewDataSet>"""
+
+    assert parse_incremental_xml(xml_data) == []

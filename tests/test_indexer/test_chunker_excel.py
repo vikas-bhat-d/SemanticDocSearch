@@ -35,3 +35,21 @@ def test_excel_chunker_csv_fallback():
     assert len(chunks) == 1
     assert "data.csv" in chunks[0].section_context
     assert "Alice" in chunks[0].text
+
+
+def test_excel_chunker_removes_conversion_artifacts():
+    md = """## Export
+| Unnamed: 0 | Name | Notes | Empty column |
+|---|---|---|---|
+| 1 | NaN | useful note | NaN |
+| NaN | Alice | NaN | NaN |
+| NaN | NaN | NaN | NaN |
+"""
+    chunker = ExcelChunker(rows_per_chunk=10)
+    chunks = chunker.chunk(md, "messy.xlsx")
+
+    assert len(chunks) == 1
+    assert "NaN" not in chunks[0].text
+    assert "Unnamed:" not in chunks[0].text
+    assert "useful note" in chunks[0].text
+    assert "Alice" in chunks[0].text

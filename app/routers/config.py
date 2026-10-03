@@ -299,11 +299,17 @@ async def add_department(body: PatternGroupRequest, auth: bool = Depends(require
 
 @router.put("/config/departments/{dept_id}")
 async def update_department(dept_id: int, body: PatternGroupRequest, auth: bool = Depends(require_session_api), db: Session = Depends(get_db)):
-    dept = db.query(Department).get(dept_id)
+    dept = db.get(Department, dept_id)
     if not dept:
         raise HTTPException(status_code=404, detail="Department not found")
 
-    dept.name = body.name.strip()
+    name = body.name.strip()
+    if not name:
+        raise HTTPException(status_code=400, detail="Department name is required")
+    if db.query(Department).filter(Department.name == name, Department.id != dept_id).first():
+        raise HTTPException(status_code=409, detail=f"Department '{name}' already exists")
+
+    dept.name = name
     dept.path_patterns = json.dumps(body.path_patterns)
     db.commit()
     return {"id": dept.id, "name": dept.name, "path_patterns": body.path_patterns}
@@ -345,11 +351,17 @@ async def add_doc_type(body: PatternGroupRequest, auth: bool = Depends(require_s
 
 @router.put("/config/doc-types/{dt_id}")
 async def update_doc_type(dt_id: int, body: PatternGroupRequest, auth: bool = Depends(require_session_api), db: Session = Depends(get_db)):
-    dt = db.query(DocType).get(dt_id)
+    dt = db.get(DocType, dt_id)
     if not dt:
         raise HTTPException(status_code=404, detail="DocType not found")
 
-    dt.name = body.name.strip()
+    name = body.name.strip()
+    if not name:
+        raise HTTPException(status_code=400, detail="Doc type name is required")
+    if db.query(DocType).filter(DocType.name == name, DocType.id != dt_id).first():
+        raise HTTPException(status_code=409, detail=f"DocType '{name}' already exists")
+
+    dt.name = name
     dt.path_patterns = json.dumps(body.path_patterns)
     db.commit()
     return {"id": dt.id, "name": dt.name, "path_patterns": body.path_patterns}
