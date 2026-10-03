@@ -68,14 +68,18 @@ def render_page(template_name: str, request: Request, active_page: str, context:
     ctx = {"request": request, "active_page": active_page}
     if context:
         ctx.update(context)
-    return templates.TemplateResponse(template_name, ctx)
+    return templates.TemplateResponse(request=request, name=template_name, context=ctx)
 
 
 @app.get("/login", response_class=HTMLResponse)
 async def login_page(request: Request, error: str = None):
     if verify_session(request):
         return RedirectResponse(url="/", status_code=status.HTTP_303_SEE_OTHER)
-    return templates.TemplateResponse("login.html", {"request": request, "error": error})
+    return templates.TemplateResponse(
+        request=request,
+        name="login.html",
+        context={"request": request, "error": error},
+    )
 
 
 @app.get("/", response_class=HTMLResponse)

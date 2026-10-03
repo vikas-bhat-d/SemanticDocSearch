@@ -4,8 +4,12 @@ def test_login_success(client):
 
 
 def test_login_invalid_password(client):
-    res = client.post("/api/auth/login", data={"username": "admin", "password": "wrongpassword"})
-    assert res.status_code in (401, 303)
+    res = client.post(
+        "/api/auth/login",
+        data={"username": "admin", "password": "wrongpassword"},
+        follow_redirects=False,
+    )
+    assert res.status_code == 303
 
 
 def test_logout(authenticated_client):

@@ -1514,6 +1514,21 @@ On settings save: call `logging.getLogger("deptwise").setLevel(new_level)` — t
 
 ---
 
+### Verification and Compatibility Fixes (2026-10-03)
+
+- Added the missing `Any` typing import in `app/logger.py`, which previously prevented pytest collection.
+- Updated template rendering in `app/main.py` to use the current Starlette `TemplateResponse` calling convention.
+- Added `pytest.ini` with `--import-mode=importlib` to support the existing `tests/test_search.py` module alongside the `tests/test_search/` package.
+- Updated the test SQLite fixture to use a shared in-memory connection so FastAPI request-thread tests see the initialized schema.
+- Corrected test setup for the seeded synonym term and form-login redirect behavior.
+- Validation completed successfully:
+  - `python -m pytest -q` → **32 passed** (6 non-blocking dependency deprecation warnings)
+  - `python -m compileall -q app tests` → passed
+  - Uvicorn smoke test → `/login` 200, `/docs` 200, unauthenticated `/api/index/status` 401
+- No package dependencies were added or changed; `requirements.txt` remains unchanged.
+
+---
+
 ### What is Left to Finish
 **Nothing! All 35 steps outlined in the build plan are 100% complete and fully implemented.**
 

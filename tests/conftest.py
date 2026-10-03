@@ -2,6 +2,7 @@ import pytest
 from unittest.mock import MagicMock
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy.pool import StaticPool
 from fastapi.testclient import TestClient
 
 from app.database import Base, get_db
@@ -11,7 +12,11 @@ from app.main import app
 # In-memory SQLite for testing
 TEST_DATABASE_URL = "sqlite:///:memory:"
 
-engine = create_engine(TEST_DATABASE_URL, connect_args={"check_same_thread": False})
+engine = create_engine(
+    TEST_DATABASE_URL,
+    connect_args={"check_same_thread": False},
+    poolclass=StaticPool,
+)
 TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 
@@ -55,7 +60,6 @@ def mock_qdrant(mocker):
 
     mocker.patch("app.indexer.qdrant_ops.get_qdrant_client", return_value=client)
     mocker.patch("app.search.engine.get_qdrant_client", return_value=client)
-    mocker.patch("app.routers.config.get_qdrant_client", return_value=client)
     mocker.patch("app.routers.reclassify.get_qdrant_client", return_value=client)
     return client
 

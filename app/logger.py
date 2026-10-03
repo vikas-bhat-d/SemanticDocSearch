@@ -1,7 +1,7 @@
 import os
 import logging
 from logging.handlers import RotatingFileHandler
-from typing import Optional, Generator
+from typing import Any, Optional
 import queue
 
 # Create an in-memory queue to capture log records for SSE live streaming
