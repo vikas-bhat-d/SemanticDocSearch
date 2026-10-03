@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Synonyms — DeptWise Indexer{% endblock %}
+{% block page_title %}Synonym Dictionary{% endblock %}
+
+{% block content %}
+<div class="card margin-bottom">
+    <h3>Add Synonym Entry</h3>
+    <form id="add-syn-form" onsubmit="event.preventDefault(); addSynonym();">
+        <div class="form-group">
+            <label for="syn-term">Canonical Term</label>
+            <input type="text" id="syn-term" placeholder="e.g. computer" required>
+        </div>
+        <div class="form-group">
+            <label for="syn-list">Synonyms (comma-separated)</label>
+            <input type="text" id="syn-list" placeholder="laptop, desktop, pc, workstation" required>
+        </div>
+        <button type="submit" class="btn btn-primary">+ Save Synonym</button>
+    </form>
+</div>
+
+<div class="card">
+    <h3>Synonym Entries</h3>
+    <div class="table-responsive">
+        <table class="data-table" id="synonyms-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Term</th>
+                    <th>Synonyms</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Populated by JS -->
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        loadSynonyms();
+    });
+</script>
+{% endblock %}

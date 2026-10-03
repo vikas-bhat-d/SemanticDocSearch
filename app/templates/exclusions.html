@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Exclusions — DeptWise Indexer{% endblock %}
+{% block page_title %}Exclusion Rules{% endblock %}
+
+{% block content %}
+<div class="card margin-bottom">
+    <h3>Add Exclusion Rule</h3>
+    <form id="add-exclusion-form" class="inline-form" onsubmit="event.preventDefault(); addExclusion();">
+        <input type="text" id="ex-value-input" placeholder="Path prefix (e.g. C:\Temp) or extension (e.g. .tmp)" required class="flex-grow">
+        <select id="ex-type-select" required>
+            <option value="path">Path Prefix</option>
+            <option value="extension">Extension</option>
+        </select>
+        <button type="submit" class="btn btn-primary">+ Add Exclusion</button>
+    </form>
+</div>
+
+<div class="card">
+    <h3>Active Exclusions</h3>
+    <div class="table-responsive">
+        <table class="data-table" id="exclusions-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Exclusion Value</th>
+                    <th>Type</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Populated by JS -->
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        loadExclusions();
+    });
+</script>
+{% endblock %}

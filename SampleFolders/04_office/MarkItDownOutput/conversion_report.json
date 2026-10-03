@@ -1,0 +1,38 @@
+[
+  {
+    "source": "C:\\vikas\\BE\\Projects\\SemanticDocSearcher\\SampleFolders\\04_office\\Document_Conversion_Field_Guide.pdf",
+    "output": "C:\\vikas\\BE\\Projects\\SemanticDocSearcher\\SampleFolders\\04_office\\MarkItDownOutput\\Document_Conversion_Field_Guide.pdf.md",
+    "extension": ".pdf",
+    "source_bytes": 48143,
+    "status": "success",
+    "markdown_characters": 74314,
+    "elapsed_ms": 5202.3
+  },
+  {
+    "source": "C:\\vikas\\BE\\Projects\\SemanticDocSearcher\\SampleFolders\\04_office\\Messy_WebView_Research.xlsx",
+    "output": "C:\\vikas\\BE\\Projects\\SemanticDocSearcher\\SampleFolders\\04_office\\MarkItDownOutput\\Messy_WebView_Research.xlsx.md",
+    "extension": ".xlsx",
+    "source_bytes": 195416,
+    "status": "success",
+    "markdown_characters": 644432,
+    "elapsed_ms": 4400.4
+  },
+  {
+    "source": "C:\\vikas\\BE\\Projects\\SemanticDocSearcher\\SampleFolders\\04_office\\WebView_Indexing_Field_Guide.docx",
+    "output": "C:\\vikas\\BE\\Projects\\SemanticDocSearcher\\SampleFolders\\04_office\\MarkItDownOutput\\WebView_Indexing_Field_Guide.docx.md",
+    "extension": ".docx",
+    "source_bytes": 42748,
+    "status": "success",
+    "markdown_characters": 47099,
+    "elapsed_ms": 811.7
+  },
+  {
+    "source": "C:\\vikas\\BE\\Projects\\SemanticDocSearcher\\SampleFolders\\04_office\\WebView_Search_Test_Deck.pptx",
+    "output": "C:\\vikas\\BE\\Projects\\SemanticDocSearcher\\SampleFolders\\04_office\\MarkItDownOutput\\WebView_Search_Test_Deck.pptx.md",
+    "extension": ".pptx",
+    "source_bytes": 31062,
+    "status": "success",
+    "markdown_characters": 3534,
+    "elapsed_ms": 51.8
+  }
+]

@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}Index Folders — DeptWise Indexer{% endblock %}
+{% block page_title %}Configured Index Folders{% endblock %}
+
+{% block content %}
+<div class="card margin-bottom">
+    <h3>Add Index Folder</h3>
+    <form id="add-folder-form" class="inline-form" onsubmit="event.preventDefault(); addFolder();">
+        <input type="text" id="folder-path-input" placeholder="e.g. C:\Documents or \\server\share\docs" required class="flex-grow">
+        <button type="submit" class="btn btn-primary">+ Add Folder</button>
+    </form>
+</div>
+
+<div class="card">
+    <h3>Active Folders</h3>
+    <div class="table-responsive">
+        <table class="data-table" id="folders-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Folder Path</th>
+                    <th>Status</th>
+                    <th>Last Updated</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Populated by JS -->
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        loadFolders();
+    });
+</script>
+{% endblock %}

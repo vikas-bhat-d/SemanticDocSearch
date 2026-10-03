@@ -1,0 +1,1401 @@
+item	kind	quantity	location	note	url
+asset-00001	xlsx	0	folder-0	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1.	https://example.test/assets/1
+asset-00002	docx	7	folder-1		https://example.test/assets/2
+asset-00003	pdf	14	folder-2		https://example.test/assets/3
+asset-00004	pptx	21	folder-3		https://example.test/assets/4
+asset-00005	txt	28	folder-4	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 5.	https://example.test/assets/5
+asset-00006	xlsx	35	folder-5		https://example.test/assets/6
+asset-00007	docx	42	folder-6		https://example.test/assets/7
+asset-00008	pdf	49	folder-7		https://example.test/assets/8
+asset-00009	pptx	56	folder-8	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 9.	https://example.test/assets/9
+asset-00010	txt	63	folder-9		https://example.test/assets/10
+asset-00011	xlsx	70	folder-10		https://example.test/assets/11
+asset-00012	docx	77	folder-11		https://example.test/assets/12
+asset-00013	pdf	3	folder-12	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 13.	https://example.test/assets/13
+asset-00014	pptx	10	folder-13		https://example.test/assets/14
+asset-00015	txt	17	folder-14		https://example.test/assets/15
+asset-00016	xlsx	24	folder-15		https://example.test/assets/16
+asset-00017	docx	31	folder-0	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 17.	https://example.test/assets/17
+asset-00018	pdf	38	folder-1		https://example.test/assets/18
+asset-00019	pptx	45	folder-2		https://example.test/assets/19
+asset-00020	txt	52	folder-3		https://example.test/assets/20
+asset-00021	xlsx	59	folder-4	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 21.	https://example.test/assets/21
+asset-00022	docx	66	folder-5		https://example.test/assets/22
+asset-00023	pdf	73	folder-6		https://example.test/assets/23
+asset-00024	pptx	80	folder-7		https://example.test/assets/24
+asset-00025	txt	6	folder-8	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 25.	https://example.test/assets/25
+asset-00026	xlsx	13	folder-9		https://example.test/assets/26
+asset-00027	docx	20	folder-10		https://example.test/assets/27
+asset-00028	pdf	27	folder-11		https://example.test/assets/28
+asset-00029	pptx	34	folder-12	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 29.	https://example.test/assets/29
+asset-00030	txt	41	folder-13		https://example.test/assets/30
+asset-00031	xlsx	48	folder-14		https://example.test/assets/31
+asset-00032	docx	55	folder-15		https://example.test/assets/32
+asset-00033	pdf	62	folder-0	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 33.	https://example.test/assets/33
+asset-00034	pptx	69	folder-1		https://example.test/assets/34
+asset-00035	txt	76	folder-2		https://example.test/assets/35
+asset-00036	xlsx	2	folder-3		https://example.test/assets/36
+asset-00037	docx	9	folder-4	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 37.	https://example.test/assets/37
+asset-00038	pdf	16	folder-5		https://example.test/assets/38
+asset-00039	pptx	23	folder-6		https://example.test/assets/39
+asset-00040	txt	30	folder-7		https://example.test/assets/40
+asset-00041	xlsx	37	folder-8	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 41.	https://example.test/assets/41
+asset-00042	docx	44	folder-9		https://example.test/assets/42
+asset-00043	pdf	51	folder-10		https://example.test/assets/43
+asset-00044	pptx	58	folder-11		https://example.test/assets/44
+asset-00045	txt	65	folder-12	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 45.	https://example.test/assets/45
+asset-00046	xlsx	72	folder-13		https://example.test/assets/46
+asset-00047	docx	79	folder-14		https://example.test/assets/47
+asset-00048	pdf	5	folder-15		https://example.test/assets/48
+asset-00049	pptx	12	folder-0	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 49.	https://example.test/assets/49
+asset-00050	txt	19	folder-1		https://example.test/assets/50
+asset-00051	xlsx	26	folder-2		https://example.test/assets/51
+asset-00052	docx	33	folder-3		https://example.test/assets/52
+asset-00053	pdf	40	folder-4	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 53.	https://example.test/assets/53
+asset-00054	pptx	47	folder-5		https://example.test/assets/54
+asset-00055	txt	54	folder-6		https://example.test/assets/55
+asset-00056	xlsx	61	folder-7		https://example.test/assets/56
+asset-00057	docx	68	folder-8	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 57.	https://example.test/assets/57
+asset-00058	pdf	75	folder-9		https://example.test/assets/58
+asset-00059	pptx	1	folder-10		https://example.test/assets/59
+asset-00060	txt	8	folder-11		https://example.test/assets/60
+asset-00061	xlsx	15	folder-12	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 61.	https://example.test/assets/61
+asset-00062	docx	22	folder-13		https://example.test/assets/62
+asset-00063	pdf	29	folder-14		https://example.test/assets/63
+asset-00064	pptx	36	folder-15		https://example.test/assets/64
+asset-00065	txt	43	folder-0	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 65.	https://example.test/assets/65
+asset-00066	xlsx	50	folder-1		https://example.test/assets/66
+asset-00067	docx	57	folder-2		https://example.test/assets/67
+asset-00068	pdf	64	folder-3		https://example.test/assets/68
+asset-00069	pptx	71	folder-4	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 69.	https://example.test/assets/69
+asset-00070	txt	78	folder-5		https://example.test/assets/70
+asset-00071	xlsx	4	folder-6		https://example.test/assets/71
+asset-00072	docx	11	folder-7		https://example.test/assets/72
+asset-00073	pdf	18	folder-8	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 73.	https://example.test/assets/73
+asset-00074	pptx	25	folder-9		https://example.test/assets/74
+asset-00075	txt	32	folder-10		https://example.test/assets/75
+asset-00076	xlsx	39	folder-11		https://example.test/assets/76
+asset-00077	docx	46	folder-12	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 77.	https://example.test/assets/77
+asset-00078	pdf	53	folder-13		https://example.test/assets/78
+asset-00079	pptx	60	folder-14		https://example.test/assets/79
+asset-00080	txt	67	folder-15		https://example.test/assets/80
+asset-00081	xlsx	74	folder-0	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 81.	https://example.test/assets/81
+asset-00082	docx	0	folder-1		https://example.test/assets/82
+asset-00083	pdf	7	folder-2		https://example.test/assets/83
+asset-00084	pptx	14	folder-3		https://example.test/assets/84
+asset-00085	txt	21	folder-4	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 85.	https://example.test/assets/85
+asset-00086	xlsx	28	folder-5		https://example.test/assets/86
+asset-00087	docx	35	folder-6		https://example.test/assets/87
+asset-00088	pdf	42	folder-7		https://example.test/assets/88
+asset-00089	pptx	49	folder-8	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 89.	https://example.test/assets/89
+asset-00090	txt	56	folder-9		https://example.test/assets/90
+asset-00091	xlsx	63	folder-10		https://example.test/assets/91
+asset-00092	docx	70	folder-11		https://example.test/assets/92
+asset-00093	pdf	77	folder-12	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 93.	https://example.test/assets/93
+asset-00094	pptx	3	folder-13		https://example.test/assets/94
+asset-00095	txt	10	folder-14		https://example.test/assets/95
+asset-00096	xlsx	17	folder-15		https://example.test/assets/96
+asset-00097	docx	24	folder-0	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 97.	https://example.test/assets/97
+asset-00098	pdf	31	folder-1		https://example.test/assets/98
+asset-00099	pptx	38	folder-2		https://example.test/assets/99
+asset-00100	txt	45	folder-3		https://example.test/assets/100
+asset-00101	xlsx	52	folder-4	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 101.	https://example.test/assets/101
+asset-00102	docx	59	folder-5		https://example.test/assets/102
+asset-00103	pdf	66	folder-6		https://example.test/assets/103
+asset-00104	pptx	73	folder-7		https://example.test/assets/104
+asset-00105	txt	80	folder-8	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 105.	https://example.test/assets/105
+asset-00106	xlsx	6	folder-9		https://example.test/assets/106
+asset-00107	docx	13	folder-10		https://example.test/assets/107
+asset-00108	pdf	20	folder-11		https://example.test/assets/108
+asset-00109	pptx	27	folder-12	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 109.	https://example.test/assets/109
+asset-00110	txt	34	folder-13		https://example.test/assets/110
+asset-00111	xlsx	41	folder-14		https://example.test/assets/111
+asset-00112	docx	48	folder-15		https://example.test/assets/112
+asset-00113	pdf	55	folder-0	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 113.	https://example.test/assets/113
+asset-00114	pptx	62	folder-1		https://example.test/assets/114
+asset-00115	txt	69	folder-2		https://example.test/assets/115
+asset-00116	xlsx	76	folder-3		https://example.test/assets/116
+asset-00117	docx	2	folder-4	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 117.	https://example.test/assets/117
+asset-00118	pdf	9	folder-5		https://example.test/assets/118
+asset-00119	pptx	16	folder-6		https://example.test/assets/119
+asset-00120	txt	23	folder-7		https://example.test/assets/120
+asset-00121	xlsx	30	folder-8	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 121.	https://example.test/assets/121
+asset-00122	docx	37	folder-9		https://example.test/assets/122
+asset-00123	pdf	44	folder-10		https://example.test/assets/123
+asset-00124	pptx	51	folder-11		https://example.test/assets/124
+asset-00125	txt	58	folder-12	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 125.	https://example.test/assets/125
+asset-00126	xlsx	65	folder-13		https://example.test/assets/126
+asset-00127	docx	72	folder-14		https://example.test/assets/127
+asset-00128	pdf	79	folder-15		https://example.test/assets/128
+asset-00129	pptx	5	folder-0	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 129.	https://example.test/assets/129
+asset-00130	txt	12	folder-1		https://example.test/assets/130
+asset-00131	xlsx	19	folder-2		https://example.test/assets/131
+asset-00132	docx	26	folder-3		https://example.test/assets/132
+asset-00133	pdf	33	folder-4	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 133.	https://example.test/assets/133
+asset-00134	pptx	40	folder-5		https://example.test/assets/134
+asset-00135	txt	47	folder-6		https://example.test/assets/135
+asset-00136	xlsx	54	folder-7		https://example.test/assets/136
+asset-00137	docx	61	folder-8	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 137.	https://example.test/assets/137
+asset-00138	pdf	68	folder-9		https://example.test/assets/138
+asset-00139	pptx	75	folder-10		https://example.test/assets/139
+asset-00140	txt	1	folder-11		https://example.test/assets/140
+asset-00141	xlsx	8	folder-12	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 141.	https://example.test/assets/141
+asset-00142	docx	15	folder-13		https://example.test/assets/142
+asset-00143	pdf	22	folder-14		https://example.test/assets/143
+asset-00144	pptx	29	folder-15		https://example.test/assets/144
+asset-00145	txt	36	folder-0	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 145.	https://example.test/assets/145
+asset-00146	xlsx	43	folder-1		https://example.test/assets/146
+asset-00147	docx	50	folder-2		https://example.test/assets/147
+asset-00148	pdf	57	folder-3		https://example.test/assets/148
+asset-00149	pptx	64	folder-4	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 149.	https://example.test/assets/149
+asset-00150	txt	71	folder-5		https://example.test/assets/150
+asset-00151	xlsx	78	folder-6		https://example.test/assets/151
+asset-00152	docx	4	folder-7		https://example.test/assets/152
+asset-00153	pdf	11	folder-8	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 153.	https://example.test/assets/153
+asset-00154	pptx	18	folder-9		https://example.test/assets/154
+asset-00155	txt	25	folder-10		https://example.test/assets/155
+asset-00156	xlsx	32	folder-11		https://example.test/assets/156
+asset-00157	docx	39	folder-12	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 157.	https://example.test/assets/157
+asset-00158	pdf	46	folder-13		https://example.test/assets/158
+asset-00159	pptx	53	folder-14		https://example.test/assets/159
+asset-00160	txt	60	folder-15		https://example.test/assets/160
+asset-00161	xlsx	67	folder-0	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 161.	https://example.test/assets/161
+asset-00162	docx	74	folder-1		https://example.test/assets/162
+asset-00163	pdf	0	folder-2		https://example.test/assets/163
+asset-00164	pptx	7	folder-3		https://example.test/assets/164
+asset-00165	txt	14	folder-4	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 165.	https://example.test/assets/165
+asset-00166	xlsx	21	folder-5		https://example.test/assets/166
+asset-00167	docx	28	folder-6		https://example.test/assets/167
+asset-00168	pdf	35	folder-7		https://example.test/assets/168
+asset-00169	pptx	42	folder-8	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 169.	https://example.test/assets/169
+asset-00170	txt	49	folder-9		https://example.test/assets/170
+asset-00171	xlsx	56	folder-10		https://example.test/assets/171
+asset-00172	docx	63	folder-11		https://example.test/assets/172
+asset-00173	pdf	70	folder-12	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 173.	https://example.test/assets/173
+asset-00174	pptx	77	folder-13		https://example.test/assets/174
+asset-00175	txt	3	folder-14		https://example.test/assets/175
+asset-00176	xlsx	10	folder-15		https://example.test/assets/176
+asset-00177	docx	17	folder-0	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 177.	https://example.test/assets/177
+asset-00178	pdf	24	folder-1		https://example.test/assets/178
+asset-00179	pptx	31	folder-2		https://example.test/assets/179
+asset-00180	txt	38	folder-3		https://example.test/assets/180
+asset-00181	xlsx	45	folder-4	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 181.	https://example.test/assets/181
+asset-00182	docx	52	folder-5		https://example.test/assets/182
+asset-00183	pdf	59	folder-6		https://example.test/assets/183
+asset-00184	pptx	66	folder-7		https://example.test/assets/184
+asset-00185	txt	73	folder-8	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 185.	https://example.test/assets/185
+asset-00186	xlsx	80	folder-9		https://example.test/assets/186
+asset-00187	docx	6	folder-10		https://example.test/assets/187
+asset-00188	pdf	13	folder-11		https://example.test/assets/188
+asset-00189	pptx	20	folder-12	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 189.	https://example.test/assets/189
+asset-00190	txt	27	folder-13		https://example.test/assets/190
+asset-00191	xlsx	34	folder-14		https://example.test/assets/191
+asset-00192	docx	41	folder-15		https://example.test/assets/192
+asset-00193	pdf	48	folder-0	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 193.	https://example.test/assets/193
+asset-00194	pptx	55	folder-1		https://example.test/assets/194
+asset-00195	txt	62	folder-2		https://example.test/assets/195
+asset-00196	xlsx	69	folder-3		https://example.test/assets/196
+asset-00197	docx	76	folder-4	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 197.	https://example.test/assets/197
+asset-00198	pdf	2	folder-5		https://example.test/assets/198
+asset-00199	pptx	9	folder-6		https://example.test/assets/199
+asset-00200	txt	16	folder-7		https://example.test/assets/200
+asset-00201	xlsx	23	folder-8	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 201.	https://example.test/assets/201
+asset-00202	docx	30	folder-9		https://example.test/assets/202
+asset-00203	pdf	37	folder-10		https://example.test/assets/203
+asset-00204	pptx	44	folder-11		https://example.test/assets/204
+asset-00205	txt	51	folder-12	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 205.	https://example.test/assets/205
+asset-00206	xlsx	58	folder-13		https://example.test/assets/206
+asset-00207	docx	65	folder-14		https://example.test/assets/207
+asset-00208	pdf	72	folder-15		https://example.test/assets/208
+asset-00209	pptx	79	folder-0	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 209.	https://example.test/assets/209
+asset-00210	txt	5	folder-1		https://example.test/assets/210
+asset-00211	xlsx	12	folder-2		https://example.test/assets/211
+asset-00212	docx	19	folder-3		https://example.test/assets/212
+asset-00213	pdf	26	folder-4	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 213.	https://example.test/assets/213
+asset-00214	pptx	33	folder-5		https://example.test/assets/214
+asset-00215	txt	40	folder-6		https://example.test/assets/215
+asset-00216	xlsx	47	folder-7		https://example.test/assets/216
+asset-00217	docx	54	folder-8	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 217.	https://example.test/assets/217
+asset-00218	pdf	61	folder-9		https://example.test/assets/218
+asset-00219	pptx	68	folder-10		https://example.test/assets/219
+asset-00220	txt	75	folder-11		https://example.test/assets/220
+asset-00221	xlsx	1	folder-12	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 221.	https://example.test/assets/221
+asset-00222	docx	8	folder-13		https://example.test/assets/222
+asset-00223	pdf	15	folder-14		https://example.test/assets/223
+asset-00224	pptx	22	folder-15		https://example.test/assets/224
+asset-00225	txt	29	folder-0	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 225.	https://example.test/assets/225
+asset-00226	xlsx	36	folder-1		https://example.test/assets/226
+asset-00227	docx	43	folder-2		https://example.test/assets/227
+asset-00228	pdf	50	folder-3		https://example.test/assets/228
+asset-00229	pptx	57	folder-4	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 229.	https://example.test/assets/229
+asset-00230	txt	64	folder-5		https://example.test/assets/230
+asset-00231	xlsx	71	folder-6		https://example.test/assets/231
+asset-00232	docx	78	folder-7		https://example.test/assets/232
+asset-00233	pdf	4	folder-8	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 233.	https://example.test/assets/233
+asset-00234	pptx	11	folder-9		https://example.test/assets/234
+asset-00235	txt	18	folder-10		https://example.test/assets/235
+asset-00236	xlsx	25	folder-11		https://example.test/assets/236
+asset-00237	docx	32	folder-12	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 237.	https://example.test/assets/237
+asset-00238	pdf	39	folder-13		https://example.test/assets/238
+asset-00239	pptx	46	folder-14		https://example.test/assets/239
+asset-00240	txt	53	folder-15		https://example.test/assets/240
+asset-00241	xlsx	60	folder-0	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 241.	https://example.test/assets/241
+asset-00242	docx	67	folder-1		https://example.test/assets/242
+asset-00243	pdf	74	folder-2		https://example.test/assets/243
+asset-00244	pptx	0	folder-3		https://example.test/assets/244
+asset-00245	txt	7	folder-4	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 245.	https://example.test/assets/245
+asset-00246	xlsx	14	folder-5		https://example.test/assets/246
+asset-00247	docx	21	folder-6		https://example.test/assets/247
+asset-00248	pdf	28	folder-7		https://example.test/assets/248
+asset-00249	pptx	35	folder-8	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 249.	https://example.test/assets/249
+asset-00250	txt	42	folder-9		https://example.test/assets/250
+asset-00251	xlsx	49	folder-10		https://example.test/assets/251
+asset-00252	docx	56	folder-11		https://example.test/assets/252
+asset-00253	pdf	63	folder-12	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 253.	https://example.test/assets/253
+asset-00254	pptx	70	folder-13		https://example.test/assets/254
+asset-00255	txt	77	folder-14		https://example.test/assets/255
+asset-00256	xlsx	3	folder-15		https://example.test/assets/256
+asset-00257	docx	10	folder-0	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 257.	https://example.test/assets/257
+asset-00258	pdf	17	folder-1		https://example.test/assets/258
+asset-00259	pptx	24	folder-2		https://example.test/assets/259
+asset-00260	txt	31	folder-3		https://example.test/assets/260
+asset-00261	xlsx	38	folder-4	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 261.	https://example.test/assets/261
+asset-00262	docx	45	folder-5		https://example.test/assets/262
+asset-00263	pdf	52	folder-6		https://example.test/assets/263
+asset-00264	pptx	59	folder-7		https://example.test/assets/264
+asset-00265	txt	66	folder-8	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 265.	https://example.test/assets/265
+asset-00266	xlsx	73	folder-9		https://example.test/assets/266
+asset-00267	docx	80	folder-10		https://example.test/assets/267
+asset-00268	pdf	6	folder-11		https://example.test/assets/268
+asset-00269	pptx	13	folder-12	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 269.	https://example.test/assets/269
+asset-00270	txt	20	folder-13		https://example.test/assets/270
+asset-00271	xlsx	27	folder-14		https://example.test/assets/271
+asset-00272	docx	34	folder-15		https://example.test/assets/272
+asset-00273	pdf	41	folder-0	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 273.	https://example.test/assets/273
+asset-00274	pptx	48	folder-1		https://example.test/assets/274
+asset-00275	txt	55	folder-2		https://example.test/assets/275
+asset-00276	xlsx	62	folder-3		https://example.test/assets/276
+asset-00277	docx	69	folder-4	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 277.	https://example.test/assets/277
+asset-00278	pdf	76	folder-5		https://example.test/assets/278
+asset-00279	pptx	2	folder-6		https://example.test/assets/279
+asset-00280	txt	9	folder-7		https://example.test/assets/280
+asset-00281	xlsx	16	folder-8	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 281.	https://example.test/assets/281
+asset-00282	docx	23	folder-9		https://example.test/assets/282
+asset-00283	pdf	30	folder-10		https://example.test/assets/283
+asset-00284	pptx	37	folder-11		https://example.test/assets/284
+asset-00285	txt	44	folder-12	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 285.	https://example.test/assets/285
+asset-00286	xlsx	51	folder-13		https://example.test/assets/286
+asset-00287	docx	58	folder-14		https://example.test/assets/287
+asset-00288	pdf	65	folder-15		https://example.test/assets/288
+asset-00289	pptx	72	folder-0	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 289.	https://example.test/assets/289
+asset-00290	txt	79	folder-1		https://example.test/assets/290
+asset-00291	xlsx	5	folder-2		https://example.test/assets/291
+asset-00292	docx	12	folder-3		https://example.test/assets/292
+asset-00293	pdf	19	folder-4	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 293.	https://example.test/assets/293
+asset-00294	pptx	26	folder-5		https://example.test/assets/294
+asset-00295	txt	33	folder-6		https://example.test/assets/295
+asset-00296	xlsx	40	folder-7		https://example.test/assets/296
+asset-00297	docx	47	folder-8	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 297.	https://example.test/assets/297
+asset-00298	pdf	54	folder-9		https://example.test/assets/298
+asset-00299	pptx	61	folder-10		https://example.test/assets/299
+asset-00300	txt	68	folder-11		https://example.test/assets/300
+asset-00301	xlsx	75	folder-12	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 301.	https://example.test/assets/301
+asset-00302	docx	1	folder-13		https://example.test/assets/302
+asset-00303	pdf	8	folder-14		https://example.test/assets/303
+asset-00304	pptx	15	folder-15		https://example.test/assets/304
+asset-00305	txt	22	folder-0	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 305.	https://example.test/assets/305
+asset-00306	xlsx	29	folder-1		https://example.test/assets/306
+asset-00307	docx	36	folder-2		https://example.test/assets/307
+asset-00308	pdf	43	folder-3		https://example.test/assets/308
+asset-00309	pptx	50	folder-4	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 309.	https://example.test/assets/309
+asset-00310	txt	57	folder-5		https://example.test/assets/310
+asset-00311	xlsx	64	folder-6		https://example.test/assets/311
+asset-00312	docx	71	folder-7		https://example.test/assets/312
+asset-00313	pdf	78	folder-8	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 313.	https://example.test/assets/313
+asset-00314	pptx	4	folder-9		https://example.test/assets/314
+asset-00315	txt	11	folder-10		https://example.test/assets/315
+asset-00316	xlsx	18	folder-11		https://example.test/assets/316
+asset-00317	docx	25	folder-12	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 317.	https://example.test/assets/317
+asset-00318	pdf	32	folder-13		https://example.test/assets/318
+asset-00319	pptx	39	folder-14		https://example.test/assets/319
+asset-00320	txt	46	folder-15		https://example.test/assets/320
+asset-00321	xlsx	53	folder-0	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 321.	https://example.test/assets/321
+asset-00322	docx	60	folder-1		https://example.test/assets/322
+asset-00323	pdf	67	folder-2		https://example.test/assets/323
+asset-00324	pptx	74	folder-3		https://example.test/assets/324
+asset-00325	txt	0	folder-4	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 325.	https://example.test/assets/325
+asset-00326	xlsx	7	folder-5		https://example.test/assets/326
+asset-00327	docx	14	folder-6		https://example.test/assets/327
+asset-00328	pdf	21	folder-7		https://example.test/assets/328
+asset-00329	pptx	28	folder-8	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 329.	https://example.test/assets/329
+asset-00330	txt	35	folder-9		https://example.test/assets/330
+asset-00331	xlsx	42	folder-10		https://example.test/assets/331
+asset-00332	docx	49	folder-11		https://example.test/assets/332
+asset-00333	pdf	56	folder-12	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 333.	https://example.test/assets/333
+asset-00334	pptx	63	folder-13		https://example.test/assets/334
+asset-00335	txt	70	folder-14		https://example.test/assets/335
+asset-00336	xlsx	77	folder-15		https://example.test/assets/336
+asset-00337	docx	3	folder-0	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 337.	https://example.test/assets/337
+asset-00338	pdf	10	folder-1		https://example.test/assets/338
+asset-00339	pptx	17	folder-2		https://example.test/assets/339
+asset-00340	txt	24	folder-3		https://example.test/assets/340
+asset-00341	xlsx	31	folder-4	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 341.	https://example.test/assets/341
+asset-00342	docx	38	folder-5		https://example.test/assets/342
+asset-00343	pdf	45	folder-6		https://example.test/assets/343
+asset-00344	pptx	52	folder-7		https://example.test/assets/344
+asset-00345	txt	59	folder-8	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 345.	https://example.test/assets/345
+asset-00346	xlsx	66	folder-9		https://example.test/assets/346
+asset-00347	docx	73	folder-10		https://example.test/assets/347
+asset-00348	pdf	80	folder-11		https://example.test/assets/348
+asset-00349	pptx	6	folder-12	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 349.	https://example.test/assets/349
+asset-00350	txt	13	folder-13		https://example.test/assets/350
+asset-00351	xlsx	20	folder-14		https://example.test/assets/351
+asset-00352	docx	27	folder-15		https://example.test/assets/352
+asset-00353	pdf	34	folder-0	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 353.	https://example.test/assets/353
+asset-00354	pptx	41	folder-1		https://example.test/assets/354
+asset-00355	txt	48	folder-2		https://example.test/assets/355
+asset-00356	xlsx	55	folder-3		https://example.test/assets/356
+asset-00357	docx	62	folder-4	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 357.	https://example.test/assets/357
+asset-00358	pdf	69	folder-5		https://example.test/assets/358
+asset-00359	pptx	76	folder-6		https://example.test/assets/359
+asset-00360	txt	2	folder-7		https://example.test/assets/360
+asset-00361	xlsx	9	folder-8	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 361.	https://example.test/assets/361
+asset-00362	docx	16	folder-9		https://example.test/assets/362
+asset-00363	pdf	23	folder-10		https://example.test/assets/363
+asset-00364	pptx	30	folder-11		https://example.test/assets/364
+asset-00365	txt	37	folder-12	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 365.	https://example.test/assets/365
+asset-00366	xlsx	44	folder-13		https://example.test/assets/366
+asset-00367	docx	51	folder-14		https://example.test/assets/367
+asset-00368	pdf	58	folder-15		https://example.test/assets/368
+asset-00369	pptx	65	folder-0	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 369.	https://example.test/assets/369
+asset-00370	txt	72	folder-1		https://example.test/assets/370
+asset-00371	xlsx	79	folder-2		https://example.test/assets/371
+asset-00372	docx	5	folder-3		https://example.test/assets/372
+asset-00373	pdf	12	folder-4	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 373.	https://example.test/assets/373
+asset-00374	pptx	19	folder-5		https://example.test/assets/374
+asset-00375	txt	26	folder-6		https://example.test/assets/375
+asset-00376	xlsx	33	folder-7		https://example.test/assets/376
+asset-00377	docx	40	folder-8	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 377.	https://example.test/assets/377
+asset-00378	pdf	47	folder-9		https://example.test/assets/378
+asset-00379	pptx	54	folder-10		https://example.test/assets/379
+asset-00380	txt	61	folder-11		https://example.test/assets/380
+asset-00381	xlsx	68	folder-12	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 381.	https://example.test/assets/381
+asset-00382	docx	75	folder-13		https://example.test/assets/382
+asset-00383	pdf	1	folder-14		https://example.test/assets/383
+asset-00384	pptx	8	folder-15		https://example.test/assets/384
+asset-00385	txt	15	folder-0	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 385.	https://example.test/assets/385
+asset-00386	xlsx	22	folder-1		https://example.test/assets/386
+asset-00387	docx	29	folder-2		https://example.test/assets/387
+asset-00388	pdf	36	folder-3		https://example.test/assets/388
+asset-00389	pptx	43	folder-4	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 389.	https://example.test/assets/389
+asset-00390	txt	50	folder-5		https://example.test/assets/390
+asset-00391	xlsx	57	folder-6		https://example.test/assets/391
+asset-00392	docx	64	folder-7		https://example.test/assets/392
+asset-00393	pdf	71	folder-8	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 393.	https://example.test/assets/393
+asset-00394	pptx	78	folder-9		https://example.test/assets/394
+asset-00395	txt	4	folder-10		https://example.test/assets/395
+asset-00396	xlsx	11	folder-11		https://example.test/assets/396
+asset-00397	docx	18	folder-12	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 397.	https://example.test/assets/397
+asset-00398	pdf	25	folder-13		https://example.test/assets/398
+asset-00399	pptx	32	folder-14		https://example.test/assets/399
+asset-00400	txt	39	folder-15		https://example.test/assets/400
+asset-00401	xlsx	46	folder-0	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 401.	https://example.test/assets/401
+asset-00402	docx	53	folder-1		https://example.test/assets/402
+asset-00403	pdf	60	folder-2		https://example.test/assets/403
+asset-00404	pptx	67	folder-3		https://example.test/assets/404
+asset-00405	txt	74	folder-4	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 405.	https://example.test/assets/405
+asset-00406	xlsx	0	folder-5		https://example.test/assets/406
+asset-00407	docx	7	folder-6		https://example.test/assets/407
+asset-00408	pdf	14	folder-7		https://example.test/assets/408
+asset-00409	pptx	21	folder-8	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 409.	https://example.test/assets/409
+asset-00410	txt	28	folder-9		https://example.test/assets/410
+asset-00411	xlsx	35	folder-10		https://example.test/assets/411
+asset-00412	docx	42	folder-11		https://example.test/assets/412
+asset-00413	pdf	49	folder-12	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 413.	https://example.test/assets/413
+asset-00414	pptx	56	folder-13		https://example.test/assets/414
+asset-00415	txt	63	folder-14		https://example.test/assets/415
+asset-00416	xlsx	70	folder-15		https://example.test/assets/416
+asset-00417	docx	77	folder-0	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 417.	https://example.test/assets/417
+asset-00418	pdf	3	folder-1		https://example.test/assets/418
+asset-00419	pptx	10	folder-2		https://example.test/assets/419
+asset-00420	txt	17	folder-3		https://example.test/assets/420
+asset-00421	xlsx	24	folder-4	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 421.	https://example.test/assets/421
+asset-00422	docx	31	folder-5		https://example.test/assets/422
+asset-00423	pdf	38	folder-6		https://example.test/assets/423
+asset-00424	pptx	45	folder-7		https://example.test/assets/424
+asset-00425	txt	52	folder-8	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 425.	https://example.test/assets/425
+asset-00426	xlsx	59	folder-9		https://example.test/assets/426
+asset-00427	docx	66	folder-10		https://example.test/assets/427
+asset-00428	pdf	73	folder-11		https://example.test/assets/428
+asset-00429	pptx	80	folder-12	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 429.	https://example.test/assets/429
+asset-00430	txt	6	folder-13		https://example.test/assets/430
+asset-00431	xlsx	13	folder-14		https://example.test/assets/431
+asset-00432	docx	20	folder-15		https://example.test/assets/432
+asset-00433	pdf	27	folder-0	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 433.	https://example.test/assets/433
+asset-00434	pptx	34	folder-1		https://example.test/assets/434
+asset-00435	txt	41	folder-2		https://example.test/assets/435
+asset-00436	xlsx	48	folder-3		https://example.test/assets/436
+asset-00437	docx	55	folder-4	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 437.	https://example.test/assets/437
+asset-00438	pdf	62	folder-5		https://example.test/assets/438
+asset-00439	pptx	69	folder-6		https://example.test/assets/439
+asset-00440	txt	76	folder-7		https://example.test/assets/440
+asset-00441	xlsx	2	folder-8	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 441.	https://example.test/assets/441
+asset-00442	docx	9	folder-9		https://example.test/assets/442
+asset-00443	pdf	16	folder-10		https://example.test/assets/443
+asset-00444	pptx	23	folder-11		https://example.test/assets/444
+asset-00445	txt	30	folder-12	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 445.	https://example.test/assets/445
+asset-00446	xlsx	37	folder-13		https://example.test/assets/446
+asset-00447	docx	44	folder-14		https://example.test/assets/447
+asset-00448	pdf	51	folder-15		https://example.test/assets/448
+asset-00449	pptx	58	folder-0	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 449.	https://example.test/assets/449
+asset-00450	txt	65	folder-1		https://example.test/assets/450
+asset-00451	xlsx	72	folder-2		https://example.test/assets/451
+asset-00452	docx	79	folder-3		https://example.test/assets/452
+asset-00453	pdf	5	folder-4	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 453.	https://example.test/assets/453
+asset-00454	pptx	12	folder-5		https://example.test/assets/454
+asset-00455	txt	19	folder-6		https://example.test/assets/455
+asset-00456	xlsx	26	folder-7		https://example.test/assets/456
+asset-00457	docx	33	folder-8	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 457.	https://example.test/assets/457
+asset-00458	pdf	40	folder-9		https://example.test/assets/458
+asset-00459	pptx	47	folder-10		https://example.test/assets/459
+asset-00460	txt	54	folder-11		https://example.test/assets/460
+asset-00461	xlsx	61	folder-12	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 461.	https://example.test/assets/461
+asset-00462	docx	68	folder-13		https://example.test/assets/462
+asset-00463	pdf	75	folder-14		https://example.test/assets/463
+asset-00464	pptx	1	folder-15		https://example.test/assets/464
+asset-00465	txt	8	folder-0	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 465.	https://example.test/assets/465
+asset-00466	xlsx	15	folder-1		https://example.test/assets/466
+asset-00467	docx	22	folder-2		https://example.test/assets/467
+asset-00468	pdf	29	folder-3		https://example.test/assets/468
+asset-00469	pptx	36	folder-4	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 469.	https://example.test/assets/469
+asset-00470	txt	43	folder-5		https://example.test/assets/470
+asset-00471	xlsx	50	folder-6		https://example.test/assets/471
+asset-00472	docx	57	folder-7		https://example.test/assets/472
+asset-00473	pdf	64	folder-8	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 473.	https://example.test/assets/473
+asset-00474	pptx	71	folder-9		https://example.test/assets/474
+asset-00475	txt	78	folder-10		https://example.test/assets/475
+asset-00476	xlsx	4	folder-11		https://example.test/assets/476
+asset-00477	docx	11	folder-12	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 477.	https://example.test/assets/477
+asset-00478	pdf	18	folder-13		https://example.test/assets/478
+asset-00479	pptx	25	folder-14		https://example.test/assets/479
+asset-00480	txt	32	folder-15		https://example.test/assets/480
+asset-00481	xlsx	39	folder-0	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 481.	https://example.test/assets/481
+asset-00482	docx	46	folder-1		https://example.test/assets/482
+asset-00483	pdf	53	folder-2		https://example.test/assets/483
+asset-00484	pptx	60	folder-3		https://example.test/assets/484
+asset-00485	txt	67	folder-4	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 485.	https://example.test/assets/485
+asset-00486	xlsx	74	folder-5		https://example.test/assets/486
+asset-00487	docx	0	folder-6		https://example.test/assets/487
+asset-00488	pdf	7	folder-7		https://example.test/assets/488
+asset-00489	pptx	14	folder-8	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 489.	https://example.test/assets/489
+asset-00490	txt	21	folder-9		https://example.test/assets/490
+asset-00491	xlsx	28	folder-10		https://example.test/assets/491
+asset-00492	docx	35	folder-11		https://example.test/assets/492
+asset-00493	pdf	42	folder-12	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 493.	https://example.test/assets/493
+asset-00494	pptx	49	folder-13		https://example.test/assets/494
+asset-00495	txt	56	folder-14		https://example.test/assets/495
+asset-00496	xlsx	63	folder-15		https://example.test/assets/496
+asset-00497	docx	70	folder-0	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 497.	https://example.test/assets/497
+asset-00498	pdf	77	folder-1		https://example.test/assets/498
+asset-00499	pptx	3	folder-2		https://example.test/assets/499
+asset-00500	txt	10	folder-3		https://example.test/assets/500
+asset-00501	xlsx	17	folder-4	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 501.	https://example.test/assets/501
+asset-00502	docx	24	folder-5		https://example.test/assets/502
+asset-00503	pdf	31	folder-6		https://example.test/assets/503
+asset-00504	pptx	38	folder-7		https://example.test/assets/504
+asset-00505	txt	45	folder-8	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 505.	https://example.test/assets/505
+asset-00506	xlsx	52	folder-9		https://example.test/assets/506
+asset-00507	docx	59	folder-10		https://example.test/assets/507
+asset-00508	pdf	66	folder-11		https://example.test/assets/508
+asset-00509	pptx	73	folder-12	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 509.	https://example.test/assets/509
+asset-00510	txt	80	folder-13		https://example.test/assets/510
+asset-00511	xlsx	6	folder-14		https://example.test/assets/511
+asset-00512	docx	13	folder-15		https://example.test/assets/512
+asset-00513	pdf	20	folder-0	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 513.	https://example.test/assets/513
+asset-00514	pptx	27	folder-1		https://example.test/assets/514
+asset-00515	txt	34	folder-2		https://example.test/assets/515
+asset-00516	xlsx	41	folder-3		https://example.test/assets/516
+asset-00517	docx	48	folder-4	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 517.	https://example.test/assets/517
+asset-00518	pdf	55	folder-5		https://example.test/assets/518
+asset-00519	pptx	62	folder-6		https://example.test/assets/519
+asset-00520	txt	69	folder-7		https://example.test/assets/520
+asset-00521	xlsx	76	folder-8	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 521.	https://example.test/assets/521
+asset-00522	docx	2	folder-9		https://example.test/assets/522
+asset-00523	pdf	9	folder-10		https://example.test/assets/523
+asset-00524	pptx	16	folder-11		https://example.test/assets/524
+asset-00525	txt	23	folder-12	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 525.	https://example.test/assets/525
+asset-00526	xlsx	30	folder-13		https://example.test/assets/526
+asset-00527	docx	37	folder-14		https://example.test/assets/527
+asset-00528	pdf	44	folder-15		https://example.test/assets/528
+asset-00529	pptx	51	folder-0	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 529.	https://example.test/assets/529
+asset-00530	txt	58	folder-1		https://example.test/assets/530
+asset-00531	xlsx	65	folder-2		https://example.test/assets/531
+asset-00532	docx	72	folder-3		https://example.test/assets/532
+asset-00533	pdf	79	folder-4	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 533.	https://example.test/assets/533
+asset-00534	pptx	5	folder-5		https://example.test/assets/534
+asset-00535	txt	12	folder-6		https://example.test/assets/535
+asset-00536	xlsx	19	folder-7		https://example.test/assets/536
+asset-00537	docx	26	folder-8	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 537.	https://example.test/assets/537
+asset-00538	pdf	33	folder-9		https://example.test/assets/538
+asset-00539	pptx	40	folder-10		https://example.test/assets/539
+asset-00540	txt	47	folder-11		https://example.test/assets/540
+asset-00541	xlsx	54	folder-12	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 541.	https://example.test/assets/541
+asset-00542	docx	61	folder-13		https://example.test/assets/542
+asset-00543	pdf	68	folder-14		https://example.test/assets/543
+asset-00544	pptx	75	folder-15		https://example.test/assets/544
+asset-00545	txt	1	folder-0	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 545.	https://example.test/assets/545
+asset-00546	xlsx	8	folder-1		https://example.test/assets/546
+asset-00547	docx	15	folder-2		https://example.test/assets/547
+asset-00548	pdf	22	folder-3		https://example.test/assets/548
+asset-00549	pptx	29	folder-4	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 549.	https://example.test/assets/549
+asset-00550	txt	36	folder-5		https://example.test/assets/550
+asset-00551	xlsx	43	folder-6		https://example.test/assets/551
+asset-00552	docx	50	folder-7		https://example.test/assets/552
+asset-00553	pdf	57	folder-8	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 553.	https://example.test/assets/553
+asset-00554	pptx	64	folder-9		https://example.test/assets/554
+asset-00555	txt	71	folder-10		https://example.test/assets/555
+asset-00556	xlsx	78	folder-11		https://example.test/assets/556
+asset-00557	docx	4	folder-12	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 557.	https://example.test/assets/557
+asset-00558	pdf	11	folder-13		https://example.test/assets/558
+asset-00559	pptx	18	folder-14		https://example.test/assets/559
+asset-00560	txt	25	folder-15		https://example.test/assets/560
+asset-00561	xlsx	32	folder-0	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 561.	https://example.test/assets/561
+asset-00562	docx	39	folder-1		https://example.test/assets/562
+asset-00563	pdf	46	folder-2		https://example.test/assets/563
+asset-00564	pptx	53	folder-3		https://example.test/assets/564
+asset-00565	txt	60	folder-4	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 565.	https://example.test/assets/565
+asset-00566	xlsx	67	folder-5		https://example.test/assets/566
+asset-00567	docx	74	folder-6		https://example.test/assets/567
+asset-00568	pdf	0	folder-7		https://example.test/assets/568
+asset-00569	pptx	7	folder-8	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 569.	https://example.test/assets/569
+asset-00570	txt	14	folder-9		https://example.test/assets/570
+asset-00571	xlsx	21	folder-10		https://example.test/assets/571
+asset-00572	docx	28	folder-11		https://example.test/assets/572
+asset-00573	pdf	35	folder-12	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 573.	https://example.test/assets/573
+asset-00574	pptx	42	folder-13		https://example.test/assets/574
+asset-00575	txt	49	folder-14		https://example.test/assets/575
+asset-00576	xlsx	56	folder-15		https://example.test/assets/576
+asset-00577	docx	63	folder-0	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 577.	https://example.test/assets/577
+asset-00578	pdf	70	folder-1		https://example.test/assets/578
+asset-00579	pptx	77	folder-2		https://example.test/assets/579
+asset-00580	txt	3	folder-3		https://example.test/assets/580
+asset-00581	xlsx	10	folder-4	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 581.	https://example.test/assets/581
+asset-00582	docx	17	folder-5		https://example.test/assets/582
+asset-00583	pdf	24	folder-6		https://example.test/assets/583
+asset-00584	pptx	31	folder-7		https://example.test/assets/584
+asset-00585	txt	38	folder-8	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 585.	https://example.test/assets/585
+asset-00586	xlsx	45	folder-9		https://example.test/assets/586
+asset-00587	docx	52	folder-10		https://example.test/assets/587
+asset-00588	pdf	59	folder-11		https://example.test/assets/588
+asset-00589	pptx	66	folder-12	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 589.	https://example.test/assets/589
+asset-00590	txt	73	folder-13		https://example.test/assets/590
+asset-00591	xlsx	80	folder-14		https://example.test/assets/591
+asset-00592	docx	6	folder-15		https://example.test/assets/592
+asset-00593	pdf	13	folder-0	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 593.	https://example.test/assets/593
+asset-00594	pptx	20	folder-1		https://example.test/assets/594
+asset-00595	txt	27	folder-2		https://example.test/assets/595
+asset-00596	xlsx	34	folder-3		https://example.test/assets/596
+asset-00597	docx	41	folder-4	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 597.	https://example.test/assets/597
+asset-00598	pdf	48	folder-5		https://example.test/assets/598
+asset-00599	pptx	55	folder-6		https://example.test/assets/599
+asset-00600	txt	62	folder-7		https://example.test/assets/600
+asset-00601	xlsx	69	folder-8	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 601.	https://example.test/assets/601
+asset-00602	docx	76	folder-9		https://example.test/assets/602
+asset-00603	pdf	2	folder-10		https://example.test/assets/603
+asset-00604	pptx	9	folder-11		https://example.test/assets/604
+asset-00605	txt	16	folder-12	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 605.	https://example.test/assets/605
+asset-00606	xlsx	23	folder-13		https://example.test/assets/606
+asset-00607	docx	30	folder-14		https://example.test/assets/607
+asset-00608	pdf	37	folder-15		https://example.test/assets/608
+asset-00609	pptx	44	folder-0	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 609.	https://example.test/assets/609
+asset-00610	txt	51	folder-1		https://example.test/assets/610
+asset-00611	xlsx	58	folder-2		https://example.test/assets/611
+asset-00612	docx	65	folder-3		https://example.test/assets/612
+asset-00613	pdf	72	folder-4	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 613.	https://example.test/assets/613
+asset-00614	pptx	79	folder-5		https://example.test/assets/614
+asset-00615	txt	5	folder-6		https://example.test/assets/615
+asset-00616	xlsx	12	folder-7		https://example.test/assets/616
+asset-00617	docx	19	folder-8	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 617.	https://example.test/assets/617
+asset-00618	pdf	26	folder-9		https://example.test/assets/618
+asset-00619	pptx	33	folder-10		https://example.test/assets/619
+asset-00620	txt	40	folder-11		https://example.test/assets/620
+asset-00621	xlsx	47	folder-12	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 621.	https://example.test/assets/621
+asset-00622	docx	54	folder-13		https://example.test/assets/622
+asset-00623	pdf	61	folder-14		https://example.test/assets/623
+asset-00624	pptx	68	folder-15		https://example.test/assets/624
+asset-00625	txt	75	folder-0	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 625.	https://example.test/assets/625
+asset-00626	xlsx	1	folder-1		https://example.test/assets/626
+asset-00627	docx	8	folder-2		https://example.test/assets/627
+asset-00628	pdf	15	folder-3		https://example.test/assets/628
+asset-00629	pptx	22	folder-4	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 629.	https://example.test/assets/629
+asset-00630	txt	29	folder-5		https://example.test/assets/630
+asset-00631	xlsx	36	folder-6		https://example.test/assets/631
+asset-00632	docx	43	folder-7		https://example.test/assets/632
+asset-00633	pdf	50	folder-8	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 633.	https://example.test/assets/633
+asset-00634	pptx	57	folder-9		https://example.test/assets/634
+asset-00635	txt	64	folder-10		https://example.test/assets/635
+asset-00636	xlsx	71	folder-11		https://example.test/assets/636
+asset-00637	docx	78	folder-12	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 637.	https://example.test/assets/637
+asset-00638	pdf	4	folder-13		https://example.test/assets/638
+asset-00639	pptx	11	folder-14		https://example.test/assets/639
+asset-00640	txt	18	folder-15		https://example.test/assets/640
+asset-00641	xlsx	25	folder-0	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 641.	https://example.test/assets/641
+asset-00642	docx	32	folder-1		https://example.test/assets/642
+asset-00643	pdf	39	folder-2		https://example.test/assets/643
+asset-00644	pptx	46	folder-3		https://example.test/assets/644
+asset-00645	txt	53	folder-4	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 645.	https://example.test/assets/645
+asset-00646	xlsx	60	folder-5		https://example.test/assets/646
+asset-00647	docx	67	folder-6		https://example.test/assets/647
+asset-00648	pdf	74	folder-7		https://example.test/assets/648
+asset-00649	pptx	0	folder-8	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 649.	https://example.test/assets/649
+asset-00650	txt	7	folder-9		https://example.test/assets/650
+asset-00651	xlsx	14	folder-10		https://example.test/assets/651
+asset-00652	docx	21	folder-11		https://example.test/assets/652
+asset-00653	pdf	28	folder-12	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 653.	https://example.test/assets/653
+asset-00654	pptx	35	folder-13		https://example.test/assets/654
+asset-00655	txt	42	folder-14		https://example.test/assets/655
+asset-00656	xlsx	49	folder-15		https://example.test/assets/656
+asset-00657	docx	56	folder-0	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 657.	https://example.test/assets/657
+asset-00658	pdf	63	folder-1		https://example.test/assets/658
+asset-00659	pptx	70	folder-2		https://example.test/assets/659
+asset-00660	txt	77	folder-3		https://example.test/assets/660
+asset-00661	xlsx	3	folder-4	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 661.	https://example.test/assets/661
+asset-00662	docx	10	folder-5		https://example.test/assets/662
+asset-00663	pdf	17	folder-6		https://example.test/assets/663
+asset-00664	pptx	24	folder-7		https://example.test/assets/664
+asset-00665	txt	31	folder-8	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 665.	https://example.test/assets/665
+asset-00666	xlsx	38	folder-9		https://example.test/assets/666
+asset-00667	docx	45	folder-10		https://example.test/assets/667
+asset-00668	pdf	52	folder-11		https://example.test/assets/668
+asset-00669	pptx	59	folder-12	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 669.	https://example.test/assets/669
+asset-00670	txt	66	folder-13		https://example.test/assets/670
+asset-00671	xlsx	73	folder-14		https://example.test/assets/671
+asset-00672	docx	80	folder-15		https://example.test/assets/672
+asset-00673	pdf	6	folder-0	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 673.	https://example.test/assets/673
+asset-00674	pptx	13	folder-1		https://example.test/assets/674
+asset-00675	txt	20	folder-2		https://example.test/assets/675
+asset-00676	xlsx	27	folder-3		https://example.test/assets/676
+asset-00677	docx	34	folder-4	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 677.	https://example.test/assets/677
+asset-00678	pdf	41	folder-5		https://example.test/assets/678
+asset-00679	pptx	48	folder-6		https://example.test/assets/679
+asset-00680	txt	55	folder-7		https://example.test/assets/680
+asset-00681	xlsx	62	folder-8	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 681.	https://example.test/assets/681
+asset-00682	docx	69	folder-9		https://example.test/assets/682
+asset-00683	pdf	76	folder-10		https://example.test/assets/683
+asset-00684	pptx	2	folder-11		https://example.test/assets/684
+asset-00685	txt	9	folder-12	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 685.	https://example.test/assets/685
+asset-00686	xlsx	16	folder-13		https://example.test/assets/686
+asset-00687	docx	23	folder-14		https://example.test/assets/687
+asset-00688	pdf	30	folder-15		https://example.test/assets/688
+asset-00689	pptx	37	folder-0	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 689.	https://example.test/assets/689
+asset-00690	txt	44	folder-1		https://example.test/assets/690
+asset-00691	xlsx	51	folder-2		https://example.test/assets/691
+asset-00692	docx	58	folder-3		https://example.test/assets/692
+asset-00693	pdf	65	folder-4	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 693.	https://example.test/assets/693
+asset-00694	pptx	72	folder-5		https://example.test/assets/694
+asset-00695	txt	79	folder-6		https://example.test/assets/695
+asset-00696	xlsx	5	folder-7		https://example.test/assets/696
+asset-00697	docx	12	folder-8	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 697.	https://example.test/assets/697
+asset-00698	pdf	19	folder-9		https://example.test/assets/698
+asset-00699	pptx	26	folder-10		https://example.test/assets/699
+asset-00700	txt	33	folder-11		https://example.test/assets/700
+asset-00701	xlsx	40	folder-12	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 701.	https://example.test/assets/701
+asset-00702	docx	47	folder-13		https://example.test/assets/702
+asset-00703	pdf	54	folder-14		https://example.test/assets/703
+asset-00704	pptx	61	folder-15		https://example.test/assets/704
+asset-00705	txt	68	folder-0	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 705.	https://example.test/assets/705
+asset-00706	xlsx	75	folder-1		https://example.test/assets/706
+asset-00707	docx	1	folder-2		https://example.test/assets/707
+asset-00708	pdf	8	folder-3		https://example.test/assets/708
+asset-00709	pptx	15	folder-4	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 709.	https://example.test/assets/709
+asset-00710	txt	22	folder-5		https://example.test/assets/710
+asset-00711	xlsx	29	folder-6		https://example.test/assets/711
+asset-00712	docx	36	folder-7		https://example.test/assets/712
+asset-00713	pdf	43	folder-8	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 713.	https://example.test/assets/713
+asset-00714	pptx	50	folder-9		https://example.test/assets/714
+asset-00715	txt	57	folder-10		https://example.test/assets/715
+asset-00716	xlsx	64	folder-11		https://example.test/assets/716
+asset-00717	docx	71	folder-12	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 717.	https://example.test/assets/717
+asset-00718	pdf	78	folder-13		https://example.test/assets/718
+asset-00719	pptx	4	folder-14		https://example.test/assets/719
+asset-00720	txt	11	folder-15		https://example.test/assets/720
+asset-00721	xlsx	18	folder-0	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 721.	https://example.test/assets/721
+asset-00722	docx	25	folder-1		https://example.test/assets/722
+asset-00723	pdf	32	folder-2		https://example.test/assets/723
+asset-00724	pptx	39	folder-3		https://example.test/assets/724
+asset-00725	txt	46	folder-4	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 725.	https://example.test/assets/725
+asset-00726	xlsx	53	folder-5		https://example.test/assets/726
+asset-00727	docx	60	folder-6		https://example.test/assets/727
+asset-00728	pdf	67	folder-7		https://example.test/assets/728
+asset-00729	pptx	74	folder-8	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 729.	https://example.test/assets/729
+asset-00730	txt	0	folder-9		https://example.test/assets/730
+asset-00731	xlsx	7	folder-10		https://example.test/assets/731
+asset-00732	docx	14	folder-11		https://example.test/assets/732
+asset-00733	pdf	21	folder-12	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 733.	https://example.test/assets/733
+asset-00734	pptx	28	folder-13		https://example.test/assets/734
+asset-00735	txt	35	folder-14		https://example.test/assets/735
+asset-00736	xlsx	42	folder-15		https://example.test/assets/736
+asset-00737	docx	49	folder-0	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 737.	https://example.test/assets/737
+asset-00738	pdf	56	folder-1		https://example.test/assets/738
+asset-00739	pptx	63	folder-2		https://example.test/assets/739
+asset-00740	txt	70	folder-3		https://example.test/assets/740
+asset-00741	xlsx	77	folder-4	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 741.	https://example.test/assets/741
+asset-00742	docx	3	folder-5		https://example.test/assets/742
+asset-00743	pdf	10	folder-6		https://example.test/assets/743
+asset-00744	pptx	17	folder-7		https://example.test/assets/744
+asset-00745	txt	24	folder-8	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 745.	https://example.test/assets/745
+asset-00746	xlsx	31	folder-9		https://example.test/assets/746
+asset-00747	docx	38	folder-10		https://example.test/assets/747
+asset-00748	pdf	45	folder-11		https://example.test/assets/748
+asset-00749	pptx	52	folder-12	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 749.	https://example.test/assets/749
+asset-00750	txt	59	folder-13		https://example.test/assets/750
+asset-00751	xlsx	66	folder-14		https://example.test/assets/751
+asset-00752	docx	73	folder-15		https://example.test/assets/752
+asset-00753	pdf	80	folder-0	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 753.	https://example.test/assets/753
+asset-00754	pptx	6	folder-1		https://example.test/assets/754
+asset-00755	txt	13	folder-2		https://example.test/assets/755
+asset-00756	xlsx	20	folder-3		https://example.test/assets/756
+asset-00757	docx	27	folder-4	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 757.	https://example.test/assets/757
+asset-00758	pdf	34	folder-5		https://example.test/assets/758
+asset-00759	pptx	41	folder-6		https://example.test/assets/759
+asset-00760	txt	48	folder-7		https://example.test/assets/760
+asset-00761	xlsx	55	folder-8	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 761.	https://example.test/assets/761
+asset-00762	docx	62	folder-9		https://example.test/assets/762
+asset-00763	pdf	69	folder-10		https://example.test/assets/763
+asset-00764	pptx	76	folder-11		https://example.test/assets/764
+asset-00765	txt	2	folder-12	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 765.	https://example.test/assets/765
+asset-00766	xlsx	9	folder-13		https://example.test/assets/766
+asset-00767	docx	16	folder-14		https://example.test/assets/767
+asset-00768	pdf	23	folder-15		https://example.test/assets/768
+asset-00769	pptx	30	folder-0	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 769.	https://example.test/assets/769
+asset-00770	txt	37	folder-1		https://example.test/assets/770
+asset-00771	xlsx	44	folder-2		https://example.test/assets/771
+asset-00772	docx	51	folder-3		https://example.test/assets/772
+asset-00773	pdf	58	folder-4	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 773.	https://example.test/assets/773
+asset-00774	pptx	65	folder-5		https://example.test/assets/774
+asset-00775	txt	72	folder-6		https://example.test/assets/775
+asset-00776	xlsx	79	folder-7		https://example.test/assets/776
+asset-00777	docx	5	folder-8	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 777.	https://example.test/assets/777
+asset-00778	pdf	12	folder-9		https://example.test/assets/778
+asset-00779	pptx	19	folder-10		https://example.test/assets/779
+asset-00780	txt	26	folder-11		https://example.test/assets/780
+asset-00781	xlsx	33	folder-12	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 781.	https://example.test/assets/781
+asset-00782	docx	40	folder-13		https://example.test/assets/782
+asset-00783	pdf	47	folder-14		https://example.test/assets/783
+asset-00784	pptx	54	folder-15		https://example.test/assets/784
+asset-00785	txt	61	folder-0	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 785.	https://example.test/assets/785
+asset-00786	xlsx	68	folder-1		https://example.test/assets/786
+asset-00787	docx	75	folder-2		https://example.test/assets/787
+asset-00788	pdf	1	folder-3		https://example.test/assets/788
+asset-00789	pptx	8	folder-4	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 789.	https://example.test/assets/789
+asset-00790	txt	15	folder-5		https://example.test/assets/790
+asset-00791	xlsx	22	folder-6		https://example.test/assets/791
+asset-00792	docx	29	folder-7		https://example.test/assets/792
+asset-00793	pdf	36	folder-8	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 793.	https://example.test/assets/793
+asset-00794	pptx	43	folder-9		https://example.test/assets/794
+asset-00795	txt	50	folder-10		https://example.test/assets/795
+asset-00796	xlsx	57	folder-11		https://example.test/assets/796
+asset-00797	docx	64	folder-12	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 797.	https://example.test/assets/797
+asset-00798	pdf	71	folder-13		https://example.test/assets/798
+asset-00799	pptx	78	folder-14		https://example.test/assets/799
+asset-00800	txt	4	folder-15		https://example.test/assets/800
+asset-00801	xlsx	11	folder-0	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 801.	https://example.test/assets/801
+asset-00802	docx	18	folder-1		https://example.test/assets/802
+asset-00803	pdf	25	folder-2		https://example.test/assets/803
+asset-00804	pptx	32	folder-3		https://example.test/assets/804
+asset-00805	txt	39	folder-4	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 805.	https://example.test/assets/805
+asset-00806	xlsx	46	folder-5		https://example.test/assets/806
+asset-00807	docx	53	folder-6		https://example.test/assets/807
+asset-00808	pdf	60	folder-7		https://example.test/assets/808
+asset-00809	pptx	67	folder-8	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 809.	https://example.test/assets/809
+asset-00810	txt	74	folder-9		https://example.test/assets/810
+asset-00811	xlsx	0	folder-10		https://example.test/assets/811
+asset-00812	docx	7	folder-11		https://example.test/assets/812
+asset-00813	pdf	14	folder-12	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 813.	https://example.test/assets/813
+asset-00814	pptx	21	folder-13		https://example.test/assets/814
+asset-00815	txt	28	folder-14		https://example.test/assets/815
+asset-00816	xlsx	35	folder-15		https://example.test/assets/816
+asset-00817	docx	42	folder-0	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 817.	https://example.test/assets/817
+asset-00818	pdf	49	folder-1		https://example.test/assets/818
+asset-00819	pptx	56	folder-2		https://example.test/assets/819
+asset-00820	txt	63	folder-3		https://example.test/assets/820
+asset-00821	xlsx	70	folder-4	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 821.	https://example.test/assets/821
+asset-00822	docx	77	folder-5		https://example.test/assets/822
+asset-00823	pdf	3	folder-6		https://example.test/assets/823
+asset-00824	pptx	10	folder-7		https://example.test/assets/824
+asset-00825	txt	17	folder-8	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 825.	https://example.test/assets/825
+asset-00826	xlsx	24	folder-9		https://example.test/assets/826
+asset-00827	docx	31	folder-10		https://example.test/assets/827
+asset-00828	pdf	38	folder-11		https://example.test/assets/828
+asset-00829	pptx	45	folder-12	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 829.	https://example.test/assets/829
+asset-00830	txt	52	folder-13		https://example.test/assets/830
+asset-00831	xlsx	59	folder-14		https://example.test/assets/831
+asset-00832	docx	66	folder-15		https://example.test/assets/832
+asset-00833	pdf	73	folder-0	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 833.	https://example.test/assets/833
+asset-00834	pptx	80	folder-1		https://example.test/assets/834
+asset-00835	txt	6	folder-2		https://example.test/assets/835
+asset-00836	xlsx	13	folder-3		https://example.test/assets/836
+asset-00837	docx	20	folder-4	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 837.	https://example.test/assets/837
+asset-00838	pdf	27	folder-5		https://example.test/assets/838
+asset-00839	pptx	34	folder-6		https://example.test/assets/839
+asset-00840	txt	41	folder-7		https://example.test/assets/840
+asset-00841	xlsx	48	folder-8	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 841.	https://example.test/assets/841
+asset-00842	docx	55	folder-9		https://example.test/assets/842
+asset-00843	pdf	62	folder-10		https://example.test/assets/843
+asset-00844	pptx	69	folder-11		https://example.test/assets/844
+asset-00845	txt	76	folder-12	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 845.	https://example.test/assets/845
+asset-00846	xlsx	2	folder-13		https://example.test/assets/846
+asset-00847	docx	9	folder-14		https://example.test/assets/847
+asset-00848	pdf	16	folder-15		https://example.test/assets/848
+asset-00849	pptx	23	folder-0	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 849.	https://example.test/assets/849
+asset-00850	txt	30	folder-1		https://example.test/assets/850
+asset-00851	xlsx	37	folder-2		https://example.test/assets/851
+asset-00852	docx	44	folder-3		https://example.test/assets/852
+asset-00853	pdf	51	folder-4	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 853.	https://example.test/assets/853
+asset-00854	pptx	58	folder-5		https://example.test/assets/854
+asset-00855	txt	65	folder-6		https://example.test/assets/855
+asset-00856	xlsx	72	folder-7		https://example.test/assets/856
+asset-00857	docx	79	folder-8	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 857.	https://example.test/assets/857
+asset-00858	pdf	5	folder-9		https://example.test/assets/858
+asset-00859	pptx	12	folder-10		https://example.test/assets/859
+asset-00860	txt	19	folder-11		https://example.test/assets/860
+asset-00861	xlsx	26	folder-12	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 861.	https://example.test/assets/861
+asset-00862	docx	33	folder-13		https://example.test/assets/862
+asset-00863	pdf	40	folder-14		https://example.test/assets/863
+asset-00864	pptx	47	folder-15		https://example.test/assets/864
+asset-00865	txt	54	folder-0	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 865.	https://example.test/assets/865
+asset-00866	xlsx	61	folder-1		https://example.test/assets/866
+asset-00867	docx	68	folder-2		https://example.test/assets/867
+asset-00868	pdf	75	folder-3		https://example.test/assets/868
+asset-00869	pptx	1	folder-4	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 869.	https://example.test/assets/869
+asset-00870	txt	8	folder-5		https://example.test/assets/870
+asset-00871	xlsx	15	folder-6		https://example.test/assets/871
+asset-00872	docx	22	folder-7		https://example.test/assets/872
+asset-00873	pdf	29	folder-8	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 873.	https://example.test/assets/873
+asset-00874	pptx	36	folder-9		https://example.test/assets/874
+asset-00875	txt	43	folder-10		https://example.test/assets/875
+asset-00876	xlsx	50	folder-11		https://example.test/assets/876
+asset-00877	docx	57	folder-12	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 877.	https://example.test/assets/877
+asset-00878	pdf	64	folder-13		https://example.test/assets/878
+asset-00879	pptx	71	folder-14		https://example.test/assets/879
+asset-00880	txt	78	folder-15		https://example.test/assets/880
+asset-00881	xlsx	4	folder-0	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 881.	https://example.test/assets/881
+asset-00882	docx	11	folder-1		https://example.test/assets/882
+asset-00883	pdf	18	folder-2		https://example.test/assets/883
+asset-00884	pptx	25	folder-3		https://example.test/assets/884
+asset-00885	txt	32	folder-4	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 885.	https://example.test/assets/885
+asset-00886	xlsx	39	folder-5		https://example.test/assets/886
+asset-00887	docx	46	folder-6		https://example.test/assets/887
+asset-00888	pdf	53	folder-7		https://example.test/assets/888
+asset-00889	pptx	60	folder-8	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 889.	https://example.test/assets/889
+asset-00890	txt	67	folder-9		https://example.test/assets/890
+asset-00891	xlsx	74	folder-10		https://example.test/assets/891
+asset-00892	docx	0	folder-11		https://example.test/assets/892
+asset-00893	pdf	7	folder-12	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 893.	https://example.test/assets/893
+asset-00894	pptx	14	folder-13		https://example.test/assets/894
+asset-00895	txt	21	folder-14		https://example.test/assets/895
+asset-00896	xlsx	28	folder-15		https://example.test/assets/896
+asset-00897	docx	35	folder-0	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 897.	https://example.test/assets/897
+asset-00898	pdf	42	folder-1		https://example.test/assets/898
+asset-00899	pptx	49	folder-2		https://example.test/assets/899
+asset-00900	txt	56	folder-3		https://example.test/assets/900
+asset-00901	xlsx	63	folder-4	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 901.	https://example.test/assets/901
+asset-00902	docx	70	folder-5		https://example.test/assets/902
+asset-00903	pdf	77	folder-6		https://example.test/assets/903
+asset-00904	pptx	3	folder-7		https://example.test/assets/904
+asset-00905	txt	10	folder-8	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 905.	https://example.test/assets/905
+asset-00906	xlsx	17	folder-9		https://example.test/assets/906
+asset-00907	docx	24	folder-10		https://example.test/assets/907
+asset-00908	pdf	31	folder-11		https://example.test/assets/908
+asset-00909	pptx	38	folder-12	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 909.	https://example.test/assets/909
+asset-00910	txt	45	folder-13		https://example.test/assets/910
+asset-00911	xlsx	52	folder-14		https://example.test/assets/911
+asset-00912	docx	59	folder-15		https://example.test/assets/912
+asset-00913	pdf	66	folder-0	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 913.	https://example.test/assets/913
+asset-00914	pptx	73	folder-1		https://example.test/assets/914
+asset-00915	txt	80	folder-2		https://example.test/assets/915
+asset-00916	xlsx	6	folder-3		https://example.test/assets/916
+asset-00917	docx	13	folder-4	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 917.	https://example.test/assets/917
+asset-00918	pdf	20	folder-5		https://example.test/assets/918
+asset-00919	pptx	27	folder-6		https://example.test/assets/919
+asset-00920	txt	34	folder-7		https://example.test/assets/920
+asset-00921	xlsx	41	folder-8	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 921.	https://example.test/assets/921
+asset-00922	docx	48	folder-9		https://example.test/assets/922
+asset-00923	pdf	55	folder-10		https://example.test/assets/923
+asset-00924	pptx	62	folder-11		https://example.test/assets/924
+asset-00925	txt	69	folder-12	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 925.	https://example.test/assets/925
+asset-00926	xlsx	76	folder-13		https://example.test/assets/926
+asset-00927	docx	2	folder-14		https://example.test/assets/927
+asset-00928	pdf	9	folder-15		https://example.test/assets/928
+asset-00929	pptx	16	folder-0	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 929.	https://example.test/assets/929
+asset-00930	txt	23	folder-1		https://example.test/assets/930
+asset-00931	xlsx	30	folder-2		https://example.test/assets/931
+asset-00932	docx	37	folder-3		https://example.test/assets/932
+asset-00933	pdf	44	folder-4	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 933.	https://example.test/assets/933
+asset-00934	pptx	51	folder-5		https://example.test/assets/934
+asset-00935	txt	58	folder-6		https://example.test/assets/935
+asset-00936	xlsx	65	folder-7		https://example.test/assets/936
+asset-00937	docx	72	folder-8	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 937.	https://example.test/assets/937
+asset-00938	pdf	79	folder-9		https://example.test/assets/938
+asset-00939	pptx	5	folder-10		https://example.test/assets/939
+asset-00940	txt	12	folder-11		https://example.test/assets/940
+asset-00941	xlsx	19	folder-12	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 941.	https://example.test/assets/941
+asset-00942	docx	26	folder-13		https://example.test/assets/942
+asset-00943	pdf	33	folder-14		https://example.test/assets/943
+asset-00944	pptx	40	folder-15		https://example.test/assets/944
+asset-00945	txt	47	folder-0	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 945.	https://example.test/assets/945
+asset-00946	xlsx	54	folder-1		https://example.test/assets/946
+asset-00947	docx	61	folder-2		https://example.test/assets/947
+asset-00948	pdf	68	folder-3		https://example.test/assets/948
+asset-00949	pptx	75	folder-4	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 949.	https://example.test/assets/949
+asset-00950	txt	1	folder-5		https://example.test/assets/950
+asset-00951	xlsx	8	folder-6		https://example.test/assets/951
+asset-00952	docx	15	folder-7		https://example.test/assets/952
+asset-00953	pdf	22	folder-8	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 953.	https://example.test/assets/953
+asset-00954	pptx	29	folder-9		https://example.test/assets/954
+asset-00955	txt	36	folder-10		https://example.test/assets/955
+asset-00956	xlsx	43	folder-11		https://example.test/assets/956
+asset-00957	docx	50	folder-12	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 957.	https://example.test/assets/957
+asset-00958	pdf	57	folder-13		https://example.test/assets/958
+asset-00959	pptx	64	folder-14		https://example.test/assets/959
+asset-00960	txt	71	folder-15		https://example.test/assets/960
+asset-00961	xlsx	78	folder-0	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 961.	https://example.test/assets/961
+asset-00962	docx	4	folder-1		https://example.test/assets/962
+asset-00963	pdf	11	folder-2		https://example.test/assets/963
+asset-00964	pptx	18	folder-3		https://example.test/assets/964
+asset-00965	txt	25	folder-4	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 965.	https://example.test/assets/965
+asset-00966	xlsx	32	folder-5		https://example.test/assets/966
+asset-00967	docx	39	folder-6		https://example.test/assets/967
+asset-00968	pdf	46	folder-7		https://example.test/assets/968
+asset-00969	pptx	53	folder-8	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 969.	https://example.test/assets/969
+asset-00970	txt	60	folder-9		https://example.test/assets/970
+asset-00971	xlsx	67	folder-10		https://example.test/assets/971
+asset-00972	docx	74	folder-11		https://example.test/assets/972
+asset-00973	pdf	0	folder-12	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 973.	https://example.test/assets/973
+asset-00974	pptx	7	folder-13		https://example.test/assets/974
+asset-00975	txt	14	folder-14		https://example.test/assets/975
+asset-00976	xlsx	21	folder-15		https://example.test/assets/976
+asset-00977	docx	28	folder-0	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 977.	https://example.test/assets/977
+asset-00978	pdf	35	folder-1		https://example.test/assets/978
+asset-00979	pptx	42	folder-2		https://example.test/assets/979
+asset-00980	txt	49	folder-3		https://example.test/assets/980
+asset-00981	xlsx	56	folder-4	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 981.	https://example.test/assets/981
+asset-00982	docx	63	folder-5		https://example.test/assets/982
+asset-00983	pdf	70	folder-6		https://example.test/assets/983
+asset-00984	pptx	77	folder-7		https://example.test/assets/984
+asset-00985	txt	3	folder-8	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 985.	https://example.test/assets/985
+asset-00986	xlsx	10	folder-9		https://example.test/assets/986
+asset-00987	docx	17	folder-10		https://example.test/assets/987
+asset-00988	pdf	24	folder-11		https://example.test/assets/988
+asset-00989	pptx	31	folder-12	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 989.	https://example.test/assets/989
+asset-00990	txt	38	folder-13		https://example.test/assets/990
+asset-00991	xlsx	45	folder-14		https://example.test/assets/991
+asset-00992	docx	52	folder-15		https://example.test/assets/992
+asset-00993	pdf	59	folder-0	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 993.	https://example.test/assets/993
+asset-00994	pptx	66	folder-1		https://example.test/assets/994
+asset-00995	txt	73	folder-2		https://example.test/assets/995
+asset-00996	xlsx	80	folder-3		https://example.test/assets/996
+asset-00997	docx	6	folder-4	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 997.	https://example.test/assets/997
+asset-00998	pdf	13	folder-5		https://example.test/assets/998
+asset-00999	pptx	20	folder-6		https://example.test/assets/999
+asset-01000	txt	27	folder-7		https://example.test/assets/1000
+asset-01001	xlsx	34	folder-8	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1001.	https://example.test/assets/1001
+asset-01002	docx	41	folder-9		https://example.test/assets/1002
+asset-01003	pdf	48	folder-10		https://example.test/assets/1003
+asset-01004	pptx	55	folder-11		https://example.test/assets/1004
+asset-01005	txt	62	folder-12	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1005.	https://example.test/assets/1005
+asset-01006	xlsx	69	folder-13		https://example.test/assets/1006
+asset-01007	docx	76	folder-14		https://example.test/assets/1007
+asset-01008	pdf	2	folder-15		https://example.test/assets/1008
+asset-01009	pptx	9	folder-0	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1009.	https://example.test/assets/1009
+asset-01010	txt	16	folder-1		https://example.test/assets/1010
+asset-01011	xlsx	23	folder-2		https://example.test/assets/1011
+asset-01012	docx	30	folder-3		https://example.test/assets/1012
+asset-01013	pdf	37	folder-4	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1013.	https://example.test/assets/1013
+asset-01014	pptx	44	folder-5		https://example.test/assets/1014
+asset-01015	txt	51	folder-6		https://example.test/assets/1015
+asset-01016	xlsx	58	folder-7		https://example.test/assets/1016
+asset-01017	docx	65	folder-8	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1017.	https://example.test/assets/1017
+asset-01018	pdf	72	folder-9		https://example.test/assets/1018
+asset-01019	pptx	79	folder-10		https://example.test/assets/1019
+asset-01020	txt	5	folder-11		https://example.test/assets/1020
+asset-01021	xlsx	12	folder-12	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1021.	https://example.test/assets/1021
+asset-01022	docx	19	folder-13		https://example.test/assets/1022
+asset-01023	pdf	26	folder-14		https://example.test/assets/1023
+asset-01024	pptx	33	folder-15		https://example.test/assets/1024
+asset-01025	txt	40	folder-0	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1025.	https://example.test/assets/1025
+asset-01026	xlsx	47	folder-1		https://example.test/assets/1026
+asset-01027	docx	54	folder-2		https://example.test/assets/1027
+asset-01028	pdf	61	folder-3		https://example.test/assets/1028
+asset-01029	pptx	68	folder-4	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1029.	https://example.test/assets/1029
+asset-01030	txt	75	folder-5		https://example.test/assets/1030
+asset-01031	xlsx	1	folder-6		https://example.test/assets/1031
+asset-01032	docx	8	folder-7		https://example.test/assets/1032
+asset-01033	pdf	15	folder-8	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1033.	https://example.test/assets/1033
+asset-01034	pptx	22	folder-9		https://example.test/assets/1034
+asset-01035	txt	29	folder-10		https://example.test/assets/1035
+asset-01036	xlsx	36	folder-11		https://example.test/assets/1036
+asset-01037	docx	43	folder-12	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1037.	https://example.test/assets/1037
+asset-01038	pdf	50	folder-13		https://example.test/assets/1038
+asset-01039	pptx	57	folder-14		https://example.test/assets/1039
+asset-01040	txt	64	folder-15		https://example.test/assets/1040
+asset-01041	xlsx	71	folder-0	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1041.	https://example.test/assets/1041
+asset-01042	docx	78	folder-1		https://example.test/assets/1042
+asset-01043	pdf	4	folder-2		https://example.test/assets/1043
+asset-01044	pptx	11	folder-3		https://example.test/assets/1044
+asset-01045	txt	18	folder-4	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1045.	https://example.test/assets/1045
+asset-01046	xlsx	25	folder-5		https://example.test/assets/1046
+asset-01047	docx	32	folder-6		https://example.test/assets/1047
+asset-01048	pdf	39	folder-7		https://example.test/assets/1048
+asset-01049	pptx	46	folder-8	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1049.	https://example.test/assets/1049
+asset-01050	txt	53	folder-9		https://example.test/assets/1050
+asset-01051	xlsx	60	folder-10		https://example.test/assets/1051
+asset-01052	docx	67	folder-11		https://example.test/assets/1052
+asset-01053	pdf	74	folder-12	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1053.	https://example.test/assets/1053
+asset-01054	pptx	0	folder-13		https://example.test/assets/1054
+asset-01055	txt	7	folder-14		https://example.test/assets/1055
+asset-01056	xlsx	14	folder-15		https://example.test/assets/1056
+asset-01057	docx	21	folder-0	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1057.	https://example.test/assets/1057
+asset-01058	pdf	28	folder-1		https://example.test/assets/1058
+asset-01059	pptx	35	folder-2		https://example.test/assets/1059
+asset-01060	txt	42	folder-3		https://example.test/assets/1060
+asset-01061	xlsx	49	folder-4	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1061.	https://example.test/assets/1061
+asset-01062	docx	56	folder-5		https://example.test/assets/1062
+asset-01063	pdf	63	folder-6		https://example.test/assets/1063
+asset-01064	pptx	70	folder-7		https://example.test/assets/1064
+asset-01065	txt	77	folder-8	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1065.	https://example.test/assets/1065
+asset-01066	xlsx	3	folder-9		https://example.test/assets/1066
+asset-01067	docx	10	folder-10		https://example.test/assets/1067
+asset-01068	pdf	17	folder-11		https://example.test/assets/1068
+asset-01069	pptx	24	folder-12	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1069.	https://example.test/assets/1069
+asset-01070	txt	31	folder-13		https://example.test/assets/1070
+asset-01071	xlsx	38	folder-14		https://example.test/assets/1071
+asset-01072	docx	45	folder-15		https://example.test/assets/1072
+asset-01073	pdf	52	folder-0	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1073.	https://example.test/assets/1073
+asset-01074	pptx	59	folder-1		https://example.test/assets/1074
+asset-01075	txt	66	folder-2		https://example.test/assets/1075
+asset-01076	xlsx	73	folder-3		https://example.test/assets/1076
+asset-01077	docx	80	folder-4	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1077.	https://example.test/assets/1077
+asset-01078	pdf	6	folder-5		https://example.test/assets/1078
+asset-01079	pptx	13	folder-6		https://example.test/assets/1079
+asset-01080	txt	20	folder-7		https://example.test/assets/1080
+asset-01081	xlsx	27	folder-8	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1081.	https://example.test/assets/1081
+asset-01082	docx	34	folder-9		https://example.test/assets/1082
+asset-01083	pdf	41	folder-10		https://example.test/assets/1083
+asset-01084	pptx	48	folder-11		https://example.test/assets/1084
+asset-01085	txt	55	folder-12	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1085.	https://example.test/assets/1085
+asset-01086	xlsx	62	folder-13		https://example.test/assets/1086
+asset-01087	docx	69	folder-14		https://example.test/assets/1087
+asset-01088	pdf	76	folder-15		https://example.test/assets/1088
+asset-01089	pptx	2	folder-0	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1089.	https://example.test/assets/1089
+asset-01090	txt	9	folder-1		https://example.test/assets/1090
+asset-01091	xlsx	16	folder-2		https://example.test/assets/1091
+asset-01092	docx	23	folder-3		https://example.test/assets/1092
+asset-01093	pdf	30	folder-4	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1093.	https://example.test/assets/1093
+asset-01094	pptx	37	folder-5		https://example.test/assets/1094
+asset-01095	txt	44	folder-6		https://example.test/assets/1095
+asset-01096	xlsx	51	folder-7		https://example.test/assets/1096
+asset-01097	docx	58	folder-8	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1097.	https://example.test/assets/1097
+asset-01098	pdf	65	folder-9		https://example.test/assets/1098
+asset-01099	pptx	72	folder-10		https://example.test/assets/1099
+asset-01100	txt	79	folder-11		https://example.test/assets/1100
+asset-01101	xlsx	5	folder-12	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1101.	https://example.test/assets/1101
+asset-01102	docx	12	folder-13		https://example.test/assets/1102
+asset-01103	pdf	19	folder-14		https://example.test/assets/1103
+asset-01104	pptx	26	folder-15		https://example.test/assets/1104
+asset-01105	txt	33	folder-0	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1105.	https://example.test/assets/1105
+asset-01106	xlsx	40	folder-1		https://example.test/assets/1106
+asset-01107	docx	47	folder-2		https://example.test/assets/1107
+asset-01108	pdf	54	folder-3		https://example.test/assets/1108
+asset-01109	pptx	61	folder-4	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1109.	https://example.test/assets/1109
+asset-01110	txt	68	folder-5		https://example.test/assets/1110
+asset-01111	xlsx	75	folder-6		https://example.test/assets/1111
+asset-01112	docx	1	folder-7		https://example.test/assets/1112
+asset-01113	pdf	8	folder-8	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1113.	https://example.test/assets/1113
+asset-01114	pptx	15	folder-9		https://example.test/assets/1114
+asset-01115	txt	22	folder-10		https://example.test/assets/1115
+asset-01116	xlsx	29	folder-11		https://example.test/assets/1116
+asset-01117	docx	36	folder-12	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1117.	https://example.test/assets/1117
+asset-01118	pdf	43	folder-13		https://example.test/assets/1118
+asset-01119	pptx	50	folder-14		https://example.test/assets/1119
+asset-01120	txt	57	folder-15		https://example.test/assets/1120
+asset-01121	xlsx	64	folder-0	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1121.	https://example.test/assets/1121
+asset-01122	docx	71	folder-1		https://example.test/assets/1122
+asset-01123	pdf	78	folder-2		https://example.test/assets/1123
+asset-01124	pptx	4	folder-3		https://example.test/assets/1124
+asset-01125	txt	11	folder-4	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1125.	https://example.test/assets/1125
+asset-01126	xlsx	18	folder-5		https://example.test/assets/1126
+asset-01127	docx	25	folder-6		https://example.test/assets/1127
+asset-01128	pdf	32	folder-7		https://example.test/assets/1128
+asset-01129	pptx	39	folder-8	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1129.	https://example.test/assets/1129
+asset-01130	txt	46	folder-9		https://example.test/assets/1130
+asset-01131	xlsx	53	folder-10		https://example.test/assets/1131
+asset-01132	docx	60	folder-11		https://example.test/assets/1132
+asset-01133	pdf	67	folder-12	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1133.	https://example.test/assets/1133
+asset-01134	pptx	74	folder-13		https://example.test/assets/1134
+asset-01135	txt	0	folder-14		https://example.test/assets/1135
+asset-01136	xlsx	7	folder-15		https://example.test/assets/1136
+asset-01137	docx	14	folder-0	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1137.	https://example.test/assets/1137
+asset-01138	pdf	21	folder-1		https://example.test/assets/1138
+asset-01139	pptx	28	folder-2		https://example.test/assets/1139
+asset-01140	txt	35	folder-3		https://example.test/assets/1140
+asset-01141	xlsx	42	folder-4	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1141.	https://example.test/assets/1141
+asset-01142	docx	49	folder-5		https://example.test/assets/1142
+asset-01143	pdf	56	folder-6		https://example.test/assets/1143
+asset-01144	pptx	63	folder-7		https://example.test/assets/1144
+asset-01145	txt	70	folder-8	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1145.	https://example.test/assets/1145
+asset-01146	xlsx	77	folder-9		https://example.test/assets/1146
+asset-01147	docx	3	folder-10		https://example.test/assets/1147
+asset-01148	pdf	10	folder-11		https://example.test/assets/1148
+asset-01149	pptx	17	folder-12	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1149.	https://example.test/assets/1149
+asset-01150	txt	24	folder-13		https://example.test/assets/1150
+asset-01151	xlsx	31	folder-14		https://example.test/assets/1151
+asset-01152	docx	38	folder-15		https://example.test/assets/1152
+asset-01153	pdf	45	folder-0	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1153.	https://example.test/assets/1153
+asset-01154	pptx	52	folder-1		https://example.test/assets/1154
+asset-01155	txt	59	folder-2		https://example.test/assets/1155
+asset-01156	xlsx	66	folder-3		https://example.test/assets/1156
+asset-01157	docx	73	folder-4	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1157.	https://example.test/assets/1157
+asset-01158	pdf	80	folder-5		https://example.test/assets/1158
+asset-01159	pptx	6	folder-6		https://example.test/assets/1159
+asset-01160	txt	13	folder-7		https://example.test/assets/1160
+asset-01161	xlsx	20	folder-8	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1161.	https://example.test/assets/1161
+asset-01162	docx	27	folder-9		https://example.test/assets/1162
+asset-01163	pdf	34	folder-10		https://example.test/assets/1163
+asset-01164	pptx	41	folder-11		https://example.test/assets/1164
+asset-01165	txt	48	folder-12	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1165.	https://example.test/assets/1165
+asset-01166	xlsx	55	folder-13		https://example.test/assets/1166
+asset-01167	docx	62	folder-14		https://example.test/assets/1167
+asset-01168	pdf	69	folder-15		https://example.test/assets/1168
+asset-01169	pptx	76	folder-0	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1169.	https://example.test/assets/1169
+asset-01170	txt	2	folder-1		https://example.test/assets/1170
+asset-01171	xlsx	9	folder-2		https://example.test/assets/1171
+asset-01172	docx	16	folder-3		https://example.test/assets/1172
+asset-01173	pdf	23	folder-4	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1173.	https://example.test/assets/1173
+asset-01174	pptx	30	folder-5		https://example.test/assets/1174
+asset-01175	txt	37	folder-6		https://example.test/assets/1175
+asset-01176	xlsx	44	folder-7		https://example.test/assets/1176
+asset-01177	docx	51	folder-8	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1177.	https://example.test/assets/1177
+asset-01178	pdf	58	folder-9		https://example.test/assets/1178
+asset-01179	pptx	65	folder-10		https://example.test/assets/1179
+asset-01180	txt	72	folder-11		https://example.test/assets/1180
+asset-01181	xlsx	79	folder-12	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1181.	https://example.test/assets/1181
+asset-01182	docx	5	folder-13		https://example.test/assets/1182
+asset-01183	pdf	12	folder-14		https://example.test/assets/1183
+asset-01184	pptx	19	folder-15		https://example.test/assets/1184
+asset-01185	txt	26	folder-0	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1185.	https://example.test/assets/1185
+asset-01186	xlsx	33	folder-1		https://example.test/assets/1186
+asset-01187	docx	40	folder-2		https://example.test/assets/1187
+asset-01188	pdf	47	folder-3		https://example.test/assets/1188
+asset-01189	pptx	54	folder-4	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1189.	https://example.test/assets/1189
+asset-01190	txt	61	folder-5		https://example.test/assets/1190
+asset-01191	xlsx	68	folder-6		https://example.test/assets/1191
+asset-01192	docx	75	folder-7		https://example.test/assets/1192
+asset-01193	pdf	1	folder-8	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1193.	https://example.test/assets/1193
+asset-01194	pptx	8	folder-9		https://example.test/assets/1194
+asset-01195	txt	15	folder-10		https://example.test/assets/1195
+asset-01196	xlsx	22	folder-11		https://example.test/assets/1196
+asset-01197	docx	29	folder-12	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1197.	https://example.test/assets/1197
+asset-01198	pdf	36	folder-13		https://example.test/assets/1198
+asset-01199	pptx	43	folder-14		https://example.test/assets/1199
+asset-01200	txt	50	folder-15		https://example.test/assets/1200
+asset-01201	xlsx	57	folder-0	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1201.	https://example.test/assets/1201
+asset-01202	docx	64	folder-1		https://example.test/assets/1202
+asset-01203	pdf	71	folder-2		https://example.test/assets/1203
+asset-01204	pptx	78	folder-3		https://example.test/assets/1204
+asset-01205	txt	4	folder-4	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1205.	https://example.test/assets/1205
+asset-01206	xlsx	11	folder-5		https://example.test/assets/1206
+asset-01207	docx	18	folder-6		https://example.test/assets/1207
+asset-01208	pdf	25	folder-7		https://example.test/assets/1208
+asset-01209	pptx	32	folder-8	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1209.	https://example.test/assets/1209
+asset-01210	txt	39	folder-9		https://example.test/assets/1210
+asset-01211	xlsx	46	folder-10		https://example.test/assets/1211
+asset-01212	docx	53	folder-11		https://example.test/assets/1212
+asset-01213	pdf	60	folder-12	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1213.	https://example.test/assets/1213
+asset-01214	pptx	67	folder-13		https://example.test/assets/1214
+asset-01215	txt	74	folder-14		https://example.test/assets/1215
+asset-01216	xlsx	0	folder-15		https://example.test/assets/1216
+asset-01217	docx	7	folder-0	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1217.	https://example.test/assets/1217
+asset-01218	pdf	14	folder-1		https://example.test/assets/1218
+asset-01219	pptx	21	folder-2		https://example.test/assets/1219
+asset-01220	txt	28	folder-3		https://example.test/assets/1220
+asset-01221	xlsx	35	folder-4	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1221.	https://example.test/assets/1221
+asset-01222	docx	42	folder-5		https://example.test/assets/1222
+asset-01223	pdf	49	folder-6		https://example.test/assets/1223
+asset-01224	pptx	56	folder-7		https://example.test/assets/1224
+asset-01225	txt	63	folder-8	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1225.	https://example.test/assets/1225
+asset-01226	xlsx	70	folder-9		https://example.test/assets/1226
+asset-01227	docx	77	folder-10		https://example.test/assets/1227
+asset-01228	pdf	3	folder-11		https://example.test/assets/1228
+asset-01229	pptx	10	folder-12	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1229.	https://example.test/assets/1229
+asset-01230	txt	17	folder-13		https://example.test/assets/1230
+asset-01231	xlsx	24	folder-14		https://example.test/assets/1231
+asset-01232	docx	31	folder-15		https://example.test/assets/1232
+asset-01233	pdf	38	folder-0	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1233.	https://example.test/assets/1233
+asset-01234	pptx	45	folder-1		https://example.test/assets/1234
+asset-01235	txt	52	folder-2		https://example.test/assets/1235
+asset-01236	xlsx	59	folder-3		https://example.test/assets/1236
+asset-01237	docx	66	folder-4	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1237.	https://example.test/assets/1237
+asset-01238	pdf	73	folder-5		https://example.test/assets/1238
+asset-01239	pptx	80	folder-6		https://example.test/assets/1239
+asset-01240	txt	6	folder-7		https://example.test/assets/1240
+asset-01241	xlsx	13	folder-8	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1241.	https://example.test/assets/1241
+asset-01242	docx	20	folder-9		https://example.test/assets/1242
+asset-01243	pdf	27	folder-10		https://example.test/assets/1243
+asset-01244	pptx	34	folder-11		https://example.test/assets/1244
+asset-01245	txt	41	folder-12	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1245.	https://example.test/assets/1245
+asset-01246	xlsx	48	folder-13		https://example.test/assets/1246
+asset-01247	docx	55	folder-14		https://example.test/assets/1247
+asset-01248	pdf	62	folder-15		https://example.test/assets/1248
+asset-01249	pptx	69	folder-0	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1249.	https://example.test/assets/1249
+asset-01250	txt	76	folder-1		https://example.test/assets/1250
+asset-01251	xlsx	2	folder-2		https://example.test/assets/1251
+asset-01252	docx	9	folder-3		https://example.test/assets/1252
+asset-01253	pdf	16	folder-4	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1253.	https://example.test/assets/1253
+asset-01254	pptx	23	folder-5		https://example.test/assets/1254
+asset-01255	txt	30	folder-6		https://example.test/assets/1255
+asset-01256	xlsx	37	folder-7		https://example.test/assets/1256
+asset-01257	docx	44	folder-8	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1257.	https://example.test/assets/1257
+asset-01258	pdf	51	folder-9		https://example.test/assets/1258
+asset-01259	pptx	58	folder-10		https://example.test/assets/1259
+asset-01260	txt	65	folder-11		https://example.test/assets/1260
+asset-01261	xlsx	72	folder-12	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1261.	https://example.test/assets/1261
+asset-01262	docx	79	folder-13		https://example.test/assets/1262
+asset-01263	pdf	5	folder-14		https://example.test/assets/1263
+asset-01264	pptx	12	folder-15		https://example.test/assets/1264
+asset-01265	txt	19	folder-0	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1265.	https://example.test/assets/1265
+asset-01266	xlsx	26	folder-1		https://example.test/assets/1266
+asset-01267	docx	33	folder-2		https://example.test/assets/1267
+asset-01268	pdf	40	folder-3		https://example.test/assets/1268
+asset-01269	pptx	47	folder-4	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1269.	https://example.test/assets/1269
+asset-01270	txt	54	folder-5		https://example.test/assets/1270
+asset-01271	xlsx	61	folder-6		https://example.test/assets/1271
+asset-01272	docx	68	folder-7		https://example.test/assets/1272
+asset-01273	pdf	75	folder-8	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1273.	https://example.test/assets/1273
+asset-01274	pptx	1	folder-9		https://example.test/assets/1274
+asset-01275	txt	8	folder-10		https://example.test/assets/1275
+asset-01276	xlsx	15	folder-11		https://example.test/assets/1276
+asset-01277	docx	22	folder-12	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1277.	https://example.test/assets/1277
+asset-01278	pdf	29	folder-13		https://example.test/assets/1278
+asset-01279	pptx	36	folder-14		https://example.test/assets/1279
+asset-01280	txt	43	folder-15		https://example.test/assets/1280
+asset-01281	xlsx	50	folder-0	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1281.	https://example.test/assets/1281
+asset-01282	docx	57	folder-1		https://example.test/assets/1282
+asset-01283	pdf	64	folder-2		https://example.test/assets/1283
+asset-01284	pptx	71	folder-3		https://example.test/assets/1284
+asset-01285	txt	78	folder-4	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1285.	https://example.test/assets/1285
+asset-01286	xlsx	4	folder-5		https://example.test/assets/1286
+asset-01287	docx	11	folder-6		https://example.test/assets/1287
+asset-01288	pdf	18	folder-7		https://example.test/assets/1288
+asset-01289	pptx	25	folder-8	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1289.	https://example.test/assets/1289
+asset-01290	txt	32	folder-9		https://example.test/assets/1290
+asset-01291	xlsx	39	folder-10		https://example.test/assets/1291
+asset-01292	docx	46	folder-11		https://example.test/assets/1292
+asset-01293	pdf	53	folder-12	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1293.	https://example.test/assets/1293
+asset-01294	pptx	60	folder-13		https://example.test/assets/1294
+asset-01295	txt	67	folder-14		https://example.test/assets/1295
+asset-01296	xlsx	74	folder-15		https://example.test/assets/1296
+asset-01297	docx	0	folder-0	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1297.	https://example.test/assets/1297
+asset-01298	pdf	7	folder-1		https://example.test/assets/1298
+asset-01299	pptx	14	folder-2		https://example.test/assets/1299
+asset-01300	txt	21	folder-3		https://example.test/assets/1300
+asset-01301	xlsx	28	folder-4	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1301.	https://example.test/assets/1301
+asset-01302	docx	35	folder-5		https://example.test/assets/1302
+asset-01303	pdf	42	folder-6		https://example.test/assets/1303
+asset-01304	pptx	49	folder-7		https://example.test/assets/1304
+asset-01305	txt	56	folder-8	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1305.	https://example.test/assets/1305
+asset-01306	xlsx	63	folder-9		https://example.test/assets/1306
+asset-01307	docx	70	folder-10		https://example.test/assets/1307
+asset-01308	pdf	77	folder-11		https://example.test/assets/1308
+asset-01309	pptx	3	folder-12	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1309.	https://example.test/assets/1309
+asset-01310	txt	10	folder-13		https://example.test/assets/1310
+asset-01311	xlsx	17	folder-14		https://example.test/assets/1311
+asset-01312	docx	24	folder-15		https://example.test/assets/1312
+asset-01313	pdf	31	folder-0	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1313.	https://example.test/assets/1313
+asset-01314	pptx	38	folder-1		https://example.test/assets/1314
+asset-01315	txt	45	folder-2		https://example.test/assets/1315
+asset-01316	xlsx	52	folder-3		https://example.test/assets/1316
+asset-01317	docx	59	folder-4	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1317.	https://example.test/assets/1317
+asset-01318	pdf	66	folder-5		https://example.test/assets/1318
+asset-01319	pptx	73	folder-6		https://example.test/assets/1319
+asset-01320	txt	80	folder-7		https://example.test/assets/1320
+asset-01321	xlsx	6	folder-8	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1321.	https://example.test/assets/1321
+asset-01322	docx	13	folder-9		https://example.test/assets/1322
+asset-01323	pdf	20	folder-10		https://example.test/assets/1323
+asset-01324	pptx	27	folder-11		https://example.test/assets/1324
+asset-01325	txt	34	folder-12	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1325.	https://example.test/assets/1325
+asset-01326	xlsx	41	folder-13		https://example.test/assets/1326
+asset-01327	docx	48	folder-14		https://example.test/assets/1327
+asset-01328	pdf	55	folder-15		https://example.test/assets/1328
+asset-01329	pptx	62	folder-0	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1329.	https://example.test/assets/1329
+asset-01330	txt	69	folder-1		https://example.test/assets/1330
+asset-01331	xlsx	76	folder-2		https://example.test/assets/1331
+asset-01332	docx	2	folder-3		https://example.test/assets/1332
+asset-01333	pdf	9	folder-4	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1333.	https://example.test/assets/1333
+asset-01334	pptx	16	folder-5		https://example.test/assets/1334
+asset-01335	txt	23	folder-6		https://example.test/assets/1335
+asset-01336	xlsx	30	folder-7		https://example.test/assets/1336
+asset-01337	docx	37	folder-8	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1337.	https://example.test/assets/1337
+asset-01338	pdf	44	folder-9		https://example.test/assets/1338
+asset-01339	pptx	51	folder-10		https://example.test/assets/1339
+asset-01340	txt	58	folder-11		https://example.test/assets/1340
+asset-01341	xlsx	65	folder-12	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1341.	https://example.test/assets/1341
+asset-01342	docx	72	folder-13		https://example.test/assets/1342
+asset-01343	pdf	79	folder-14		https://example.test/assets/1343
+asset-01344	pptx	5	folder-15		https://example.test/assets/1344
+asset-01345	txt	12	folder-0	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1345.	https://example.test/assets/1345
+asset-01346	xlsx	19	folder-1		https://example.test/assets/1346
+asset-01347	docx	26	folder-2		https://example.test/assets/1347
+asset-01348	pdf	33	folder-3		https://example.test/assets/1348
+asset-01349	pptx	40	folder-4	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1349.	https://example.test/assets/1349
+asset-01350	txt	47	folder-5		https://example.test/assets/1350
+asset-01351	xlsx	54	folder-6		https://example.test/assets/1351
+asset-01352	docx	61	folder-7		https://example.test/assets/1352
+asset-01353	pdf	68	folder-8	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1353.	https://example.test/assets/1353
+asset-01354	pptx	75	folder-9		https://example.test/assets/1354
+asset-01355	txt	1	folder-10		https://example.test/assets/1355
+asset-01356	xlsx	8	folder-11		https://example.test/assets/1356
+asset-01357	docx	15	folder-12	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1357.	https://example.test/assets/1357
+asset-01358	pdf	22	folder-13		https://example.test/assets/1358
+asset-01359	pptx	29	folder-14		https://example.test/assets/1359
+asset-01360	txt	36	folder-15		https://example.test/assets/1360
+asset-01361	xlsx	43	folder-0	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1361.	https://example.test/assets/1361
+asset-01362	docx	50	folder-1		https://example.test/assets/1362
+asset-01363	pdf	57	folder-2		https://example.test/assets/1363
+asset-01364	pptx	64	folder-3		https://example.test/assets/1364
+asset-01365	txt	71	folder-4	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1365.	https://example.test/assets/1365
+asset-01366	xlsx	78	folder-5		https://example.test/assets/1366
+asset-01367	docx	4	folder-6		https://example.test/assets/1367
+asset-01368	pdf	11	folder-7		https://example.test/assets/1368
+asset-01369	pptx	18	folder-8	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1369.	https://example.test/assets/1369
+asset-01370	txt	25	folder-9		https://example.test/assets/1370
+asset-01371	xlsx	32	folder-10		https://example.test/assets/1371
+asset-01372	docx	39	folder-11		https://example.test/assets/1372
+asset-01373	pdf	46	folder-12	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1373.	https://example.test/assets/1373
+asset-01374	pptx	53	folder-13		https://example.test/assets/1374
+asset-01375	txt	60	folder-14		https://example.test/assets/1375
+asset-01376	xlsx	67	folder-15		https://example.test/assets/1376
+asset-01377	docx	74	folder-0	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1377.	https://example.test/assets/1377
+asset-01378	pdf	0	folder-1		https://example.test/assets/1378
+asset-01379	pptx	7	folder-2		https://example.test/assets/1379
+asset-01380	txt	14	folder-3		https://example.test/assets/1380
+asset-01381	xlsx	21	folder-4	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1381.	https://example.test/assets/1381
+asset-01382	docx	28	folder-5		https://example.test/assets/1382
+asset-01383	pdf	35	folder-6		https://example.test/assets/1383
+asset-01384	pptx	42	folder-7		https://example.test/assets/1384
+asset-01385	txt	49	folder-8	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1385.	https://example.test/assets/1385
+asset-01386	xlsx	56	folder-9		https://example.test/assets/1386
+asset-01387	docx	63	folder-10		https://example.test/assets/1387
+asset-01388	pdf	70	folder-11		https://example.test/assets/1388
+asset-01389	pptx	77	folder-12	MarkItDown conversion should retain enough context to connect a note with its sheet name, heading, file path, and nearby code fragment. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1389.	https://example.test/assets/1389
+asset-01390	txt	3	folder-13		https://example.test/assets/1390
+asset-01391	xlsx	10	folder-14		https://example.test/assets/1391
+asset-01392	docx	17	folder-15		https://example.test/assets/1392
+asset-01393	pdf	24	folder-0	React Native WebView uses a native view underneath the JavaScript surface, so lifecycle timing affects both navigation and bridge delivery. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1393.	https://example.test/assets/1393
+asset-01394	pptx	31	folder-1		https://example.test/assets/1394
+asset-01395	txt	38	folder-2		https://example.test/assets/1395
+asset-01396	xlsx	45	folder-3		https://example.test/assets/1396
+asset-01397	docx	52	folder-4	Incremental indexing should treat changed and deleted files differently while preserving the original path spelling in metadata. The note includes a device-specific observation and a deliberately repeated phrase for deduplication tests. Reference item 1397.	https://example.test/assets/1397
+asset-01398	pdf	59	folder-5		https://example.test/assets/1398
+asset-01399	pptx	66	folder-6		https://example.test/assets/1399
+asset-01400	txt	73	folder-7		https://example.test/assets/1400

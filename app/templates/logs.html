@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Live Logs — DeptWise Indexer{% endblock %}
+{% block page_title %}Real-time Application Logs{% endblock %}
+
+{% block content %}
+<div class="card margin-bottom">
+    <div class="logs-toolbar">
+        <div class="form-inline">
+            <label for="log-level-filter">Level Filter:</label>
+            <select id="log-level-filter" onchange="filterLogs()">
+                <option value="">ALL</option>
+                <option value="DEBUG">DEBUG</option>
+                <option value="INFO">INFO</option>
+                <option value="WARNING">WARNING</option>
+                <option value="ERROR">ERROR</option>
+            </select>
+        </div>
+
+        <div class="button-group">
+            <button id="btn-toggle-stream" class="btn btn-secondary" onclick="toggleLogStream()">
+                ⏸️ Pause Live Tail
+            </button>
+            <button class="btn btn-secondary" onclick="clearLogConsole()">
+                🧹 Clear View
+            </button>
+            <button class="btn btn-primary" onclick="downloadLogHistory()">
+                📥 Download History
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div id="log-console" class="log-console">
+        <!-- Live SSE stream logs appended here -->
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        initLogsPage();
+    });
+</script>
+{% endblock %}

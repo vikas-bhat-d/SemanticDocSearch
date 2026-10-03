@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}File Types — DeptWise Indexer{% endblock %}
+{% block page_title %}File Extension & Chunker Config{% endblock %}
+
+{% block content %}
+<div class="card margin-bottom">
+    <h3>Add File Extension Configuration</h3>
+    <form id="add-ft-form" class="inline-form" onsubmit="event.preventDefault(); addFileType();">
+        <input type="text" id="ft-ext-input" placeholder=".xlsx" required>
+        <select id="ft-chunker-select" required>
+            <option value="excel">Excel / Tabular (excel)</option>
+            <option value="heading">Heading-Aware (heading)</option>
+            <option value="slide">Slide-Based (slide)</option>
+            <option value="generic">Generic Recursive (generic)</option>
+        </select>
+        <button type="submit" class="btn btn-primary">+ Add Extension</button>
+    </form>
+</div>
+
+<div class="card">
+    <h3>Configured File Types</h3>
+    <div class="table-responsive">
+        <table class="data-table" id="file-types-table">
+            <thead>
+                <tr>
+                    <th>Extension</th>
+                    <th>Assigned Chunker</th>
+                    <th>Enabled</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Populated by JS -->
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        loadFileTypes();
+    });
+</script>
+{% endblock %}

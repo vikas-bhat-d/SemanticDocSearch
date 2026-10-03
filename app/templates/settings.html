@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+
+{% block title %}Settings — DeptWise Indexer{% endblock %}
+{% block page_title %}System Settings & Security{% endblock %}
+
+{% block content %}
+<form id="settings-form" onsubmit="event.preventDefault(); saveSettings();">
+    <!-- Embedding Settings -->
+    <div class="card margin-bottom">
+        <h3>Embedding Model</h3>
+        <div class="alert alert-warning">
+            ⚠️ Changing the embedding model or vector dimensions requires clearing and re-indexing the Qdrant collection.
+        </div>
+        <div class="form-grid">
+            <div class="form-group">
+                <label for="embedding-model">Model Name (HuggingFace ID)</label>
+                <input type="text" id="embedding-model" required>
+            </div>
+            <div class="form-group">
+                <label for="embedding-dimensions">Dimensions</label>
+                <input type="number" id="embedding-dimensions" required>
+            </div>
+        </div>
+    </div>
+
+    <!-- Indexer Execution -->
+    <div class="card margin-bottom">
+        <h3>Indexer & Chunking Parameters</h3>
+        <div class="form-grid">
+            <div class="form-group">
+                <label for="parallel-workers">Parallel Worker Threads</label>
+                <input type="number" id="parallel-workers" min="1" max="16" required>
+            </div>
+            <div class="form-group">
+                <label for="max-file-size-mb">Max File Size (MB)</label>
+                <input type="number" id="max-file-size-mb" min="1" required>
+            </div>
+            <div class="form-group">
+                <label for="chunk-size">Chunk Size (Words/Tokens)</label>
+                <input type="number" id="chunk-size" required>
+            </div>
+            <div class="form-group">
+                <label for="chunk-overlap">Chunk Overlap (Words/Tokens)</label>
+                <input type="number" id="chunk-overlap" required>
+            </div>
+            <div class="form-group">
+                <label for="rows-per-chunk">Excel Rows Per Chunk</label>
+                <input type="number" id="rows-per-chunk" required>
+            </div>
+            <div class="form-group">
+                <label for="log-level">Log Level</label>
+                <select id="log-level">
+                    <option value="DEBUG">DEBUG</option>
+                    <option value="INFO">INFO</option>
+                    <option value="WARNING">WARNING</option>
+                    <option value="ERROR">ERROR</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!-- Vector DB & Search -->
+    <div class="card margin-bottom">
+        <h3>Qdrant Vector DB & Search Settings</h3>
+        <div class="form-grid">
+            <div class="form-group">
+                <label for="qdrant-host">Qdrant Host</label>
+                <input type="text" id="qdrant-host" required>
+            </div>
+            <div class="form-group">
+                <label for="qdrant-port">Qdrant Port</label>
+                <input type="number" id="qdrant-port" required>
+            </div>
+            <div class="form-group">
+                <label for="collection-name">Collection Name</label>
+                <input type="text" id="collection-name" required>
+            </div>
+            <div class="form-group">
+                <label for="search-top-k">Search Top-K Chunks</label>
+                <input type="number" id="search-top-k" required>
+            </div>
+            <div class="form-group">
+                <label for="search-per-page">Search Results Per Page</label>
+                <input type="number" id="search-per-page" required>
+            </div>
+            <div class="form-group">
+                <label for="search-excerpt-count">Excerpts Per File</label>
+                <input type="number" id="search-excerpt-count" required>
+            </div>
+        </div>
+    </div>
+
+    <!-- Security & Auth -->
+    <div class="card margin-bottom">
+        <h3>Authentication & API Key</h3>
+        <div class="form-grid">
+            <div class="form-group">
+                <label for="old-password">Current Admin Password</label>
+                <input type="password" id="old-password" placeholder="Leave empty to keep unchanged">
+            </div>
+            <div class="form-group">
+                <label for="new-password">New Admin Password</label>
+                <input type="password" id="new-password" placeholder="Leave empty to keep unchanged">
+            </div>
+        </div>
+
+        <div class="margin-top">
+            <label>API Key Management</label>
+            <p class="subtitle">API Key is used in X-API-Key header for background schedulers.</p>
+            {% if initial_api_key %}
+            <div class="alert alert-info">
+                Initial API Key: <code>{{ initial_api_key }}</code> (Copy now, will not be displayed again)
+            </div>
+            {% endif %}
+            <div id="new-key-display"></div>
+            <button type="button" class="btn btn-warning margin-top-sm" onclick="regenerateApiKey()">
+                🔑 Regenerate API Key
+            </button>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary btn-lg">💾 Save System Settings</button>
+</form>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        loadSettings();
+    });
+</script>
+{% endblock %}

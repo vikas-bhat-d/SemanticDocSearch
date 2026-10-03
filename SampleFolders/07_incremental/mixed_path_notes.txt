@@ -1,0 +1,7 @@
+The XML fixtures deliberately use drive-letter paths that must become UNC paths.
+
+E:\\Winman Backup\\2026-10-03\\PC135(D.)\\Desktop\\SampleFolders\\01_text\\long_research_notes.md
+E:\\Winman Backup\\2026-10-03\\PC135(D.)\\Desktop\\SampleFolders\\04_office\\Messy_WebView_Research.xlsx
+E:\\Winman Backup\\2026-10-03\\PC135(D.)\\Desktop\\SampleFolders\\02_structured\\event_archive.json
+E:\\Winman Backup\\2026-10-02\\PC135(D.)\\Desktop\\SampleFolders\\06_edge_cases\\old_fixture.txt
+E:\\Winman Backup\\2026-10-02\\PC135(D.)\\Desktop\\SampleFolders\\03_web\\removed_capture.html

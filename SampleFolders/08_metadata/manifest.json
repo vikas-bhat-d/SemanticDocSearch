@@ -1,0 +1,160 @@
+{
+  "name": "SampleFolders",
+  "generated_at": "2026-10-03T00:00:00Z",
+  "purpose": "Synthetic MarkItDown and semantic indexing stress corpus",
+  "file_count": 25,
+  "total_bytes": 4345985,
+  "manifest_excludes": "08_metadata/manifest.json",
+  "files": [
+    {
+      "relative_path": "00_reference/Original_Messy_WebView_Research.xlsx",
+      "bytes": 6620,
+      "sha256": "d0f8b5c244b4df22b908cb68da66269e328e1e84fd8813bf29405e404f11e3e9",
+      "extension": ".xlsx"
+    },
+    {
+      "relative_path": "00_reference/README.txt",
+      "bytes": 109,
+      "sha256": "cd247222e9e45034e4a5133bf67e85f9c89a7a32ab3b54506b58ee31b32b169d",
+      "extension": ".txt"
+    },
+    {
+      "relative_path": "01_text/long_research_notes.md",
+      "bytes": 140813,
+      "sha256": "f482a3f4506dbc013b4adae27c4e2d469cd38db6f3a861b2f1ab5ed05c864144",
+      "extension": ".md"
+    },
+    {
+      "relative_path": "01_text/plain_text_log.txt",
+      "bytes": 832655,
+      "sha256": "1dc05e81140df2d64a84e1ea0aa38bcd7181c15cf58afbabffdd856e86c45a4a",
+      "extension": ".txt"
+    },
+    {
+      "relative_path": "02_structured/configuration.xml",
+      "bytes": 353189,
+      "sha256": "6948e3ecb8c98f4f8131eccd8c4deb05c976a69bf4c092e2ea952ef5eb9de8fe",
+      "extension": ".xml"
+    },
+    {
+      "relative_path": "02_structured/customer_records.csv",
+      "bytes": 1055349,
+      "sha256": "89af3f6b83c689a0e6b1567c26840e665532b3a5f145f5ef3ce7233b407e5a9d",
+      "extension": ".csv"
+    },
+    {
+      "relative_path": "02_structured/event_archive.json",
+      "bytes": 1037059,
+      "sha256": "bf802934ec3715d9f547393772be015529bf24276f1a84056dad336f5aa993bf",
+      "extension": ".json"
+    },
+    {
+      "relative_path": "02_structured/inventory.tsv",
+      "bytes": 178690,
+      "sha256": "c6ad4a1ba32437de1098898337d20d92937226fa9a1804173ee3672bda36fcc0",
+      "extension": ".tsv"
+    },
+    {
+      "relative_path": "03_web/messy_web_capture.html",
+      "bytes": 77134,
+      "sha256": "478e2af38811c780f0da4dc3bcb4b2e41da3219e49ea4f4ec40f90351b1e153f",
+      "extension": ".html"
+    },
+    {
+      "relative_path": "04_office/Document_Conversion_Field_Guide.pdf",
+      "bytes": 48143,
+      "sha256": "c568429ff059884aafde58345dbd73826e2711ce917251abf75505d660a3f190",
+      "extension": ".pdf"
+    },
+    {
+      "relative_path": "04_office/Messy_WebView_Research.xlsx",
+      "bytes": 195416,
+      "sha256": "e88466933508751cda2fb7553eedbd216d4ae3f77250b552cab603c57f98f829",
+      "extension": ".xlsx"
+    },
+    {
+      "relative_path": "04_office/WebView_Indexing_Field_Guide.docx",
+      "bytes": 42748,
+      "sha256": "dcd62bff85f4ba9085fb1fb5712aaa1dea74da390f7780b5dfa09320e0824309",
+      "extension": ".docx"
+    },
+    {
+      "relative_path": "04_office/WebView_Search_Test_Deck.pptx",
+      "bytes": 31062,
+      "sha256": "5ce8706b0734e12be2d17294537ba929add1c4ba36989ed5c00b2ace8762d735",
+      "extension": ".pptx"
+    },
+    {
+      "relative_path": "05_media/conversion_flow.svg",
+      "bytes": 1018,
+      "sha256": "254b9ac9c25d4764c2058ccaa01147dcf1ed9886e7b77723b9067024c81844de",
+      "extension": ".svg"
+    },
+    {
+      "relative_path": "05_media/text_heavy.svg",
+      "bytes": 1124,
+      "sha256": "7523fcf72a1ec99d936b7327e60592590a340e6b35dd2faed5f13c75ef7156e6",
+      "extension": ".svg"
+    },
+    {
+      "relative_path": "06_edge_cases/duplicate_long_research_notes.md",
+      "bytes": 140813,
+      "sha256": "f482a3f4506dbc013b4adae27c4e2d469cd38db6f3a861b2f1ab5ed05c864144",
+      "extension": ".md"
+    },
+    {
+      "relative_path": "06_edge_cases/empty.md",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "extension": ".md"
+    },
+    {
+      "relative_path": "06_edge_cases/unicode_notes.md",
+      "bytes": 376,
+      "sha256": "f42b0c3c94a2baf3800dc8236b5b1b064e3aa756a2d358ded47c4fb681b93f8d",
+      "extension": ".md"
+    },
+    {
+      "relative_path": "06_edge_cases/unsupported_binary.bin",
+      "bytes": 200030,
+      "sha256": "7edfc1de3ff0b5d53dc5d37a50c591d366aa0023b394c5d8c5b3afbdc0d2210e",
+      "extension": ".bin"
+    },
+    {
+      "relative_path": "06_edge_cases/whitespace_only.txt",
+      "bytes": 11,
+      "sha256": "74a28496147e34ec9794a53c9d8f19ca8abf49df9b59ba068b9c20483e303eff",
+      "extension": ".txt"
+    },
+    {
+      "relative_path": "07_incremental/changed_paths.xml",
+      "bytes": 404,
+      "sha256": "5fc3aa42834d24c43949c13a717775b3c52935004f8de6d9f5926d82ff7b44d8",
+      "extension": ".xml"
+    },
+    {
+      "relative_path": "07_incremental/deleted_paths.xml",
+      "bytes": 278,
+      "sha256": "e3aad1a036c350c9dc6347463d043a9eff65b7af572c48e16d4856cb9c0e6df9",
+      "extension": ".xml"
+    },
+    {
+      "relative_path": "07_incremental/mixed_path_notes.txt",
+      "bytes": 577,
+      "sha256": "b26e69ce51648a6e3dbddbfb3fbf91ecd4c8f89e10c49560c8e61558808ce13c",
+      "extension": ".txt"
+    },
+    {
+      "relative_path": "08_metadata/expected_queries.txt",
+      "bytes": 329,
+      "sha256": "fb615221235991f1a9bbfd2cbb069064594ea3b22ca18db075995d4ce7d053cb",
+      "extension": ".txt"
+    },
+    {
+      "relative_path": "README.md",
+      "bytes": 2038,
+      "sha256": "79208cfa00bc567defcd78d93f66895327ff89b846c9e3b6cef1662a654202e5",
+      "extension": ".md"
+    }
+  ]
+}

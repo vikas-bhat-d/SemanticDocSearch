@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="420" viewBox="0 0 900 420">
+  <title>WebView conversion fixture</title>
+  <desc>A simple labeled diagram showing a source file flowing through conversion and chunking.</desc>
+  <rect x="30" y="40" width="240" height="100" fill="#d9eaf7" stroke="#17365d"/>
+  <rect x="330" y="40" width="240" height="100" fill="#e2f0d9" stroke="#375623"/>
+  <rect x="630" y="40" width="240" height="100" fill="#fce4d6" stroke="#843c0c"/>
+  <text x="150" y="96" text-anchor="middle" font-family="Arial" font-size="22">Source files</text>
+  <text x="450" y="96" text-anchor="middle" font-family="Arial" font-size="22">MarkItDown</text>
+  <text x="750" y="96" text-anchor="middle" font-family="Arial" font-size="22">Chunks</text>
+  <path d="M270 90 H330 M570 90 H630" stroke="#555" stroke-width="4"/>
+  <text x="450" y="230" text-anchor="middle" font-family="Arial" font-size="18">The SVG includes text, labels, and a description for optional image handling tests.</text>
+</svg>

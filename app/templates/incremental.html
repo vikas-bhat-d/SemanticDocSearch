@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Incremental XML — DeptWise Indexer{% endblock %}
+{% block page_title %}Incremental Change & Delete XML Input{% endblock %}
+
+{% block content %}
+<div class="card margin-bottom">
+    <h3>Incremental XML Configuration</h3>
+    <form id="xml-config-form" onsubmit="event.preventDefault(); saveXmlConfig();">
+        <div class="form-group">
+            <label for="changed-xml-path">Changed Files XML Path</label>
+            <input type="text" id="changed-xml-path" placeholder="e.g. C:\backups\changed.xml or \\server\share\changed.xml">
+        </div>
+        <div class="form-group">
+            <label for="deleted-xml-path">Deleted Files XML Path</label>
+            <input type="text" id="deleted-xml-path" placeholder="e.g. C:\backups\deleted.xml or \\server\share\deleted.xml">
+        </div>
+        <div class="button-group">
+            <button type="submit" class="btn btn-primary">💾 Save XML Paths</button>
+            <button type="button" class="btn btn-secondary" onclick="previewXml()">🔍 Preview Affected Paths</button>
+        </div>
+    </form>
+</div>
+
+<div class="card" id="preview-card" style="display: none;">
+    <h3>XML Preview (<span id="preview-count">0</span> affected paths)</h3>
+    <div class="table-responsive">
+        <table class="data-table" id="preview-table">
+            <thead>
+                <tr>
+                    <th>Source</th>
+                    <th>Type</th>
+                    <th>Converted UNC Path</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Populated by JS -->
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        loadXmlConfig();
+    });
+</script>
+{% endblock %}

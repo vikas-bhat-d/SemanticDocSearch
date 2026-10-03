@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard — DeptWise Indexer{% endblock %}
+{% block page_title %}Indexing Control Dashboard{% endblock %}
+
+{% block content %}
+<div class="dashboard-grid">
+    <!-- Main Control Card -->
+    <div class="card status-card">
+        <div class="status-header">
+            <div>
+                <h3>System Status</h3>
+                <p class="subtitle">Current indexing run state</p>
+            </div>
+            <span id="status-badge" class="badge badge-idle">IDLE</span>
+        </div>
+
+        <div class="progress-section">
+            <div class="progress-label">
+                <span>Indexing Progress</span>
+                <span id="progress-percentage">0%</span>
+            </div>
+            <div class="progress-bar-bg">
+                <div id="progress-bar-fill" class="progress-bar-fill" style="width: 0%;"></div>
+            </div>
+            <div class="progress-subtext">
+                <span id="indexed-count">0</span> / <span id="total-count">0</span> files processed
+            </div>
+        </div>
+
+        <div class="action-buttons">
+            <button id="btn-start-index" class="btn btn-success" onclick="startIndexing()">
+                ▶ Start Indexing
+            </button>
+            <button id="btn-stop-index" class="btn btn-danger" onclick="stopIndexing()" disabled>
+                ⏹ Stop Indexing
+            </button>
+        </div>
+    </div>
+
+    <!-- Live Counter Cards -->
+    <div class="stats-grid">
+        <div class="card stat-box stat-indexed">
+            <div class="stat-icon">✅</div>
+            <div class="stat-content">
+                <span class="stat-number" id="stat-indexed">0</span>
+                <span class="stat-label">Indexed Files</span>
+            </div>
+        </div>
+
+        <div class="card stat-box stat-skipped">
+            <div class="stat-icon">⏭️</div>
+            <div class="stat-content">
+                <span class="stat-number" id="stat-skipped">0</span>
+                <span class="stat-label">Skipped Files</span>
+            </div>
+        </div>
+
+        <div class="card stat-box stat-failed">
+            <div class="stat-icon">❌</div>
+            <div class="stat-content">
+                <span class="stat-number" id="stat-failed">0</span>
+                <span class="stat-label">Failed Files</span>
+            </div>
+        </div>
+
+        <div class="card stat-box stat-deleted">
+            <div class="stat-icon">🗑️</div>
+            <div class="stat-content">
+                <span class="stat-number" id="stat-deleted">0</span>
+                <span class="stat-label">Deleted Files (XML)</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Run History -->
+<div class="card margin-top">
+    <h3>Recent Index Runs</h3>
+    <div class="table-responsive">
+        <table class="data-table" id="recent-runs-table">
+            <thead>
+                <tr>
+                    <th>Run ID</th>
+                    <th>Status</th>
+                    <th>Started At</th>
+                    <th>Stopped At</th>
+                    <th>Total</th>
+                    <th>Indexed</th>
+                    <th>Skipped</th>
+                    <th>Failed</th>
+                    <th>Deleted</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Populated by JS -->
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        initDashboard();
+    });
+</script>
+{% endblock %}

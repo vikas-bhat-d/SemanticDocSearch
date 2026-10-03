@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}DeptWise Indexer{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/app.css">
+</head>
+<body>
+    <div class="app-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="brand">
+                <div class="brand-icon">⚡</div>
+                <div class="brand-text">
+                    <h2>DeptWise</h2>
+                    <span>Indexer & Search</span>
+                </div>
+            </div>
+
+            <nav class="nav-menu">
+                <a href="/" class="nav-item {% if active_page == 'dashboard' %}active{% endif %}">
+                    <span class="icon">📊</span> Dashboard
+                </a>
+                <a href="/folders" class="nav-item {% if active_page == 'folders' %}active{% endif %}">
+                    <span class="icon">📁</span> Index Folders
+                </a>
+                <a href="/file-types" class="nav-item {% if active_page == 'file_types' %}active{% endif %}">
+                    <span class="icon">⚙️</span> File Types
+                </a>
+                <a href="/exclusions" class="nav-item {% if active_page == 'exclusions' %}active{% endif %}">
+                    <span class="icon">🚫</span> Exclusions
+                </a>
+                <a href="/departments" class="nav-item {% if active_page == 'departments' %}active{% endif %}">
+                    <span class="icon">🏢</span> Departments
+                </a>
+                <a href="/doc-types" class="nav-item {% if active_page == 'doctypes' %}active{% endif %}">
+                    <span class="icon">📄</span> Doc Types
+                </a>
+                <a href="/synonyms" class="nav-item {% if active_page == 'synonyms' %}active{% endif %}">
+                    <span class="icon">🔤</span> Synonyms
+                </a>
+                <a href="/incremental" class="nav-item {% if active_page == 'incremental' %}active{% endif %}">
+                    <span class="icon">🔄</span> Incremental XML
+                </a>
+                <a href="/settings" class="nav-item {% if active_page == 'settings' %}active{% endif %}">
+                    <span class="icon">🛠️</span> Settings
+                </a>
+                <a href="/logs" class="nav-item {% if active_page == 'logs' %}active{% endif %}">
+                    <span class="icon">📜</span> Live Logs
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <form action="/api/auth/logout" method="POST">
+                    <button type="submit" class="logout-btn">
+                        <span>🚪</span> Logout
+                    </button>
+                </form>
+            </div>
+        </aside>
+
+        <!-- Main Content Wrapper -->
+        <main class="main-content">
+            <header class="top-header">
+                <h1 class="page-title">{% block page_title %}Dashboard{% endblock %}</h1>
+                <div class="user-badge">
+                    <span class="dot online"></span> Admin
+                </div>
+            </header>
+
+            <div class="content-body">
+                {% block content %}{% endblock %}
+            </div>
+        </main>
+    </div>
+
+    <script src="/static/js/app.js"></script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>
