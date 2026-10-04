@@ -40,18 +40,7 @@ def _unique_roots(folder_paths: Iterable[str]) -> List[str]:
     return roots
 
 
-def walk_folders_stream(
-    db: Session,
-    stop_event: Optional[threading.Event] = None,
-    changed_paths: Optional[Set[str]] = None,
-    deleted_paths: Optional[Set[str]] = None,
-) -> Generator[Dict[str, Any], None, None]:
-    """Yield filesystem candidates lazily without making Qdrant requests."""
-    stop_event = stop_event or threading.Event()
-    changed = {canonical_file_path(p) for p in (changed_paths or set())}
-    deleted = {canonical_file_path(p) for p in (deleted_paths or set())}
-
-    folders = _unique_roots(row.path for row in db.query(IndexFolder).all())
+def _load_traversal_rules(db: Session):
     exclusions = db.query(ExcludedPath).all()
     path_exclusions = [e.value for e in exclusions if e.type == "path"]
     ext_exclusions = [e.value for e in exclusions if e.type == "extension"]
@@ -59,6 +48,114 @@ def walk_folders_stream(
         row.extension.lower(): row.chunker
         for row in db.query(FileTypeConfig).filter_by(enabled=1).all()
     }
+    return path_exclusions, ext_exclusions, enabled_exts
+
+
+def _build_file_item(
+    file_path: str,
+    path_exclusions: List[str],
+    ext_exclusions: List[str],
+    enabled_exts: Dict[str, str],
+    changed_paths: Set[str],
+    require_exists: bool = False,
+) -> Dict[str, Any]:
+    file_path = normalize_file_path(file_path)
+    canonical_path = canonical_file_path(file_path)
+    file_name = os.path.basename(file_path)
+
+    if require_exists and not os.path.isfile(file_path):
+        return {
+            "file_path": file_path,
+            "canonical_path": canonical_path,
+            "status": "skipped",
+            "reason": "Changed file does not exist",
+        }
+    if is_path_excluded(file_path, path_exclusions):
+        return {
+            "file_path": file_path,
+            "canonical_path": canonical_path,
+            "status": "skipped",
+            "reason": "Excluded path",
+        }
+
+    ext = os.path.splitext(file_name)[1].lower()
+    if is_ext_excluded(ext, ext_exclusions):
+        return {
+            "file_path": file_path,
+            "canonical_path": canonical_path,
+            "status": "skipped",
+            "reason": "Excluded extension",
+        }
+    if ext not in enabled_exts or not enabled_exts[ext]:
+        return {
+            "file_path": file_path,
+            "canonical_path": canonical_path,
+            "status": "skipped",
+            "reason": "Unsupported or disabled extension",
+        }
+
+    return {
+        "file_path": file_path,
+        "canonical_path": canonical_path,
+        "file_name": file_name,
+        "extension": ext,
+        "force_reindex": canonical_path in changed_paths,
+        "status": "pending",
+    }
+
+
+def iter_incremental_file_items(
+    db: Session,
+    changed_paths: Dict[str, str],
+    deleted_paths: Optional[Set[str]] = None,
+    stop_event: Optional[threading.Event] = None,
+) -> Generator[Dict[str, Any], None, None]:
+    """Yield changed XML files directly, without walking their parent folders."""
+    stop_event = stop_event or threading.Event()
+    deleted = {canonical_file_path(p) for p in (deleted_paths or set())}
+    normalized_paths = {
+        canonical_file_path(path): normalize_file_path(path)
+        for path in changed_paths.values()
+    }
+    changed_keys = set(normalized_paths) - deleted
+    path_exclusions, ext_exclusions, enabled_exts = _load_traversal_rules(db)
+    db.rollback()
+
+    for canonical_path in sorted(changed_keys):
+        if stop_event.is_set():
+            return
+        file_path = normalized_paths[canonical_path]
+        yield _build_file_item(
+            file_path,
+            path_exclusions,
+            ext_exclusions,
+            enabled_exts,
+            changed_keys,
+            require_exists=True,
+        )
+
+
+def walk_folders_stream(
+    db: Session,
+    stop_event: Optional[threading.Event] = None,
+    changed_paths: Optional[Set[str]] = None,
+    deleted_paths: Optional[Set[str]] = None,
+    folder_paths: Optional[Iterable[str]] = None,
+) -> Generator[Dict[str, Any], None, None]:
+    """Yield filesystem candidates lazily without making Qdrant requests."""
+    stop_event = stop_event or threading.Event()
+    changed = {canonical_file_path(p) for p in (changed_paths or set())}
+    deleted = {canonical_file_path(p) for p in (deleted_paths or set())}
+
+    if folder_paths is None:
+        folder_paths = (
+            row.path
+            for row in db.query(IndexFolder)
+            .filter(IndexFolder.status.in_(("pending", "failed", "stopped")))
+            .all()
+        )
+    folders = _unique_roots(folder_paths)
+    path_exclusions, ext_exclusions, enabled_exts = _load_traversal_rules(db)
     # The generator may walk a large tree for a long time.  End the read
     # transaction before yielding files so progress writes are not blocked.
     db.rollback()
@@ -86,40 +183,13 @@ def walk_folders_stream(
                 if canonical_path in deleted:
                     continue
 
-                ext = os.path.splitext(file_name)[1].lower()
-                if is_path_excluded(file_path, path_exclusions):
-                    yield {
-                        "file_path": file_path,
-                        "canonical_path": canonical_path,
-                        "status": "skipped",
-                        "reason": "Excluded path",
-                    }
-                    continue
-                if is_ext_excluded(ext, ext_exclusions):
-                    yield {
-                        "file_path": file_path,
-                        "canonical_path": canonical_path,
-                        "status": "skipped",
-                        "reason": "Excluded extension",
-                    }
-                    continue
-                if ext not in enabled_exts or not enabled_exts[ext]:
-                    yield {
-                        "file_path": file_path,
-                        "canonical_path": canonical_path,
-                        "status": "skipped",
-                        "reason": "Unsupported or disabled extension",
-                    }
-                    continue
-
-                yield {
-                    "file_path": file_path,
-                    "canonical_path": canonical_path,
-                    "file_name": file_name,
-                    "extension": ext,
-                    "force_reindex": canonical_path in changed,
-                    "status": "pending",
-                }
+                yield _build_file_item(
+                    file_path,
+                    path_exclusions,
+                    ext_exclusions,
+                    enabled_exts,
+                    changed,
+                )
 
 
 def walk_folders(

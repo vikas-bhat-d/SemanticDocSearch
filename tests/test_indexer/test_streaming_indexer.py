@@ -1,3 +1,4 @@
+import queue
 import threading
 import time
 from types import SimpleNamespace
@@ -150,6 +151,60 @@ def test_traverser_is_lazy_and_honors_changed_deleted_paths(db_session, tmp_path
     assert pending[canonical_file_path(str(ordinary))]["force_reindex"] is False
 
 
+def test_traverser_does_not_walk_completed_folders(db_session, tmp_path):
+    root = tmp_path / "completed"
+    root.mkdir()
+    (root / "already-indexed.txt").write_text("content", encoding="utf-8")
+    db_session.add(IndexFolder(path=str(root), status="completed"))
+    db_session.commit()
+
+    assert list(walk_folders_stream(db_session)) == []
+
+
+def test_producer_processes_xml_file_without_scanning_completed_folder(
+    monkeypatch, db_session, tmp_path
+):
+    import app.indexer.runner as runner_module
+
+    root = tmp_path / "completed"
+    root.mkdir()
+    changed = root / "new.txt"
+    changed.write_text("content", encoding="utf-8")
+    db_session.add(IndexFolder(path=str(root), status="completed"))
+    run = IndexRun(status="running")
+    db_session.add(run)
+    db_session.commit()
+
+    factory = sessionmaker(bind=db_session.bind, autoflush=False, autocommit=False)
+    monkeypatch.setattr(runner_module, "SessionLocal", factory)
+    config = SimpleNamespace(
+        queue_put_timeout_seconds=0.01,
+        counter_flush_interval=1,
+    )
+    runner = IndexerRunner()
+    file_queue = queue.Queue()
+    changed_key = canonical_file_path(str(changed))
+
+    runner._producer(
+        run.id,
+        factory,
+        file_queue,
+        set(),
+        set(),
+        config,
+        folder_paths=set(),
+        changed_file_paths={changed_key: str(changed)},
+    )
+
+    item = file_queue.get_nowait()
+    assert item["file_path"] == str(changed)
+    assert item["force_reindex"] is True
+    db_session.expire_all()
+    refreshed = db_session.get(IndexRun, run.id)
+    assert refreshed.discovered_files == 1
+    assert refreshed.discovery_complete is True
+
+
 def test_reclassify_scrolls_all_pages():
     class Client:
         def __init__(self):
@@ -244,6 +299,8 @@ def test_runner_processes_bounded_batches(monkeypatch, db_session, tmp_path):
     db_session.expire_all()
     refreshed = db_session.get(IndexRun, run.id)
     assert refreshed.status == "completed"
+    db_session.refresh(db_session.query(IndexFolder).first())
+    assert db_session.query(IndexFolder).first().status == "completed"
     assert refreshed.discovered_files == 1
     assert refreshed.processed_files == 1
     assert max(qdrant.upsert_sizes) <= 1
@@ -321,5 +378,6 @@ def test_runner_marks_run_failed_when_file_processing_fails(monkeypatch, db_sess
     db_session.expire_all()
     refreshed = db_session.get(IndexRun, run.id)
     assert refreshed.status == "failed"
+    assert db_session.query(IndexFolder).first().status == "failed"
     assert refreshed.failed_files == 1
     assert refreshed.processed_files == 1

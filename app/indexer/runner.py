@@ -5,6 +5,7 @@ import time
 import uuid
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
+from itertools import chain
 from typing import Any, Dict, Optional, Set
 
 from sqlalchemy.orm import Session
@@ -29,10 +30,10 @@ from app.indexer.qdrant_ops import (
     iter_point_batches,
     upsert_point_batch,
 )
-from app.indexer.traverser import walk_folders_stream
+from app.indexer.traverser import iter_incremental_file_items, walk_folders_stream
 from app.indexer.xml_parser import parse_incremental_inputs
 from app.logger import get_logger
-from app.models import IncrementalXmlConfig, IndexRun, IndexRunFile
+from app.models import IndexFolder, IncrementalXmlConfig, IndexRun, IndexRunFile
 
 
 def _pending_files_from_previous_stopped_run(db: Session, run_id: int):
@@ -76,6 +77,7 @@ class CounterBatch:
 
 class IndexerRunner:
     DETAIL_ROW_LIMIT = 250
+    SCAN_FOLDER_STATUSES = ("pending", "failed", "stopped")
 
     def __init__(self):
         self.stop_event = threading.Event()
@@ -112,10 +114,15 @@ class IndexerRunner:
         """Mark runs whose lease expired while the process was unavailable."""
         now = now or datetime.utcnow()
         with db_write_lock:
-            db.query(IndexRun).filter(
+            expired_runs = db.query(IndexRun.id).filter(
                 IndexRun.status == "running",
                 IndexRun.lease_expires_at.isnot(None),
                 IndexRun.lease_expires_at < now,
+            ).all()
+            if not expired_runs:
+                return
+            db.query(IndexRun).filter(
+                IndexRun.id.in_([run_id for (run_id,) in expired_runs]),
             ).update(
                 {
                     "status": "failed",
@@ -125,7 +132,87 @@ class IndexerRunner:
                 },
                 synchronize_session=False,
             )
+            db.query(IndexFolder).filter(
+                IndexFolder.status == "indexing",
+            ).update(
+                {
+                    "status": "failed",
+                    "updated_at": now,
+                },
+                synchronize_session=False,
+            )
             db.commit()
+
+    def _reconcile_legacy_folder_statuses(
+        self,
+        db: Session,
+        now: Optional[datetime] = None,
+    ):
+        """Backfill completion for folders scanned before folder statuses were maintained."""
+        successful_full_runs = (
+            db.query(IndexRun)
+            .filter(
+                IndexRun.status == "completed",
+                IndexRun.stopped_at.isnot(None),
+            )
+            .order_by(IndexRun.id.desc())
+            .all()
+        )
+        latest_full_run = next(
+            (
+                run
+                for run in successful_full_runs
+                if not run.changed_xml_path and not run.deleted_xml_path
+            ),
+            None,
+        )
+        if not latest_full_run or not latest_full_run.stopped_at:
+            return
+
+        db.query(IndexFolder).filter(
+            IndexFolder.status == "pending",
+            IndexFolder.created_at <= latest_full_run.stopped_at,
+        ).update(
+            {
+                "status": "completed",
+                "updated_at": now or datetime.utcnow(),
+            },
+            synchronize_session=False,
+        )
+
+    def _set_folder_statuses(
+        self,
+        db: Session,
+        folder_ids: Set[int],
+        status: str,
+        now: Optional[datetime] = None,
+    ):
+        if not folder_ids:
+            return
+        db.query(IndexFolder).filter(
+            IndexFolder.id.in_(folder_ids),
+        ).update(
+            {
+                "status": status,
+                "updated_at": now or datetime.utcnow(),
+            },
+            synchronize_session=False,
+        )
+
+    def _finalize_folder_statuses(
+        self,
+        db: Session,
+        folder_ids: Set[int],
+        run_status: str,
+        now: datetime,
+    ):
+        folder_status = {
+            "completed": "completed",
+            "stopped": "stopped",
+            "failed": "failed",
+        }.get(run_status)
+        if folder_status:
+            self._set_folder_statuses(db, folder_ids, folder_status, now)
 
     def get_status(self, db: Session) -> Dict[str, Any]:
         self._reconcile_abandoned_runs(db)
@@ -185,6 +272,7 @@ class IndexerRunner:
                 config = get_config(db)
                 now = datetime.utcnow()
                 self._reconcile_abandoned_runs(db, now)
+                self._reconcile_legacy_folder_statuses(db, now)
                 # A null lease is treated as active for backward compatibility
                 # with rows created before lease metadata existed.
                 active_run = db.query(IndexRun).filter(
@@ -388,6 +476,8 @@ class IndexerRunner:
         changed_paths: Set[str],
         deleted_paths: Set[str],
         config: Any = None,
+        folder_paths: Optional[Set[str]] = None,
+        changed_file_paths: Optional[Dict[str, str]] = None,
     ):
         db = None
         log = get_logger(run_id=run_id)
@@ -396,9 +486,30 @@ class IndexerRunner:
         try:
             db = db_factory()
             config = config or get_config(db)
-            for item in walk_folders_stream(db, self.stop_event, changed_paths, deleted_paths):
+            candidates = walk_folders_stream(
+                db,
+                self.stop_event,
+                changed_paths,
+                deleted_paths,
+                folder_paths=folder_paths,
+            )
+            if changed_file_paths:
+                incremental_items = iter_incremental_file_items(
+                    db,
+                    changed_file_paths,
+                    deleted_paths,
+                    self.stop_event,
+                )
+                candidates = chain(candidates, incremental_items)
+
+            seen_paths = set()
+            for item in candidates:
                 if self.stop_event.is_set():
                     break
+                canonical_path = item.get("canonical_path")
+                if canonical_path in seen_paths:
+                    continue
+                seen_paths.add(canonical_path)
                 counts.add(discovered=1)
                 if item.get("status") == "skipped":
                     counts.add(skipped=1, processed=1)
@@ -691,6 +802,7 @@ class IndexerRunner:
         producer,
         consumers,
         qdrant: Any,
+        folder_ids: Optional[Set[int]] = None,
         file_queue: Optional[queue.Queue] = None,
         put_timeout: float = 0.25,
     ):
@@ -713,7 +825,14 @@ class IndexerRunner:
                             run.status = "stopped"
                         else:
                             run.status = "completed"
-                        run.stopped_at = datetime.utcnow()
+                        stopped_at = datetime.utcnow()
+                        run.stopped_at = stopped_at
+                        self._finalize_folder_statuses(
+                            db,
+                            folder_ids or set(),
+                            run.status,
+                            stopped_at,
+                        )
                         db.commit()
             finally:
                 db.close()
@@ -736,6 +855,9 @@ class IndexerRunner:
         producer = None
         consumers = []
         qdrant = None
+        scan_folder_ids: Set[int] = set()
+        scan_folder_paths: Set[str] = set()
+        threads_alive = False
         try:
             config = get_config(db)
             log.info(
@@ -746,10 +868,24 @@ class IndexerRunner:
                 config.embedding_batch_size,
                 config.qdrant_upsert_batch_size,
             )
+            scan_folders = (
+                db.query(IndexFolder)
+                .filter(IndexFolder.status.in_(self.SCAN_FOLDER_STATUSES))
+                .all()
+            )
+            scan_folder_ids = {folder.id for folder in scan_folders}
+            scan_folder_paths = {folder.path for folder in scan_folders}
+            self._set_folder_statuses(db, scan_folder_ids, "indexing")
+            db.commit()
+
             qdrant = get_qdrant_client(host=config.qdrant_host, port=config.qdrant_port)
             ensure_collection(qdrant, config.collection_name, config.embedding_dimensions)
 
             changed_paths, deleted_paths, xml_paths = parse_incremental_inputs(changed_xml, deleted_xml)
+            changed_file_paths = {
+                key: xml_paths[key]
+                for key in changed_paths
+            }
             # Changed paths are replacements too; deleted paths win conflicts.
             paths_to_delete = deleted_paths | changed_paths
             deleted_count = 0
@@ -778,7 +914,16 @@ class IndexerRunner:
             )
             producer = threading.Thread(
                 target=self._producer,
-                args=(run_id, SessionLocal, file_queue, changed_paths, deleted_paths, config),
+                args=(
+                    run_id,
+                    SessionLocal,
+                    file_queue,
+                    changed_paths,
+                    deleted_paths,
+                    config,
+                    scan_folder_paths,
+                    changed_file_paths,
+                ),
                 daemon=True,
                 name=f"index-producer-{run_id}",
             )
@@ -827,7 +972,14 @@ class IndexerRunner:
                         run.status = "stopped"
                     else:
                         run.status = "completed"
-                    run.stopped_at = datetime.utcnow()
+                    stopped_at = datetime.utcnow()
+                    run.stopped_at = stopped_at
+                    self._finalize_folder_statuses(
+                        db,
+                        scan_folder_ids,
+                        run.status,
+                        stopped_at,
+                    )
                     db.commit()
                 elif run:
                     # Keep the row non-terminal while a thread could still write.
@@ -835,6 +987,7 @@ class IndexerRunner:
                     db.commit()
                     self._start_reaper(
                         run_id, producer, consumers, qdrant,
+                        folder_ids=scan_folder_ids,
                         file_queue=file_queue if producer.is_alive() else None,
                         put_timeout=config.queue_put_timeout_seconds,
                     )
@@ -847,11 +1000,19 @@ class IndexerRunner:
                 run = db.get(IndexRun, run_id)
                 if run and not any(thread.is_alive() for thread in all_threads):
                     run.status = "failed"
-                    run.stopped_at = datetime.utcnow()
+                    stopped_at = datetime.utcnow()
+                    run.stopped_at = stopped_at
+                    self._finalize_folder_statuses(
+                        db,
+                        scan_folder_ids,
+                        run.status,
+                        stopped_at,
+                    )
                     db.commit()
                 elif run:
                     self._start_reaper(
                         run_id, producer, consumers, qdrant,
+                        folder_ids=scan_folder_ids,
                         file_queue=file_queue if "file_queue" in locals() and producer.is_alive() else None,
                         put_timeout=(config.queue_put_timeout_seconds if "config" in locals() else 0.25),
                     )

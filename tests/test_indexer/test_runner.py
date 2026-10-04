@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 
 from app.indexer.runner import indexer_runner, _pending_files_from_previous_stopped_run
-from app.models import IndexRun, IndexRunFile
+from app.models import IndexFolder, IndexRun, IndexRunFile
 
 
 def test_indexer_runner_idle_status(db_session):
@@ -16,6 +16,8 @@ def test_status_reconciles_expired_running_run(db_session):
         lease_expires_at=datetime.utcnow() - timedelta(seconds=1),
     )
     db_session.add(run)
+    folder = IndexFolder(path=r"C:\docs", status="indexing")
+    db_session.add(folder)
     db_session.commit()
     db_session.refresh(run)
 
@@ -29,6 +31,30 @@ def test_status_reconciles_expired_running_run(db_session):
     assert run.stopped_at is not None
     assert run.lease_owner is None
     assert run.lease_expires_at is None
+    db_session.refresh(folder)
+    assert folder.status == "failed"
+
+
+def test_legacy_pending_folder_is_backfilled_after_successful_full_run(db_session):
+    folder = IndexFolder(
+        path=r"C:\docs",
+        status="pending",
+        created_at=datetime.utcnow() - timedelta(hours=1),
+    )
+    db_session.add(folder)
+    db_session.add(IndexRun(
+        status="completed",
+        stopped_at=datetime.utcnow(),
+        changed_xml_path="",
+        deleted_xml_path="",
+    ))
+    db_session.commit()
+
+    runner = type(indexer_runner)()
+    runner._reconcile_legacy_folder_statuses(db_session)
+
+    db_session.refresh(folder)
+    assert folder.status == "completed"
 
 
 def test_resume_uses_only_immediately_previous_stopped_run(db_session):
