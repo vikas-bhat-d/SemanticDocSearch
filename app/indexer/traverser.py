@@ -51,12 +51,30 @@ def _load_traversal_rules(db: Session):
     return path_exclusions, ext_exclusions, enabled_exts
 
 
+def _load_configured_roots(db: Session) -> List[str]:
+    return [
+        normalize_file_path(path)
+        for (path,) in db.query(IndexFolder.path).all()
+        if path
+    ]
+
+
+def get_index_roots(db: Session, file_path: str) -> List[str]:
+    normalized = normalize_file_path(file_path)
+    return sorted({
+        root
+        for root in _load_configured_roots(db)
+        if path_is_within(normalized, root)
+    })
+
+
 def _build_file_item(
     file_path: str,
     path_exclusions: List[str],
     ext_exclusions: List[str],
     enabled_exts: Dict[str, str],
     changed_paths: Set[str],
+    index_roots: List[str],
     require_exists: bool = False,
 ) -> Dict[str, Any]:
     file_path = normalize_file_path(file_path)
@@ -99,6 +117,7 @@ def _build_file_item(
         "canonical_path": canonical_path,
         "file_name": file_name,
         "extension": ext,
+        "index_roots": index_roots,
         "force_reindex": canonical_path in changed_paths,
         "status": "pending",
     }
@@ -119,6 +138,7 @@ def iter_incremental_file_items(
     }
     changed_keys = set(normalized_paths) - deleted
     path_exclusions, ext_exclusions, enabled_exts = _load_traversal_rules(db)
+    configured_roots = _load_configured_roots(db)
     db.rollback()
 
     for canonical_path in sorted(changed_keys):
@@ -131,6 +151,10 @@ def iter_incremental_file_items(
             ext_exclusions,
             enabled_exts,
             changed_keys,
+            [
+                root for root in configured_roots
+                if path_is_within(file_path, root)
+            ],
             require_exists=True,
         )
 
@@ -156,6 +180,7 @@ def walk_folders_stream(
         )
     folders = _unique_roots(folder_paths)
     path_exclusions, ext_exclusions, enabled_exts = _load_traversal_rules(db)
+    configured_roots = _load_configured_roots(db)
     # The generator may walk a large tree for a long time.  End the read
     # transaction before yielding files so progress writes are not blocked.
     db.rollback()
@@ -189,6 +214,10 @@ def walk_folders_stream(
                     ext_exclusions,
                     enabled_exts,
                     changed,
+                    [
+                        configured_root for configured_root in configured_roots
+                        if path_is_within(file_path, configured_root)
+                    ],
                 )
 
 

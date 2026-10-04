@@ -1,5 +1,10 @@
 from app.models import IndexFolder, ExcludedPath, FileTypeConfig
-from app.indexer.traverser import walk_folders, is_path_excluded, is_ext_excluded
+from app.indexer.traverser import (
+    get_index_roots,
+    walk_folders,
+    is_path_excluded,
+    is_ext_excluded,
+)
 
 
 def test_is_path_excluded():
@@ -18,3 +23,17 @@ def test_is_ext_excluded():
 def test_walk_folders_empty(db_session):
     items = list(walk_folders(db_session))
     assert items == []
+
+
+def test_get_index_roots_returns_all_containing_configured_folders(db_session):
+    db_session.add_all([
+        IndexFolder(path=r"C:\Docs", status="completed"),
+        IndexFolder(path=r"C:\Docs\Team", status="completed"),
+        IndexFolder(path=r"C:\Docs2", status="completed"),
+    ])
+    db_session.commit()
+
+    assert get_index_roots(db_session, r"C:\Docs\Team\policy.pdf") == [
+        r"C:\Docs",
+        r"C:\Docs\Team",
+    ]

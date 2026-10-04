@@ -170,12 +170,13 @@ async function loadFolders() {
 
         folders.forEach(f => {
             const tr = document.createElement('tr');
+            tr.dataset.folderId = f.id;
             tr.innerHTML = `
                 <td>#${f.id}</td>
-                <td><code>${f.path}</code></td>
+                <td><code>${escapeHtml(f.path)}</code></td>
                 <td><span class="badge badge-idle">${f.status}</span></td>
                 <td>${f.updated_at ? new Date(f.updated_at).toLocaleString() : '-'}</td>
-                <td><button class="btn btn-danger" onclick="deleteFolder(${f.id})">Delete</button></td>
+                <td><button class="btn btn-danger" data-folder-delete="${f.id}" onclick="deleteFolder(${f.id})">Delete</button></td>
             `;
             tbody.appendChild(tr);
         });
@@ -196,15 +197,142 @@ async function addFolder() {
     }
 }
 
+let folderDeleteTimer = null;
+let folderDeleteStartedAt = null;
+
+function setFolderDeleteControlsDisabled(disabled) {
+    document.querySelectorAll('#folders-table button[data-folder-delete], #add-folder-form input, #add-folder-form button')
+        .forEach(element => {
+            element.disabled = disabled;
+        });
+}
+
+function updateFolderDeleteElapsed() {
+    const elapsed = document.getElementById('folder-delete-elapsed');
+    if (!elapsed || !folderDeleteStartedAt) return;
+    const seconds = Math.max(0, Math.floor((Date.now() - folderDeleteStartedAt) / 1000));
+    elapsed.textContent = `Elapsed: ${seconds}s`;
+}
+
+function setFolderDeleteStep(step, state) {
+    const element = document.querySelector(`[data-delete-step="${step}"]`);
+    if (element) element.dataset.state = state;
+}
+
+function showFolderDeleteProgress(path) {
+    const overlay = document.getElementById('folder-delete-overlay');
+    const dialog = overlay?.querySelector('.operation-dialog');
+    if (!overlay || !dialog) return;
+
+    folderDeleteStartedAt = Date.now();
+    updateFolderDeleteElapsed();
+    folderDeleteTimer = window.setInterval(updateFolderDeleteElapsed, 1000);
+    overlay.hidden = false;
+    overlay.setAttribute('aria-hidden', 'false');
+    dialog.dataset.state = 'running';
+    document.getElementById('folder-delete-title').textContent = 'Deleting folder';
+    document.getElementById('folder-delete-path').textContent = path;
+    document.getElementById('folder-delete-message').textContent =
+        'The server is removing every matching Qdrant point before deleting the folder configuration. Do not close this page.';
+    document.getElementById('folder-delete-close').hidden = true;
+    setFolderDeleteStep('verify', 'complete');
+    setFolderDeleteStep('qdrant', 'active');
+    setFolderDeleteStep('folder', 'pending');
+    setFolderDeleteControlsDisabled(true);
+}
+
+function updateFolderDeleteProgress(state, message) {
+    const overlay = document.getElementById('folder-delete-overlay');
+    const dialog = overlay?.querySelector('.operation-dialog');
+    if (!dialog) return;
+    dialog.dataset.state = state;
+    document.getElementById('folder-delete-message').textContent = message;
+}
+
+function closeFolderDeleteProgress() {
+    const overlay = document.getElementById('folder-delete-overlay');
+    if (folderDeleteTimer) {
+        window.clearInterval(folderDeleteTimer);
+        folderDeleteTimer = null;
+    }
+    folderDeleteStartedAt = null;
+    if (overlay) {
+        overlay.hidden = true;
+        overlay.setAttribute('aria-hidden', 'true');
+    }
+    setFolderDeleteControlsDisabled(false);
+}
+
+function showFolderDeleteError(message) {
+    const closeButton = document.getElementById('folder-delete-close');
+    updateFolderDeleteProgress('error', message);
+    setFolderDeleteStep('qdrant', 'error');
+    setFolderDeleteStep('folder', 'pending');
+    if (closeButton) closeButton.hidden = false;
+}
+
 async function deleteFolder(id) {
-    if (!confirm('Remove this folder from indexing?')) return;
+    if (!confirm('This will remove the folder and all of its Qdrant points. Continue?')) return;
+    const row = document.querySelector(`#folders-table tr[data-folder-id="${id}"]`);
+    const deleteButton = row?.querySelector('[data-folder-delete]');
+    const folderPath = row?.querySelector('td:nth-child(2)')?.textContent?.trim() || `folder #${id}`;
     try {
-        await apiRequest(`/api/config/folders/${id}`, { method: 'DELETE' });
-        loadFolders();
+        if (deleteButton) {
+            deleteButton.disabled = true;
+            deleteButton.textContent = 'Preparing...';
+        }
+        const challenge = await apiRequest(`/api/config/folders/${id}/delete-challenge`, { method: 'POST' });
+        const code = window.prompt(
+            `Enter the six-digit verification code to permanently delete this folder:\n\n${challenge.code}`,
+            ''
+        );
+        if (code === null) {
+            if (deleteButton) {
+                deleteButton.disabled = false;
+                deleteButton.textContent = 'Delete';
+            }
+            return;
+        }
+        if (!/^\d{6}$/.test(code.trim())) {
+            throw new Error('Enter the six-digit verification code exactly as shown.');
+        }
+        showFolderDeleteProgress(folderPath);
+        const result = await apiRequest(`/api/config/folders/${id}`, {
+            method: 'DELETE',
+            body: {
+                challenge_id: challenge.challenge_id,
+                code: code.trim()
+            }
+        });
+        const legacyDeleted = result.qdrant_deletion?.legacy_points_deleted || 0;
+        const mode = result.qdrant_deletion?.mode || 'filter';
+        setFolderDeleteStep('qdrant', 'complete');
+        setFolderDeleteStep('folder', 'complete');
+        updateFolderDeleteProgress(
+            'success',
+            `Deletion complete. Qdrant cleanup: ${mode}; legacy points removed: ${legacyDeleted}.`
+        );
+        document.getElementById('folder-delete-title').textContent = 'Folder deleted';
+        await new Promise(resolve => window.setTimeout(resolve, 900));
+        closeFolderDeleteProgress();
+        await loadFolders();
     } catch (err) {
-        alert(err.message);
+        const overlay = document.getElementById('folder-delete-overlay');
+        if (overlay && !overlay.hidden) {
+            showFolderDeleteError(err.message);
+        } else {
+            alert(err.message);
+            if (deleteButton) {
+                deleteButton.disabled = false;
+                deleteButton.textContent = 'Delete';
+            }
+        }
     }
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('folder-delete-close')?.addEventListener('click', closeFolderDeleteProgress);
+});
 
 // --- EXCLUSIONS ---
 async function loadExclusions() {

@@ -488,6 +488,197 @@ input:focus, select:focus, textarea:focus {
 
 .btn-full { width: 100%; }
 .btn-lg { padding: 0.85rem 1.75rem; font-size: 1rem; }
+
+/* Destructive operation feedback */
+.operation-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    background: rgb(15 23 42 / 0.64);
+}
+
+.operation-overlay[hidden],
+#folder-delete-close[hidden] {
+    display: none;
+}
+
+.operation-dialog {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    width: min(100%, 520px);
+    padding: 1.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    background: var(--bg-surface);
+    box-shadow: var(--shadow-lg);
+}
+
+.operation-spinner {
+    flex: 0 0 auto;
+    width: 2rem;
+    height: 2rem;
+    margin-top: 0.2rem;
+    border: 3px solid #bfdbfe;
+    border-top-color: var(--brand-primary);
+    border-radius: 50%;
+    animation: operation-spin 0.8s linear infinite;
+}
+
+.operation-dialog[data-state="success"] .operation-spinner {
+    border-color: #a7f3d0;
+    border-top-color: var(--accent-success);
+    animation: none;
+}
+
+.operation-dialog[data-state="error"] .operation-spinner {
+    border-color: #fecaca;
+    border-top-color: var(--accent-danger);
+    animation: none;
+}
+
+@keyframes operation-spin {
+    to { transform: rotate(360deg); }
+}
+
+.operation-content {
+    min-width: 0;
+    flex: 1;
+}
+
+.operation-kicker {
+    color: var(--brand-primary);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.operation-content h3 {
+    margin-top: 0.2rem;
+    font-size: 1.15rem;
+}
+
+.operation-path {
+    margin-top: 0.25rem;
+    overflow-wrap: anywhere;
+    color: var(--text-secondary);
+    font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+    font-size: 0.82rem;
+}
+
+.operation-message {
+    margin-top: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.operation-progress {
+    height: 0.35rem;
+    margin: 1rem 0;
+    overflow: hidden;
+    border-radius: 999px;
+    background: #dbeafe;
+}
+
+.operation-progress span {
+    display: block;
+    width: 38%;
+    height: 100%;
+    border-radius: inherit;
+    background: var(--brand-primary);
+    animation: operation-progress 1.4s ease-in-out infinite;
+}
+
+.operation-dialog[data-state="success"] .operation-progress span {
+    width: 100%;
+    background: var(--accent-success);
+    animation: none;
+}
+
+.operation-dialog[data-state="error"] .operation-progress span {
+    width: 100%;
+    background: var(--accent-danger);
+    animation: none;
+}
+
+@keyframes operation-progress {
+    0% { transform: translateX(-110%); }
+    50% { transform: translateX(160%); }
+    100% { transform: translateX(280%); }
+}
+
+.operation-steps {
+    display: grid;
+    gap: 0.55rem;
+}
+
+.operation-step {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    color: var(--text-muted);
+    font-size: 0.84rem;
+}
+
+.operation-step-indicator {
+    width: 0.55rem;
+    height: 0.55rem;
+    border: 2px solid currentColor;
+    border-radius: 50%;
+}
+
+.operation-step[data-state="active"] {
+    color: var(--brand-primary);
+    font-weight: 600;
+}
+
+.operation-step[data-state="active"] .operation-step-indicator {
+    border-top-color: transparent;
+    animation: operation-spin 0.8s linear infinite;
+}
+
+.operation-step[data-state="complete"] {
+    color: #047857;
+}
+
+.operation-step[data-state="complete"] .operation-step-indicator {
+    border: 0;
+    background: var(--accent-success);
+}
+
+.operation-step[data-state="error"] {
+    color: var(--accent-danger);
+    font-weight: 600;
+}
+
+.operation-step[data-state="error"] .operation-step-indicator {
+    border-color: var(--accent-danger);
+    background: #fee2e2;
+}
+
+.operation-elapsed {
+    margin-top: 1rem;
+    color: var(--text-muted);
+    font-size: 0.78rem;
+}
+
+.operation-dialog[data-state="error"] .operation-message {
+    color: var(--accent-danger);
+}
+
+.operation-dialog[data-state="success"] .operation-message {
+    color: #047857;
+}
+
+@media (max-width: 600px) {
+    .operation-dialog {
+        padding: 1.15rem;
+    }
+}
 .btn-sm { padding: 0.4rem 0.7rem; font-size: 0.8rem; }
 
 /* Tables */

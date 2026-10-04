@@ -1,0 +1,529 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>DocSearch demo</title>
+    <style>
+        :root {
+            color-scheme: light;
+            --ink: #172033;
+            --muted: #64748b;
+            --line: #dbe3ef;
+            --surface: #ffffff;
+            --background: #f4f7fb;
+            --primary: #2878e8;
+            --primary-dark: #175bb8;
+            --danger: #b42318;
+            --shadow: 0 8px 24px rgba(23, 32, 51, 0.08);
+        }
+
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            background: var(--background);
+            color: var(--ink);
+            font: 15px/1.5 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        }
+
+        main {
+            width: min(1180px, calc(100% - 32px));
+            margin: 0 auto;
+            padding: 32px 0 48px;
+        }
+
+        h1, h2, h3, p { margin-top: 0; }
+        h1 { margin-bottom: 6px; font-size: clamp(28px, 4vw, 40px); }
+        h2 { margin-bottom: 18px; font-size: 22px; }
+        h3 { margin-bottom: 4px; font-size: 18px; }
+        .subtitle { color: var(--muted); margin-bottom: 24px; }
+
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            box-shadow: var(--shadow);
+            padding: 22px;
+            margin-bottom: 20px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 14px;
+        }
+
+        .field { display: flex; flex-direction: column; gap: 6px; }
+        .field-wide { grid-column: span 2; }
+        label { font-weight: 650; }
+        input, select, button {
+            font: inherit;
+        }
+        input, select {
+            width: 100%;
+            min-height: 42px;
+            border: 1px solid #c8d4e3;
+            border-radius: 8px;
+            background: #fff;
+            color: var(--ink);
+            padding: 9px 11px;
+        }
+        input:focus, select:focus, button:focus-visible {
+            outline: 3px solid rgba(40, 120, 232, 0.25);
+            outline-offset: 1px;
+        }
+
+        .checkbox-field {
+            display: flex;
+            align-items: end;
+            padding-bottom: 10px;
+        }
+        .checkbox-field label {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+        .checkbox-field input { width: auto; min-height: auto; }
+
+        .actions, .toolbar, .pagination {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .actions { margin-top: 18px; }
+        button {
+            min-height: 40px;
+            border: 1px solid transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            padding: 8px 15px;
+            font-weight: 700;
+        }
+        button.primary {
+            background: var(--primary);
+            color: white;
+        }
+        button.primary:hover { background: var(--primary-dark); }
+        button.secondary {
+            background: #fff;
+            border-color: #c8d4e3;
+            color: var(--ink);
+        }
+        button:disabled { cursor: not-allowed; opacity: 0.48; }
+        .hint { color: var(--muted); font-size: 13px; }
+        .status {
+            border-radius: 8px;
+            padding: 10px 12px;
+            margin-bottom: 16px;
+            display: none;
+        }
+        .status.visible { display: block; }
+        .status.error { background: #fff1f0; color: var(--danger); }
+        .status.info { background: #eef6ff; color: #17518f; }
+        .status.success { background: #edf9f0; color: #206b35; }
+
+        .summary {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+        }
+        .summary strong { font-size: 18px; }
+        .chips { display: flex; gap: 6px; flex-wrap: wrap; }
+        .chip {
+            display: inline-flex;
+            align-items: center;
+            border-radius: 999px;
+            background: #eef3f9;
+            color: #41546d;
+            padding: 3px 9px;
+            font-size: 12px;
+        }
+
+        .result {
+            border-top: 1px solid var(--line);
+            padding: 18px 0;
+        }
+        .result:first-child { border-top: 0; padding-top: 0; }
+        .result-heading {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 14px;
+        }
+        .result-heading h3 { overflow-wrap: anywhere; }
+        .score {
+            color: #17613a;
+            background: #eaf8ef;
+            border-radius: 999px;
+            padding: 3px 9px;
+            white-space: nowrap;
+            font-size: 13px;
+            font-weight: 700;
+        }
+        .path {
+            color: var(--muted);
+            font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+            font-size: 13px;
+            overflow-wrap: anywhere;
+            margin: 2px 0 9px;
+        }
+        .excerpt {
+            background: #f8fafc;
+            border-left: 3px solid #9eb9df;
+            border-radius: 0 7px 7px 0;
+            margin: 9px 0 0;
+            padding: 10px 12px;
+        }
+        .excerpt-meta {
+            color: var(--muted);
+            font-size: 12px;
+            margin-bottom: 3px;
+        }
+        mark { background: #ffe58f; border-radius: 2px; padding: 0 2px; }
+        .empty {
+            color: var(--muted);
+            padding: 28px 0 10px;
+            text-align: center;
+        }
+        .pagination { justify-content: center; margin-top: 18px; }
+        .page-label { color: var(--muted); min-width: 130px; text-align: center; }
+
+        @media (max-width: 760px) {
+            main { width: min(100% - 20px, 640px); padding-top: 20px; }
+            .card { padding: 16px; }
+            .grid { grid-template-columns: 1fr; }
+            .field-wide { grid-column: auto; }
+            .result-heading { align-items: flex-start; flex-direction: column; gap: 4px; }
+        }
+    </style>
+</head>
+<body>
+<main>
+    <h1>DocSearch</h1>
+    <p class="subtitle">Standalone search endpoint demo. Serve this page from the DocSearch application for same-origin requests.</p>
+
+    <section class="card" aria-labelledby="search-heading">
+        <h2 id="search-heading">Search documents</h2>
+        <form id="search-form">
+            <div class="grid">
+                <div class="field field-wide">
+                    <label for="query">Query</label>
+                    <input id="query" name="q" type="search" placeholder="Search document content" required>
+                </div>
+                <div class="field checkbox-field">
+                    <label for="exact">
+                        <input id="exact" name="exact" type="checkbox">
+                        Exact phrase mode
+                    </label>
+                </div>
+                <div class="field">
+                    <label for="department">Departments</label>
+                    <input id="department" placeholder="HR, Legal">
+                    <span class="hint">Comma-separated; sent as repeated department parameters.</span>
+                </div>
+                <div class="field">
+                    <label for="doc-type">Document types</label>
+                    <input id="doc-type" placeholder="Policy, Report">
+                    <span class="hint">Comma-separated; sent as repeated doc_type parameters.</span>
+                </div>
+                <div class="field">
+                    <label for="extension">Extensions</label>
+                    <input id="extension" placeholder=".pdf, .docx">
+                    <span class="hint">Comma-separated; sent as repeated extension parameters.</span>
+                </div>
+                <div class="field field-wide">
+                    <label for="endpoint">Search endpoint</label>
+                    <input id="endpoint" value="/api/search" placeholder="/api/search">
+                    <span class="hint">Use an absolute URL for a separately hosted API.</span>
+                </div>
+                <div class="field">
+                    <label for="api-key">X-API-Key (optional)</label>
+                    <input id="api-key" type="password" autocomplete="off" placeholder="Only if required by deployment">
+                </div>
+                <div class="field">
+                    <label for="per-page">Results per page</label>
+                    <select id="per-page">
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select>
+                </div>
+            </div>
+            <div class="actions">
+                <button class="primary" type="submit">Search</button>
+                <button class="secondary" type="button" id="clear-button">Clear</button>
+            </div>
+        </form>
+    </section>
+
+    <div id="status" class="status" role="status" aria-live="polite"></div>
+
+    <section class="card" aria-labelledby="results-heading">
+        <div class="summary">
+            <div>
+                <h2 id="results-heading">Results</h2>
+                <strong id="result-count">No search yet</strong>
+            </div>
+            <div id="search-meta" class="chips"></div>
+        </div>
+        <div id="results"></div>
+        <div id="pagination" class="pagination" hidden>
+            <button class="secondary" type="button" id="first-page">First</button>
+            <button class="secondary" type="button" id="previous-page">Previous</button>
+            <span class="page-label" id="page-label"></span>
+            <button class="secondary" type="button" id="next-page">Next</button>
+            <button class="secondary" type="button" id="last-page">Last</button>
+        </div>
+    </section>
+</main>
+
+<script>
+(() => {
+    const state = { page: 1, totalPages: 0, loading: false };
+    const form = document.getElementById('search-form');
+    const fields = {
+        query: document.getElementById('query'),
+        exact: document.getElementById('exact'),
+        department: document.getElementById('department'),
+        docType: document.getElementById('doc-type'),
+        extension: document.getElementById('extension'),
+        endpoint: document.getElementById('endpoint'),
+        apiKey: document.getElementById('api-key'),
+        perPage: document.getElementById('per-page')
+    };
+    const statusBox = document.getElementById('status');
+    const resultsBox = document.getElementById('results');
+    const resultCount = document.getElementById('result-count');
+    const searchMeta = document.getElementById('search-meta');
+    const pagination = document.getElementById('pagination');
+    const pageLabel = document.getElementById('page-label');
+    const firstPage = document.getElementById('first-page');
+    const previousPage = document.getElementById('previous-page');
+    const nextPage = document.getElementById('next-page');
+    const lastPage = document.getElementById('last-page');
+
+    function values(input) {
+        return [...new Set(input.value.split(',').map(value => value.trim()).filter(Boolean))];
+    }
+
+    function setStatus(message, kind) {
+        statusBox.textContent = message || '';
+        statusBox.className = message ? `status visible ${kind || 'info'}` : 'status';
+    }
+
+    function addText(parent, text, className) {
+        const element = document.createElement('span');
+        if (className) element.className = className;
+        element.textContent = text == null ? '' : String(text);
+        parent.appendChild(element);
+        return element;
+    }
+
+    function addChip(text) {
+        const chip = document.createElement('span');
+        chip.className = 'chip';
+        chip.textContent = text;
+        searchMeta.appendChild(chip);
+    }
+
+    function safeExcerpt(value) {
+        const template = document.createElement('template');
+        template.innerHTML = String(value || '');
+        const output = document.createElement('span');
+
+        function appendNode(node, parent) {
+            if (node.nodeType === Node.TEXT_NODE) {
+                parent.appendChild(document.createTextNode(node.nodeValue || ''));
+                return;
+            }
+            if (node.nodeType !== Node.ELEMENT_NODE) return;
+            if (node.tagName.toLowerCase() === 'mark') {
+                const mark = document.createElement('mark');
+                [...node.childNodes].forEach(child => appendNode(child, mark));
+                parent.appendChild(mark);
+                return;
+            }
+            [...node.childNodes].forEach(child => appendNode(child, parent));
+        }
+
+        [...template.content.childNodes].forEach(node => appendNode(node, output));
+        return output;
+    }
+
+    function renderArray(parent, valuesList) {
+        const valuesArray = Array.isArray(valuesList) ? valuesList : [];
+        valuesArray.forEach(value => addChip(String(value)));
+    }
+
+    function renderResult(result) {
+        const article = document.createElement('article');
+        article.className = 'result';
+
+        const heading = document.createElement('div');
+        heading.className = 'result-heading';
+        const title = document.createElement('h3');
+        title.textContent = result.file_name || 'Unnamed file';
+        heading.appendChild(title);
+        addText(heading, `Score: ${Number(result.score || 0).toFixed(4)}`, 'score');
+        article.appendChild(heading);
+
+        const path = document.createElement('div');
+        path.className = 'path';
+        path.textContent = result.file_path || '';
+        article.appendChild(path);
+
+        const chips = document.createElement('div');
+        chips.className = 'chips';
+        if (result.file_extension) addText(chips, result.file_extension, 'chip');
+        (Array.isArray(result.departments) ? result.departments : []).forEach(value => addText(chips, `Department: ${value}`, 'chip'));
+        (Array.isArray(result.doc_types) ? result.doc_types : []).forEach(value => addText(chips, `Type: ${value}`, 'chip'));
+        article.appendChild(chips);
+
+        (Array.isArray(result.excerpts) ? result.excerpts : []).forEach(excerpt => {
+            const block = document.createElement('div');
+            block.className = 'excerpt';
+            const meta = document.createElement('div');
+            meta.className = 'excerpt-meta';
+            const section = excerpt.section_context || 'Excerpt';
+            meta.textContent = `${section} · chunk ${excerpt.chunk_index ?? 0}`;
+            block.appendChild(meta);
+            block.appendChild(safeExcerpt(excerpt.text));
+            article.appendChild(block);
+        });
+        return article;
+    }
+
+    function render(data) {
+        resultsBox.replaceChildren();
+        searchMeta.replaceChildren();
+        const results = Array.isArray(data.results) ? data.results : [];
+        resultCount.textContent = `${data.total_files || 0} file${data.total_files === 1 ? '' : 's'} found`;
+        addChip(data.exact_mode ? 'Exact mode' : 'Semantic mode');
+        (Array.isArray(data.synonyms_used) ? data.synonyms_used : []).forEach(value => addChip(`Synonym: ${value}`));
+
+        if (!results.length) {
+            const empty = document.createElement('div');
+            empty.className = 'empty';
+            empty.textContent = 'No matching documents were found.';
+            resultsBox.appendChild(empty);
+        } else {
+            results.forEach(result => resultsBox.appendChild(renderResult(result)));
+        }
+
+        state.totalPages = Number(data.total_pages || 0);
+        state.page = Number(data.page || state.page);
+        pageLabel.textContent = state.totalPages ? `Page ${state.page} of ${state.totalPages}` : 'No pages';
+        pagination.hidden = state.totalPages < 1;
+        firstPage.disabled = state.page <= 1;
+        previousPage.disabled = state.page <= 1;
+        nextPage.disabled = state.page >= state.totalPages;
+        lastPage.disabled = state.page >= state.totalPages;
+    }
+
+    function buildUrl() {
+        const endpoint = fields.endpoint.value.trim() || '/api/search';
+        const url = new URL(endpoint, window.location.href);
+        url.search = '';
+        const params = url.searchParams;
+        params.set('q', fields.query.value.trim());
+        params.set('page', String(state.page));
+        params.set('per_page', String(Math.min(100, Math.max(1, Number(fields.perPage.value) || 10))));
+        if (fields.exact.checked) params.set('exact', 'true');
+        values(fields.department).forEach(value => params.append('department', value));
+        values(fields.docType).forEach(value => params.append('doc_type', value));
+        values(fields.extension).forEach(value => params.append('extension', value));
+        return url;
+    }
+
+    function syncHistory(url) {
+        const visibleUrl = new URL(window.location.href);
+        visibleUrl.search = url.search;
+        window.history.replaceState({}, '', visibleUrl);
+    }
+
+    async function search() {
+        if (!fields.query.value.trim()) {
+            setStatus('Enter a search query.', 'error');
+            fields.query.focus();
+            return;
+        }
+
+        const url = buildUrl();
+        syncHistory(url);
+        state.loading = true;
+        setStatus('Searching…', 'info');
+        resultsBox.replaceChildren();
+        try {
+            const headers = {};
+            if (fields.apiKey.value.trim()) headers['X-API-Key'] = fields.apiKey.value.trim();
+            const response = await fetch(url.toString(), { headers });
+            const data = await response.json().catch(() => ({}));
+            if (!response.ok) {
+                throw new Error(data.detail || data.message || `Search failed (${response.status})`);
+            }
+            render(data);
+            setStatus('', '');
+        } catch (error) {
+            resultCount.textContent = 'Search unavailable';
+            searchMeta.replaceChildren();
+            resultsBox.replaceChildren();
+            setStatus(error.message || 'Search failed.', 'error');
+        } finally {
+            state.loading = false;
+        }
+    }
+
+    function goTo(page) {
+        if (!state.totalPages) return;
+        state.page = Math.min(state.totalPages, Math.max(1, page));
+        search();
+    }
+
+    function loadUrlState() {
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('q')) fields.query.value = params.get('q');
+        fields.exact.checked = params.get('exact') === 'true';
+        fields.department.value = params.getAll('department').join(', ');
+        fields.docType.value = params.getAll('doc_type').join(', ');
+        fields.extension.value = params.getAll('extension').join(', ');
+        if (params.get('per_page')) fields.perPage.value = params.get('per_page');
+        state.page = Math.max(1, Number(params.get('page')) || 1);
+        if (fields.query.value.trim()) search();
+    }
+
+    form.addEventListener('submit', event => {
+        event.preventDefault();
+        state.page = 1;
+        search();
+    });
+    document.getElementById('clear-button').addEventListener('click', () => {
+        form.reset();
+        fields.endpoint.value = '/api/search';
+        state.page = 1;
+        state.totalPages = 0;
+        resultCount.textContent = 'No search yet';
+        resultsBox.replaceChildren();
+        searchMeta.replaceChildren();
+        pagination.hidden = true;
+        setStatus('', '');
+    });
+    firstPage.addEventListener('click', () => goTo(1));
+    previousPage.addEventListener('click', () => goTo(state.page - 1));
+    nextPage.addEventListener('click', () => goTo(state.page + 1));
+    lastPage.addEventListener('click', () => goTo(state.totalPages));
+    fields.perPage.addEventListener('change', () => {
+        if (fields.query.value.trim()) {
+            state.page = 1;
+            search();
+        }
+    });
+    loadUrlState();
+})();
+</script>
+</body>
+</html>

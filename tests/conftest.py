@@ -61,6 +61,7 @@ def mock_qdrant(mocker):
     mocker.patch("app.indexer.qdrant_ops.get_qdrant_client", return_value=client)
     mocker.patch("app.search.engine.get_qdrant_client", return_value=client)
     mocker.patch("app.routers.reclassify.get_qdrant_client", return_value=client)
+    mocker.patch("app.routers.config.get_qdrant_client", return_value=client)
     return client
 
 

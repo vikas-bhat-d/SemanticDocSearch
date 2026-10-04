@@ -1,7 +1,7 @@
 # Folder Deletion Safety and Standalone DocSearch Demo Plan
 
-> **Status:** Proposed  
-> **Date:** 2026-10-04  
+> **Status:** Proposed
+> **Date:** 2026-10-04
 > **Scope:** Safe configured-folder deletion and an independent search demo page
 
 ## 1. Goals
@@ -66,36 +66,98 @@ Use the shared path helpers for every comparison:
 
 ### 3.2 Qdrant compatibility strategy
 
-Do not send a wildcard string to `MatchValue`. Older Qdrant versions treat
-`MatchValue` as an exact keyword match, not as a glob or prefix expression.
+Qdrant does **not** provide a portable, separator-aware wildcard, prefix, or
+regular-expression condition for a `KEYWORD` payload. `MatchValue` is exact
+equality. `MatchText`/a `TEXT` index is a full-text/token filter, not a
+filesystem path-prefix operator, and its availability/configuration is not a
+safe compatibility contract for older Qdrant deployments. Do not send a
+string such as `C:\docs\*` or `C:\docs%` to `MatchValue`; it will not mean
+"all descendants".
 
-Implement a dedicated helper, for example
-`delete_points_under_path(client, collection_name, folder_path, ...)`, with
-the following compatibility-first behavior:
+The primary design must therefore encode folder membership at indexing time
+and delete by an exact indexed membership value. This keeps the destructive
+operation inside Qdrant while preserving older-server compatibility.
 
-1. Ensure the collection has a `KEYWORD` payload index for `file_path`.
-   Existing points already contain the normalized field; indexing must remain
-   idempotent for both new and existing collections.
-2. Scroll through the collection in bounded pages, requesting point IDs and
-   the `file_path` payload only. Use the existing `file_path` index where the
-   installed/server version supports a compatible filter.
-3. Apply the normalized, separator-aware `path_is_within` check to each
-   returned payload. This is the correctness path for older Qdrant versions
-   and avoids relying on version-specific wildcard or text-match semantics.
-4. Delete matched point IDs in bounded batches using the oldest supported
-   point-ID selector available in the client. Keep the existing narrow
-   fallbacks for clients that reject `timeout` or `wait`; do not use a broad
-   catch that converts a failed deletion into success.
-5. Continue until every scroll page is processed. Do not stop after the
-   first 500 points; a large document/folder can have many chunks.
-6. Return a structured result such as `matched_points`, `deleted_points`, and
-   `batches`, and raise a typed/explicit error when Qdrant cannot complete the
-   operation.
+1. Keep the existing normalized `file_path` payload and `KEYWORD` index for
+   exact-file skip, reindex, incremental-delete, search metadata, and audit
+   operations.
+2. Add an `index_roots` payload field to every point. It is an array of all
+   normalized configured `IndexFolder.path` values that contain the file,
+   compared with the shared separator-aware `path_is_within` helper. This
+   handles nested configured folders without duplicating vectors or relying on
+   which de-duplicated root was used for the filesystem walk.
+3. Create a `KEYWORD` payload index for `index_roots` in
+   `ensure_collection`. Qdrant keyword matching applies to array elements, so
+   one exact `MatchValue(value=<normalized folder>)` matches a point when that
+   folder is one of its indexed roots.
+4. Add `index_roots` to the traversal item and pass it through
+   `iter_point_batches`/`build_point`. Incremental XML items must compute the
+   same membership list from all configured folders.
+5. Delete a configured folder with Qdrant's filter selector directly:
 
-An optional server-side text/prefix filter may be added as an optimization
-when its capability is positively detected, but it must not replace the
-scroll-and-boundary-check fallback. The fallback must work with the older
-Qdrant versions that the application claims to support.
+   ```json
+   POST /collections/{collection_name}/points/delete?wait=true
+   {
+     "filter": {
+       "must": [
+         {
+           "key": "index_roots",
+           "match": { "value": "c:\\docs" }
+         }
+       ]
+     }
+   }
+   ```
+
+   The Python equivalent is:
+
+   ```python
+   client.delete(
+       collection_name=collection_name,
+       points_selector=models.FilterSelector(
+           filter=models.Filter(must=[
+               models.FieldCondition(
+                   key="index_roots",
+                   match=models.MatchValue(value=normalized_folder),
+               )
+           ])
+       ),
+       wait=True,
+   )
+   ```
+
+   This uses the long-standing filter-delete shape rather than a newer
+   full-text or wildcard feature. A single folder requires only
+   `MatchValue`; do not require `MatchAny` (documented as newer than the
+   basic match condition) for compatibility.
+6. Wait for the delete operation to complete, return the Qdrant operation
+   result, and treat an unsupported request or timeout as an explicit
+   failure. Retain the existing narrow client fallbacks for `timeout` and
+   `wait` keyword differences, but never convert a failed delete into success.
+
+### 3.2.1 Existing-point migration and legacy fallback
+
+Points written before `index_roots` exists will contain `file_path` but cannot
+be selected by the new exact membership filter. Handle this explicitly:
+
+1. On startup/collection setup, create the `index_roots` index idempotently.
+2. Prefer a bounded backfill that scrolls old points, computes all matching
+   configured roots from each normalized `file_path`, and uses `set_payload`
+   in bounded point-ID batches to add `index_roots`. Preserve every existing
+   payload field.
+3. Until backfill is complete, a folder delete must detect/report that legacy
+   points may exist. It may use a bounded scroll of `file_path` payloads,
+   apply `path_is_within` locally, and delete only the resulting point IDs in
+   bounded `PointIdsList` requests. This is a migration fallback, not the
+   normal deletion query.
+4. The fallback must scan every scroll page, not only the default first page,
+   and must never treat a partial scan as a successful complete deletion.
+5. Record whether the result used the direct `index_roots` filter or the
+   legacy fallback in logs and the API response.
+
+This is the only place where application-side path matching is required.
+After all points have `index_roots`, folder deletion is a single
+server-side Qdrant filter operation with an exact indexed value.
 
 ### 3.3 Confirmation challenge
 
@@ -155,10 +217,12 @@ must make retries idempotent.
 
 - Keep `file_path` in every newly indexed payload and keep
   `ensure_collection` responsible for the payload index.
+- Add and populate `index_roots` for every newly indexed point, and keep its
+  `KEYWORD` payload index in `ensure_collection`.
 - Verify that reindexing, incremental XML deletion, reclassification, and
   folder deletion all use the same normalization helper.
 - Do not remove the existing exact-file deletion helper; use the new
-  folder-prefix helper only for configured-folder deletion.
+  `index_roots` filter only for configured-folder deletion.
 - Ensure a folder deletion cannot be followed by the current indexing run
   rediscovering and re-indexing the same files.
 
@@ -234,8 +298,15 @@ failed.
   - Add an additive/idempotent schema path for challenge storage if the
     existing startup migration pattern requires it.
 - [`app/indexer/qdrant_ops.py`](app/indexer/qdrant_ops.py)
-  - Add bounded descendant-path discovery and point-ID deletion helpers.
+  - Add `index_roots` to point construction and collection indexes.
+  - Add direct filter-based folder deletion and the bounded legacy migration
+    fallback.
   - Preserve exact-file deletion and older-client fallbacks.
+- [`app/indexer/traverser.py`](app/indexer/traverser.py)
+  - Attach all configured containing roots to each file item, including
+    incremental file items.
+- [`app/indexer/runner.py`](app/indexer/runner.py)
+  - Pass `index_roots` through the bounded point-writing pipeline.
 - [`app/routers/config.py`](app/routers/config.py)
   - Add the challenge endpoint and request model.
   - Change folder deletion to validate the challenge and coordinate Qdrant
@@ -277,11 +348,15 @@ Cover:
 - separator boundary (`C:\docs` matches `C:\docs\file.txt` but not
   `C:\docs2\file.txt`);
 - UNC paths;
-- multiple scroll pages and more than 500 points;
-- bounded point-ID delete batches;
+- direct `FilterSelector` deletion by exact `index_roots` value;
+- a point with multiple `index_roots` values;
+- multiple scroll pages and more than 500 legacy points;
+- bounded point-ID delete batches for the legacy fallback;
 - no deletion for points outside the folder;
 - empty collection/no-op deletion;
 - old-client signatures that reject `timeout` or `wait`;
+- creation of both `file_path` and `index_roots` `KEYWORD` indexes;
+- legacy-point backfill preserving existing payload fields;
 - Qdrant errors being raised/reported rather than converted to success;
 - preservation of the normalized `file_path` payload index.
 
@@ -337,9 +412,14 @@ endpoint contract tests.
 - A successful folder deletion removes every vector for that folder and its
   descendants, including all chunks, while preserving sibling and unrelated
   paths.
-- The implementation does not rely on wildcard behavior unsupported by older
-  Qdrant versions; `file_path` remains indexed and the compatibility fallback
-  performs an exhaustive, bounded, separator-aware match.
+- New points contain both normalized `file_path` and exact `index_roots`
+  membership metadata, with `KEYWORD` indexes for both fields.
+- Normal deletion is a Qdrant-server-side `FilterSelector` delete on the
+  indexed `index_roots` value; it does not rely on wildcard behavior,
+  `MatchText`, or a newer text-index feature.
+- Existing points without `index_roots` are backfilled or handled by an
+  exhaustive, bounded, separator-aware legacy fallback before success is
+  reported.
 - Qdrant failure is visible to the administrator and does not result in a
   database-only success response.
 - A successful deletion is idempotently retryable after partial remote
@@ -352,3 +432,23 @@ endpoint contract tests.
 - Existing indexing, incremental deletion, reclassification, search behavior,
   authentication, and unrelated configuration CRUD remain passing.
 
+## 9. Verified Qdrant References
+
+These references were checked on 2026-10-04:
+
+- [Qdrant filtering](https://qdrant.tech/documentation/search/filtering/) —
+  `MatchValue` is equality-based; filters can be composed with `must`, and
+  keyword matching applies to supported keyword payload values/arrays.
+- [Qdrant payload indexes](https://qdrant.tech/documentation/manage-data/indexing/) —
+  create a `KEYWORD` index with
+  `PUT /collections/{collection_name}/index`.
+- [Qdrant delete-points API](https://api.qdrant.tech/api-reference/points/delete-points) —
+  the delete body accepts either a point-ID list or a `FilterSelector`, with
+  `wait` and `timeout` query parameters.
+- [Qdrant payload types](https://qdrant.tech/documentation/manage-data/payload/) —
+  keyword payloads may be scalar or arrays; array values are suitable for
+  exact membership filtering.
+
+The implementation should use the stable keyword/filter-delete contract above,
+not assume that a Qdrant text index can perform a filesystem-safe prefix or
+regular-expression match.

@@ -1,7 +1,7 @@
 import os
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request, Depends, HTTPException, status
-from fastapi.responses import HTMLResponse, RedirectResponse
+from fastapi.responses import FileResponse, HTMLResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from starlette.middleware.sessions import SessionMiddleware
@@ -138,3 +138,11 @@ async def settings_page(request: Request, db: Session = Depends(get_db)):
 @app.get("/logs", response_class=HTMLResponse)
 async def logs_page(request: Request):
     return render_page("logs.html", request, "logs")
+
+
+@app.get("/DocSearch.html", response_class=HTMLResponse)
+async def docsearch_demo_page():
+    return FileResponse(
+        os.path.join(STATIC_DIR, "DocSearch.html"),
+        media_type="text/html",
+    )

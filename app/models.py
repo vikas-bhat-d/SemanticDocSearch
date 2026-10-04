@@ -23,6 +23,18 @@ class IndexFolder(Base):
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
 
+class FolderDeleteChallenge(Base):
+    __tablename__ = "folder_delete_challenges"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    folder_id = Column(Integer, ForeignKey("index_folders.id"), nullable=False, index=True)
+    code_hash = Column(String, nullable=False)
+    session_binding_hash = Column(String, nullable=False)
+    created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+    expires_at = Column(DateTime, nullable=False)
+    used_at = Column(DateTime, nullable=True)
+
+
 class ExcludedPath(Base):
     __tablename__ = "excluded_paths"
 

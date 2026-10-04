@@ -7,7 +7,7 @@ from typing import Any, Dict, Iterable, Iterator, List, Optional
 from qdrant_client import QdrantClient
 from qdrant_client.http import models as rest_models
 
-from app.indexer.paths import canonical_file_path, normalize_file_path
+from app.indexer.paths import canonical_file_path, normalize_file_path, path_is_within
 
 
 def _qdrant_timeout(timeout: Optional[float]) -> Optional[int]:
@@ -35,7 +35,7 @@ def ensure_collection(client: QdrantClient, collection_name: str, dimensions: in
         )
 
     # Also ensure indexes on an existing collection after upgrades.
-    for field in ("file_path", "departments", "doc_types", "file_extension"):
+    for field in ("file_path", "index_roots", "departments", "doc_types", "file_extension"):
         try:
             client.create_payload_index(
                 collection_name=collection_name,
@@ -148,6 +148,159 @@ def delete_points_by_file_path(
         return 0
 
 
+def _delete_points_with_selector(
+    client: QdrantClient,
+    collection_name: str,
+    selector: Any,
+    timeout: Optional[float] = None,
+):
+    kwargs = {
+        "collection_name": collection_name,
+        "points_selector": selector,
+        "wait": True,
+    }
+    if timeout is not None:
+        kwargs["timeout"] = _qdrant_timeout(timeout)
+    try:
+        return client.delete(**kwargs)
+    except TypeError:
+        kwargs.pop("timeout", None)
+        try:
+            return client.delete(**kwargs)
+        except TypeError:
+            kwargs.pop("wait", None)
+            return client.delete(**kwargs)
+
+
+def _scroll_points_with_file_path(
+    client: QdrantClient,
+    collection_name: str,
+    page_size: int,
+    timeout: Optional[float] = None,
+) -> Iterator[Any]:
+    offset = None
+    while True:
+        kwargs = {
+            "collection_name": collection_name,
+            "limit": page_size,
+            "with_payload": ["file_path", "index_roots"],
+            "with_vectors": False,
+        }
+        if offset is not None:
+            kwargs["offset"] = offset
+        if timeout is not None:
+            kwargs["timeout"] = _qdrant_timeout(timeout)
+        try:
+            records, next_offset = client.scroll(**kwargs)
+        except TypeError:
+            kwargs.pop("timeout", None)
+            try:
+                records, next_offset = client.scroll(**kwargs)
+            except TypeError:
+                kwargs["with_payload"] = True
+                records, next_offset = client.scroll(**kwargs)
+
+        for record in records:
+            yield record
+        if next_offset is None:
+            return
+        offset = next_offset
+
+
+def delete_points_under_folder(
+    client: QdrantClient,
+    collection_name: str,
+    folder_path: str,
+    timeout: Optional[float] = None,
+    page_size: int = 500,
+    delete_batch_size: int = 256,
+    legacy_fallback: bool = False,
+) -> Dict[str, Any]:
+    """Delete all points associated with a configured folder.
+
+    New points are deleted by Qdrant itself using the indexed ``index_roots``
+    keyword array. The bounded scroll fallback removes points written before
+    that payload field existed or when an older server rejects the filter.
+    """
+    if page_size < 1 or delete_batch_size < 1:
+        raise ValueError("Qdrant deletion batch limits must be positive")
+
+    normalized = normalize_file_path(folder_path)
+    filter_obj = rest_models.Filter(must=[
+        rest_models.FieldCondition(
+            key="index_roots",
+            match=rest_models.MatchValue(value=normalized),
+        )
+    ])
+    selector = rest_models.FilterSelector(filter=filter_obj)
+    direct_error = None
+    direct_deleted = True
+    try:
+        _delete_points_with_selector(
+            client,
+            collection_name,
+            selector,
+            timeout=timeout,
+        )
+    except Exception as exc:
+        direct_error = str(exc)
+        direct_deleted = False
+        if not legacy_fallback:
+            raise
+
+    result = {
+        "mode": "filter",
+        "folder_path": normalized,
+        "direct_delete_succeeded": direct_deleted,
+        "legacy_points_deleted": 0,
+        "legacy_batches": 0,
+    }
+
+    if not legacy_fallback:
+        return result
+
+    pending_ids: List[Any] = []
+    for record in _scroll_points_with_file_path(
+        client,
+        collection_name,
+        page_size=page_size,
+        timeout=timeout,
+    ):
+        payload = getattr(record, "payload", None) or {}
+        file_path = payload.get("file_path")
+        if not file_path or not path_is_within(file_path, normalized):
+            continue
+        pending_ids.append(record.id)
+        if len(pending_ids) < delete_batch_size:
+            continue
+        _delete_points_with_selector(
+            client,
+            collection_name,
+            rest_models.PointIdsList(points=pending_ids),
+            timeout=timeout,
+        )
+        result["legacy_points_deleted"] += len(pending_ids)
+        result["legacy_batches"] += 1
+        pending_ids = []
+
+    if pending_ids:
+        _delete_points_with_selector(
+            client,
+            collection_name,
+            rest_models.PointIdsList(points=pending_ids),
+            timeout=timeout,
+        )
+        result["legacy_points_deleted"] += len(pending_ids)
+        result["legacy_batches"] += 1
+
+    if direct_error:
+        result["mode"] = "legacy_fallback"
+        result["direct_error"] = direct_error
+    elif result["legacy_points_deleted"]:
+        result["mode"] = "filter_plus_legacy_fallback"
+    return result
+
+
 def deterministic_point_id(file_path: str, chunk_index: int) -> str:
     """Create a stable UUID so a retry cannot duplicate a chunk."""
     seed = f"{canonical_file_path(file_path)}:{int(chunk_index)}"
@@ -169,10 +322,17 @@ def build_point(
     file_name: Optional[str] = None,
     extension: Optional[str] = None,
     indexed_at: Optional[str] = None,
+    index_roots: Optional[List[str]] = None,
 ) -> Dict[str, Any]:
     normalized = normalize_file_path(file_path)
+    normalized_roots = sorted({
+        normalize_file_path(root)
+        for root in (index_roots or [])
+        if root
+    })
     payload = {
         "file_path": normalized,
+        "index_roots": normalized_roots,
         "file_name": file_name or normalized.rsplit("\\", 1)[-1].rsplit("/", 1)[-1],
         "file_extension": extension or "",
         "departments": (classification or {}).get("departments", []),
@@ -236,6 +396,7 @@ def iter_point_batches(
     file_name: Optional[str] = None,
     extension: Optional[str] = None,
     indexed_at: Optional[str] = None,
+    index_roots: Optional[List[str]] = None,
 ) -> Iterator[List[Dict[str, Any]]]:
     points = (
         build_point(
@@ -246,6 +407,7 @@ def iter_point_batches(
             file_name=file_name,
             extension=extension,
             indexed_at=indexed_at,
+            index_roots=index_roots,
         )
         for chunk, vector in zip(chunk_batch, vectors)
     )

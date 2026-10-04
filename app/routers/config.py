@@ -2,22 +2,24 @@ import os
 import json
 import secrets
 import asyncio
+from datetime import datetime, timedelta
 from typing import Optional, List, Dict, Any
-from fastapi import APIRouter, Depends, HTTPException, Query, status
+from fastapi import APIRouter, Depends, HTTPException, Query, Request, status
 from fastapi.responses import StreamingResponse
 from sqlalchemy.orm import Session
 from pydantic import BaseModel
 
-from app.database import get_db
+from app.database import db_write_lock, get_db
 from app.auth import require_session_api
 from app.config import (
     get_config, reload_config, hash_secret, verify_secret,
     get_raw_initial_api_key
 )
-from app.logger import update_logger_level, log_queue
+from app.indexer.qdrant_ops import delete_points_under_folder, get_qdrant_client
+from app.logger import get_logger, update_logger_level, log_queue
 from app.models import (
     Config, IndexFolder, ExcludedPath, FileTypeConfig,
-    Department, DocType, Synonym
+    Department, DocType, FolderDeleteChallenge, IndexRun, Synonym
 )
 
 router = APIRouter(prefix="/api", tags=["config"])
@@ -59,6 +61,11 @@ class SettingsUpdateRequest(BaseModel):
 
 class FolderCreateRequest(BaseModel):
     path: str
+
+
+class FolderDeleteRequest(BaseModel):
+    challenge_id: int
+    code: str
 
 
 class ExclusionCreateRequest(BaseModel):
@@ -206,6 +213,14 @@ async def update_settings(
 
 
 # --- FOLDERS ---
+def _folder_delete_session_key(challenge_id: int) -> str:
+    return f"folder-delete-challenge:{challenge_id}"
+
+
+def _index_run_is_active(db: Session) -> bool:
+    return db.query(IndexRun.id).filter(IndexRun.status == "running").first() is not None
+
+
 @router.get("/config/folders")
 async def list_folders(auth: bool = Depends(require_session_api), db: Session = Depends(get_db)):
     return db.query(IndexFolder).all()
@@ -228,14 +243,132 @@ async def add_folder(body: FolderCreateRequest, auth: bool = Depends(require_ses
     return folder
 
 
-@router.delete("/config/folders/{folder_id}")
-async def delete_folder(folder_id: int, auth: bool = Depends(require_session_api), db: Session = Depends(get_db)):
-    f = db.query(IndexFolder).get(folder_id)
-    if not f:
+@router.post("/config/folders/{folder_id}/delete-challenge")
+async def create_folder_delete_challenge(
+    folder_id: int,
+    request: Request,
+    auth: bool = Depends(require_session_api),
+    db: Session = Depends(get_db),
+):
+    folder = db.get(IndexFolder, folder_id)
+    if not folder:
         raise HTTPException(status_code=404, detail="Folder not found")
-    db.delete(f)
-    db.commit()
-    return {"status": "success", "message": "Folder removed"}
+    if _index_run_is_active(db):
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail="Stop the active index run before deleting a folder",
+        )
+
+    code = str(secrets.randbelow(900000) + 100000)
+    binding = secrets.token_urlsafe(32)
+    expires_at = datetime.utcnow() + timedelta(minutes=10)
+    challenge = FolderDeleteChallenge(
+        folder_id=folder_id,
+        code_hash=hash_secret(code),
+        session_binding_hash=hash_secret(binding),
+        expires_at=expires_at,
+    )
+    with db_write_lock:
+        db.add(challenge)
+        db.commit()
+        db.refresh(challenge)
+    request.session[_folder_delete_session_key(challenge.id)] = binding
+    return {
+        "challenge_id": challenge.id,
+        "code": code,
+        "expires_at": expires_at.isoformat(),
+        "folder_id": folder_id,
+        "folder_path": folder.path,
+    }
+
+
+@router.delete("/config/folders/{folder_id}")
+async def delete_folder(
+    folder_id: int,
+    body: FolderDeleteRequest,
+    request: Request,
+    auth: bool = Depends(require_session_api),
+    db: Session = Depends(get_db),
+):
+    with db_write_lock:
+        folder = db.get(IndexFolder, folder_id)
+        if not folder:
+            raise HTTPException(status_code=404, detail="Folder not found")
+        if _index_run_is_active(db):
+            raise HTTPException(
+                status_code=status.HTTP_409_CONFLICT,
+                detail="Stop the active index run before deleting a folder",
+            )
+
+        if len(body.code) != 6 or not body.code.isdigit():
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Deletion code must contain exactly six digits",
+            )
+        challenge = db.get(FolderDeleteChallenge, body.challenge_id)
+        challenge_key = _folder_delete_session_key(body.challenge_id)
+        binding = request.session.get(challenge_key)
+        now = datetime.utcnow()
+        if (
+            not challenge
+            or challenge.folder_id != folder_id
+            or challenge.used_at is not None
+            or challenge.expires_at <= now
+            or not binding
+            or not verify_secret(binding, challenge.session_binding_hash)
+        ):
+            raise HTTPException(
+                status_code=status.HTTP_409_CONFLICT,
+                detail="Deletion challenge is invalid, expired, or already used",
+            )
+        if not verify_secret(body.code, challenge.code_hash):
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Incorrect deletion code",
+            )
+
+        config = get_config(db)
+        qdrant = get_qdrant_client(
+            host=config.qdrant_host,
+            port=config.qdrant_port,
+        )
+        challenge.used_at = now
+        try:
+            deletion = delete_points_under_folder(
+                qdrant,
+                config.collection_name,
+                folder.path,
+                timeout=config.qdrant_timeout_seconds,
+                legacy_fallback=False,
+            )
+        except Exception as exc:
+            db.rollback()
+            get_logger().error(
+                "Folder deletion failed for id=%s path=%s: %s",
+                folder_id,
+                folder.path,
+                exc,
+            )
+            raise HTTPException(
+                status_code=status.HTTP_502_BAD_GATEWAY,
+                detail="Qdrant deletion failed; the folder was not removed",
+            ) from exc
+        finally:
+            close = getattr(qdrant, "close", None)
+            if callable(close):
+                close()
+
+        db.delete(challenge)
+        db.delete(folder)
+        db.commit()
+        request.session.pop(challenge_key, None)
+        return {
+            "status": "success",
+            "message": "Folder and its Qdrant points removed",
+            "folder_id": folder_id,
+            "folder_path": folder.path,
+            "qdrant_deletion": deletion,
+        }
 
 
 # --- EXCLUSIONS ---

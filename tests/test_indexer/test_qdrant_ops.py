@@ -1,7 +1,9 @@
 from app.indexer.qdrant_ops import (
+    build_point,
     ensure_collection,
     check_file_exists_and_unchanged,
     delete_points_by_file_path,
+    delete_points_under_folder,
     is_already_indexed,
     upsert_point_batch,
     upsert_file_chunks
@@ -41,3 +43,100 @@ def test_qdrant_timeouts_are_integer_seconds(mock_qdrant):
         timeout=30.0,
     )
     assert mock_qdrant.upsert.call_args.kwargs["timeout"] == 30
+
+
+def test_folder_delete_uses_indexed_root_filter(mock_qdrant):
+    result = delete_points_under_folder(
+        mock_qdrant,
+        "knowledge_base",
+        r"C:\docs",
+        timeout=30,
+    )
+
+    assert result["direct_delete_succeeded"] is True
+    selector = mock_qdrant.delete.call_args.kwargs["points_selector"]
+    condition = selector.filter.must[0]
+    assert condition.key == "index_roots"
+    assert condition.match.value == r"C:\docs"
+
+
+def test_folder_delete_legacy_fallback_is_separator_aware():
+    class Record:
+        def __init__(self, point_id, file_path):
+            self.id = point_id
+            self.payload = {"file_path": file_path}
+
+    class Client:
+        def __init__(self):
+            self.page = 0
+            self.deleted = []
+
+        def delete(self, **kwargs):
+            selector = kwargs["points_selector"]
+            if hasattr(selector, "points"):
+                self.deleted.extend(selector.points)
+
+        def scroll(self, **kwargs):
+            self.page += 1
+            if self.page == 1:
+                return [
+                    Record("inside", r"C:\docs\file.txt"),
+                    Record("sibling", r"C:\docs2\file.txt"),
+                ], "next"
+            return [], None
+
+    client = Client()
+    result = delete_points_under_folder(
+        client,
+        "knowledge_base",
+        r"C:\docs",
+        legacy_fallback=True,
+        page_size=2,
+        delete_batch_size=1,
+    )
+
+    assert result["legacy_points_deleted"] == 1
+    assert client.deleted == ["inside"]
+
+
+def test_build_point_stores_normalized_index_roots():
+    point = build_point(
+        r"C:\Docs\file.txt",
+        {"chunk_index": 0, "text": "content"},
+        [0.0],
+        index_roots=[r"C:\Docs", r"C:/Docs"],
+    )
+
+    assert point["payload"]["file_path"] == r"C:\Docs\file.txt"
+    assert point["payload"]["index_roots"] == [r"C:\Docs"]
+
+
+def test_folder_delete_retries_legacy_qdrant_arguments():
+    class Client:
+        def __init__(self):
+            self.delete_calls = []
+            self.scroll_calls = []
+
+        def delete(self, **kwargs):
+            self.delete_calls.append(kwargs)
+            if "timeout" in kwargs or "wait" in kwargs:
+                raise TypeError("legacy client does not accept this argument")
+
+        def scroll(self, **kwargs):
+            self.scroll_calls.append(kwargs)
+            if "timeout" in kwargs or kwargs.get("with_payload") != True:
+                raise TypeError("legacy client only supports full payload")
+            return [], None
+
+    client = Client()
+    result = delete_points_under_folder(
+        client,
+        "knowledge_base",
+        r"C:\docs",
+        timeout=2.2,
+    )
+
+    assert result["direct_delete_succeeded"] is True
+    assert len(client.delete_calls) == 3
+    assert len(client.scroll_calls) == 3
+    assert client.scroll_calls[-1]["with_payload"] is True

@@ -31,6 +31,41 @@
         </table>
     </div>
 </div>
+
+<div id="folder-delete-overlay" class="operation-overlay" hidden aria-hidden="true">
+    <div class="operation-dialog" role="status" aria-live="polite" aria-busy="true">
+        <div class="operation-spinner" aria-hidden="true"></div>
+        <div class="operation-content">
+            <p class="operation-kicker">Folder deletion</p>
+            <h3 id="folder-delete-title">Deleting folder</h3>
+            <p id="folder-delete-path" class="operation-path"></p>
+            <p id="folder-delete-message" class="operation-message">
+                Preparing the deletion request...
+            </p>
+            <div class="operation-progress" aria-hidden="true">
+                <span></span>
+            </div>
+            <div class="operation-steps">
+                <div class="operation-step" data-delete-step="verify">
+                    <span class="operation-step-indicator"></span>
+                    <span>Confirmation verified</span>
+                </div>
+                <div class="operation-step" data-delete-step="qdrant">
+                    <span class="operation-step-indicator"></span>
+                    <span>Removing matching Qdrant points</span>
+                </div>
+                <div class="operation-step" data-delete-step="folder">
+                    <span class="operation-step-indicator"></span>
+                    <span>Removing the folder configuration</span>
+                </div>
+            </div>
+            <p id="folder-delete-elapsed" class="operation-elapsed">Elapsed: 0s</p>
+            <button id="folder-delete-close" class="btn btn-secondary" type="button" hidden>
+                Close
+            </button>
+        </div>
+    </div>
+</div>
 {% endblock %}
 
 {% block scripts %}

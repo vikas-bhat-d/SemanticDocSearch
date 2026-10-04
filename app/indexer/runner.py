@@ -30,7 +30,11 @@ from app.indexer.qdrant_ops import (
     iter_point_batches,
     upsert_point_batch,
 )
-from app.indexer.traverser import iter_incremental_file_items, walk_folders_stream
+from app.indexer.traverser import (
+    get_index_roots,
+    iter_incremental_file_items,
+    walk_folders_stream,
+)
 from app.indexer.xml_parser import parse_incremental_inputs
 from app.logger import get_logger
 from app.models import IndexFolder, IncrementalXmlConfig, IndexRun, IndexRunFile
@@ -644,6 +648,7 @@ class IndexerRunner:
             if self.stop_event.is_set():
                 raise RunStopped()
             classification = classify_file(file_path, db)
+            index_roots = item.get("index_roots") or get_index_roots(db, file_path)
             indexed_at = datetime.utcnow().isoformat()
             point_count = 0
             saw_chunk = False
@@ -681,6 +686,7 @@ class IndexerRunner:
                     file_name=file_name,
                     extension=extension,
                     indexed_at=indexed_at,
+                    index_roots=index_roots,
                 ):
                     if self.stop_event.is_set():
                         raise RunStopped()
@@ -752,6 +758,7 @@ class IndexerRunner:
                 "file_path": normalized,
                 "file_name": os.path.basename(normalized),
                 "extension": os.path.splitext(normalized)[1].lower(),
+                "index_roots": get_index_roots(db, normalized),
                 "force_reindex": False,
             }
             self._process_item(
