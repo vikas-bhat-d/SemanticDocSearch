@@ -23,6 +23,12 @@ DEFAULT_CONFIGS = {
     "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
     "embedding_dimensions": "384",
     "parallel_workers": "4",
+    "index_workers": "4",
+    "index_queue_capacity": "64",
+    "embedding_batch_size": "32",
+    "embedding_concurrency": "1",
+    "qdrant_upsert_batch_size": "64",
+    "qdrant_upsert_max_bytes": "4194304",
     "qdrant_host": "localhost",
     "qdrant_port": "6333",
     "collection_name": "knowledge_base",
@@ -35,6 +41,13 @@ DEFAULT_CONFIGS = {
     "search_per_page": "10",
     "search_excerpt_count": "3",
     "max_file_size_mb": "100",
+    "max_markdown_chars": "10000000",
+    "max_chunk_chars": "200000",
+    "conversion_timeout_seconds": "300",
+    "qdrant_timeout_seconds": "30",
+    "counter_flush_interval": "25",
+    "queue_put_timeout_seconds": "0.25",
+    "worker_shutdown_timeout_seconds": "30",
 }
 
 DEFAULT_FILE_TYPES = [
@@ -65,6 +78,12 @@ class ConfigData:
     embedding_model: str = "sentence-transformers/all-MiniLM-L6-v2"
     embedding_dimensions: int = 384
     parallel_workers: int = 4
+    index_workers: int = 4
+    index_queue_capacity: int = 64
+    embedding_batch_size: int = 32
+    embedding_concurrency: int = 1
+    qdrant_upsert_batch_size: int = 64
+    qdrant_upsert_max_bytes: int = 4 * 1024 * 1024
     qdrant_host: str = "localhost"
     qdrant_port: int = 6333
     collection_name: str = "knowledge_base"
@@ -79,11 +98,34 @@ class ConfigData:
     search_per_page: int = 10
     search_excerpt_count: int = 3
     max_file_size_mb: int = 100
+    max_markdown_chars: int = 10_000_000
+    max_chunk_chars: int = 200_000
+    conversion_timeout_seconds: float = 300.0
+    qdrant_timeout_seconds: float = 30.0
+    counter_flush_interval: int = 25
+    queue_put_timeout_seconds: float = 0.25
+    worker_shutdown_timeout_seconds: float = 30.0
     raw: Dict[str, str] = field(default_factory=dict)
 
 
 _cached_config: Optional[ConfigData] = None
 _raw_initial_api_key: Optional[str] = None
+
+
+def _bounded_int(raw: Dict[str, str], key: str, default: int, minimum: int, maximum: int) -> int:
+    try:
+        value = int(raw.get(key, default))
+    except (TypeError, ValueError):
+        value = default
+    return max(minimum, min(value, maximum))
+
+
+def _bounded_float(raw: Dict[str, str], key: str, default: float, minimum: float, maximum: float) -> float:
+    try:
+        value = float(raw.get(key, default))
+    except (TypeError, ValueError):
+        value = default
+    return max(minimum, min(value, maximum))
 
 
 def seed_default_configs(db: Session) -> Optional[str]:
@@ -139,10 +181,20 @@ def load_config(db: Session) -> ConfigData:
     rows = db.query(Config).all()
     raw_dict = {row.key: row.value for row in rows}
 
+    # ``parallel_workers`` remains the persisted/UI compatibility alias.  A
+    # new index_workers value takes precedence when present.
+    parallel_workers = _bounded_int(raw_dict, "parallel_workers", 4, 1, 64)
+    index_workers = _bounded_int(raw_dict, "index_workers", parallel_workers, 1, 64)
     config = ConfigData(
         embedding_model=raw_dict.get("embedding_model", DEFAULT_CONFIGS["embedding_model"]),
         embedding_dimensions=int(raw_dict.get("embedding_dimensions", DEFAULT_CONFIGS["embedding_dimensions"])),
-        parallel_workers=int(raw_dict.get("parallel_workers", DEFAULT_CONFIGS["parallel_workers"])),
+        parallel_workers=parallel_workers,
+        index_workers=index_workers,
+        index_queue_capacity=_bounded_int(raw_dict, "index_queue_capacity", 64, 1, 10000),
+        embedding_batch_size=_bounded_int(raw_dict, "embedding_batch_size", 32, 1, 4096),
+        embedding_concurrency=_bounded_int(raw_dict, "embedding_concurrency", 1, 1, 16),
+        qdrant_upsert_batch_size=_bounded_int(raw_dict, "qdrant_upsert_batch_size", 64, 1, 10000),
+        qdrant_upsert_max_bytes=_bounded_int(raw_dict, "qdrant_upsert_max_bytes", 4 * 1024 * 1024, 1024, 128 * 1024 * 1024),
         qdrant_host=raw_dict.get("qdrant_host", DEFAULT_CONFIGS["qdrant_host"]),
         qdrant_port=int(raw_dict.get("qdrant_port", DEFAULT_CONFIGS["qdrant_port"])),
         collection_name=raw_dict.get("collection_name", DEFAULT_CONFIGS["collection_name"]),
@@ -156,7 +208,14 @@ def load_config(db: Session) -> ConfigData:
         search_top_k=int(raw_dict.get("search_top_k", DEFAULT_CONFIGS["search_top_k"])),
         search_per_page=int(raw_dict.get("search_per_page", DEFAULT_CONFIGS["search_per_page"])),
         search_excerpt_count=int(raw_dict.get("search_excerpt_count", DEFAULT_CONFIGS["search_excerpt_count"])),
-        max_file_size_mb=int(raw_dict.get("max_file_size_mb", DEFAULT_CONFIGS["max_file_size_mb"])),
+        max_file_size_mb=_bounded_int(raw_dict, "max_file_size_mb", 100, 1, 1024 * 1024),
+        max_markdown_chars=_bounded_int(raw_dict, "max_markdown_chars", 10_000_000, 1, 1_000_000_000),
+        max_chunk_chars=_bounded_int(raw_dict, "max_chunk_chars", 200_000, 1, 10_000_000),
+        conversion_timeout_seconds=_bounded_float(raw_dict, "conversion_timeout_seconds", 300.0, 1.0, 86_400.0),
+        qdrant_timeout_seconds=_bounded_float(raw_dict, "qdrant_timeout_seconds", 30.0, 1.0, 3_600.0),
+        counter_flush_interval=_bounded_int(raw_dict, "counter_flush_interval", 25, 1, 10_000),
+        queue_put_timeout_seconds=_bounded_float(raw_dict, "queue_put_timeout_seconds", 0.25, 0.01, 60.0),
+        worker_shutdown_timeout_seconds=_bounded_float(raw_dict, "worker_shutdown_timeout_seconds", 30.0, 1.0, 3_600.0),
         raw=raw_dict
     )
     _cached_config = config

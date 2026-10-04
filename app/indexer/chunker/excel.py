@@ -1,5 +1,6 @@
 import re
-from typing import List
+from typing import Iterator, List, Optional, Tuple
+
 from app.indexer.chunker.base import BaseChunker, ChunkResult
 
 
@@ -7,72 +8,59 @@ class ExcelChunker(BaseChunker):
     _EMPTY_CELL_VALUES = {"", "nan", "none", "null", "nat", "<na>"}
 
     def __init__(self, rows_per_chunk: int = 15):
-        self.rows_per_chunk = rows_per_chunk
+        self.rows_per_chunk = max(1, rows_per_chunk)
 
-    def chunk(self, md_text: str, file_name: str) -> List[ChunkResult]:
+    def _sheets(self, md_text: str, file_name: str) -> Iterator[Tuple[str, str]]:
+        pattern = re.compile(r"(?ms)^##\s+([^\n]*)\n?(.*?)(?=^##\s+|\Z)")
+        found = False
+        for match in pattern.finditer(md_text):
+            found = True
+            yield match.group(1).strip(), match.group(2)
+        if not found:
+            yield file_name, md_text
+
+    def iter_chunks(
+        self,
+        md_text: str,
+        file_name: str,
+        max_chunk_chars: Optional[int] = None,
+    ) -> Iterator[ChunkResult]:
         if not md_text or not md_text.strip():
-            return []
+            return
 
-        # Split sheets by H2 headers "## "
-        raw_sections = re.split(r'(?m)^##\s+', md_text)
-        sheets = []
-
-        if len(raw_sections) <= 1:
-            # CSV or single sheet document without H2 headers
-            sheet_name = file_name
-            sheets.append((sheet_name, md_text))
-        else:
-            for section in raw_sections:
-                if not section.strip():
-                    continue
-                lines = section.strip().split("\n", 1)
-                sheet_name = lines[0].strip()
-                content = lines[1] if len(lines) > 1 else ""
-                sheets.append((sheet_name, content))
-
-        results: List[ChunkResult] = []
-
-        for sheet_name, content in sheets:
-            table_rows = self._parse_markdown_table(content)
+        chunk_index = 0
+        for sheet_name, content in self._sheets(md_text, file_name):
+            table_rows = self._clean_table(self._parse_markdown_table(content))
             if not table_rows:
                 continue
-
-            # Drop empty columns
-            table_rows = self._clean_table(table_rows)
-            if not table_rows:
-                continue
-
             anchor_row = table_rows[0]
             data_rows = table_rows[1:]
-
+            batches = self._iter_batches(data_rows, self.rows_per_chunk, overlap=2)
             if not data_rows:
-                # Only header row existed
-                text = f"[Sheet: {sheet_name}]\n{anchor_row}"
-                results.append(ChunkResult(
-                    text=text,
-                    chunk_index=0,
-                    chunk_total=1,
-                    section_context=f"Sheet: {sheet_name}"
-                ))
-                continue
-
-            batches = self._batch_rows_with_overlap(data_rows, self.rows_per_chunk, overlap=2)
-
+                batches = iter(([],))
             for batch in batches:
                 row_block = "\n".join(batch)
-                text = f"[Sheet: {sheet_name}]\n{anchor_row}\n{row_block}"
-                results.append(ChunkResult(
+                text = f"[Sheet: {sheet_name}]\n{anchor_row}"
+                if row_block:
+                    text += f"\n{row_block}"
+                if max_chunk_chars and len(text) > max_chunk_chars:
+                    raise ValueError(
+                        f"Chunk {chunk_index} exceeds max_chunk_chars ({max_chunk_chars})"
+                    )
+                yield ChunkResult(
                     text=text,
-                    chunk_index=len(results),
-                    chunk_total=0,  # updated at end
-                    section_context=f"Sheet: {sheet_name}"
-                ))
+                    chunk_index=chunk_index,
+                    chunk_total=0,
+                    section_context=f"Sheet: {sheet_name}",
+                )
+                chunk_index += 1
 
+    def chunk(self, md_text: str, file_name: str) -> List[ChunkResult]:
+        results = list(self.iter_chunks(md_text, file_name))
         total = len(results)
-        for i, r in enumerate(results):
-            r.chunk_index = i
-            r.chunk_total = total
-
+        for index, result in enumerate(results):
+            result.chunk_index = index
+            result.chunk_total = total
         return results
 
     def _parse_markdown_table(self, content: str) -> List[str]:
@@ -80,39 +68,35 @@ class ExcelChunker(BaseChunker):
         table_lines = []
         for line in lines:
             if line.startswith("|") or "|" in line:
-                # Skip markdown separator lines like |---|---|
                 if re.match(r'^\s*\|?\s*:?-+:?\s*(\|?\s*:?-+:?\s*)*\|?\s*$', line):
                     continue
                 table_lines.append(line)
         return table_lines
 
     def _clean_table(self, table_lines: List[str]) -> List[str]:
-        # Parse into a normalized grid. MarkItDown can represent empty Excel
-        # cells as literal strings such as "NaN" or "Unnamed: 3". Normalize
-        # those before both embedding and payload storage so search excerpts
-        # do not expose conversion artifacts.
         grid = []
         for line in table_lines:
             cells = [self._normalize_cell(c) for c in line.strip("|").split("|")]
             if any(c for c in cells):
                 grid.append(cells)
-
         if not grid:
             return []
 
-        # Find columns that have at least one non-empty value
         max_cols = max(len(cells) for cells in grid)
         col_has_val = [False] * max_cols
         for cells in grid:
-            for i, c in enumerate(cells):
-                if c:
-                    col_has_val[i] = True
+            for index, cell in enumerate(cells):
+                if cell:
+                    col_has_val[index] = True
 
         cleaned_lines = []
         for cells in grid:
-            filtered_cells = [cells[i] if i < len(cells) else "" for i in range(max_cols) if col_has_val[i]]
-            cleaned_lines.append("| " + " | ".join(filtered_cells) + " |")
-
+            filtered = [
+                cells[index] if index < len(cells) else ""
+                for index in range(max_cols)
+                if col_has_val[index]
+            ]
+            cleaned_lines.append("| " + " | ".join(filtered) + " |")
         return cleaned_lines
 
     def _normalize_cell(self, cell: str) -> str:
@@ -123,13 +107,12 @@ class ExcelChunker(BaseChunker):
             return ""
         return value
 
-    def _batch_rows_with_overlap(self, rows: List[str], batch_size: int, overlap: int) -> List[List[str]]:
-        batches = []
-        i = 0
-        while i < len(rows):
-            batch = rows[i:i + batch_size]
-            batches.append(batch)
-            if i + batch_size >= len(rows):
+    def _iter_batches(self, rows: List[str], batch_size: int, overlap: int) -> Iterator[List[str]]:
+        index = 0
+        step = max(1, batch_size - overlap)
+        while index < len(rows):
+            batch = rows[index:index + batch_size]
+            yield batch
+            if index + batch_size >= len(rows):
                 break
-            i += (batch_size - overlap)
-        return batches
+            index += step

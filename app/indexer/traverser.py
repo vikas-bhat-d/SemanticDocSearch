@@ -1,17 +1,18 @@
-import os
 import fnmatch
-from datetime import datetime
-from typing import Generator, List, Dict, Any, Optional
+import os
+import threading
+from typing import Any, Dict, Generator, Iterable, List, Optional, Set
+
 from sqlalchemy.orm import Session
-from app.models import IndexFolder, ExcludedPath, FileTypeConfig
-from app.indexer.qdrant_ops import check_file_exists_and_unchanged
-from qdrant_client import QdrantClient
+
+from app.indexer.paths import canonical_file_path, normalize_file_path, path_is_within
+from app.models import ExcludedPath, FileTypeConfig, IndexFolder
 
 
 def is_path_excluded(file_path: str, path_exclusions: List[str]) -> bool:
-    norm_path = file_path.replace('/', '\\').lower()
-    for ex in path_exclusions:
-        norm_ex = ex.replace('/', '\\').lower()
+    norm_path = file_path.replace("/", "\\").lower()
+    for exclusion in path_exclusions:
+        norm_ex = exclusion.replace("/", "\\").lower()
         if norm_path.startswith(norm_ex) or fnmatch.fnmatch(norm_path, norm_ex):
             return True
     return False
@@ -21,8 +22,8 @@ def is_ext_excluded(ext: str, ext_exclusions: List[str]) -> bool:
     norm_ext = ext.lower()
     if not norm_ext.startswith("."):
         norm_ext = f".{norm_ext}"
-    for ex in ext_exclusions:
-        norm_ex = ex.lower()
+    for exclusion in ext_exclusions:
+        norm_ex = exclusion.lower()
         if not norm_ex.startswith("."):
             norm_ex = f".{norm_ex}"
         if norm_ext == norm_ex:
@@ -30,69 +31,101 @@ def is_ext_excluded(ext: str, ext_exclusions: List[str]) -> bool:
     return False
 
 
-def walk_folders(
+def _unique_roots(folder_paths: Iterable[str]) -> List[str]:
+    """Remove duplicate and nested roots before walking them."""
+    roots: List[str] = []
+    for raw in sorted({normalize_file_path(p) for p in folder_paths if p}, key=len):
+        if not any(path_is_within(raw, root) for root in roots):
+            roots.append(raw)
+    return roots
+
+
+def walk_folders_stream(
     db: Session,
-    qdrant_client: Optional[QdrantClient] = None,
-    collection_name: Optional[str] = None
+    stop_event: Optional[threading.Event] = None,
+    changed_paths: Optional[Set[str]] = None,
+    deleted_paths: Optional[Set[str]] = None,
 ) -> Generator[Dict[str, Any], None, None]:
-    folders = [f.path for f in db.query(IndexFolder).all()]
+    """Yield filesystem candidates lazily without making Qdrant requests."""
+    stop_event = stop_event or threading.Event()
+    changed = {canonical_file_path(p) for p in (changed_paths or set())}
+    deleted = {canonical_file_path(p) for p in (deleted_paths or set())}
+
+    folders = _unique_roots(row.path for row in db.query(IndexFolder).all())
     exclusions = db.query(ExcludedPath).all()
-
-    path_exclusions = [e.value for e in exclusions if e.type == 'path']
-    ext_exclusions = [e.value for e in exclusions if e.type == 'extension']
-
+    path_exclusions = [e.value for e in exclusions if e.type == "path"]
+    ext_exclusions = [e.value for e in exclusions if e.type == "extension"]
     enabled_exts = {
         row.extension.lower(): row.chunker
         for row in db.query(FileTypeConfig).filter_by(enabled=1).all()
     }
+    # The generator may walk a large tree for a long time.  End the read
+    # transaction before yielding files so progress writes are not blocked.
+    db.rollback()
 
     for folder_path in folders:
-        if not os.path.exists(folder_path):
-            continue
-
-        if is_path_excluded(folder_path, path_exclusions):
+        if stop_event.is_set():
+            return
+        if not os.path.exists(folder_path) or is_path_excluded(folder_path, path_exclusions):
             continue
 
         for root, dirs, files in os.walk(folder_path):
-            # Prune excluded subdirectories
+            if stop_event.is_set():
+                return
             dirs[:] = [
-                d for d in dirs
-                if not is_path_excluded(os.path.join(root, d), path_exclusions)
+                directory for directory in dirs
+                if not is_path_excluded(os.path.join(root, directory), path_exclusions)
             ]
 
             for file_name in files:
-                file_path = os.path.join(root, file_name)
+                if stop_event.is_set():
+                    return
+
+                file_path = normalize_file_path(os.path.join(root, file_name))
+                canonical_path = canonical_file_path(file_path)
+                if canonical_path in deleted:
+                    continue
+
                 ext = os.path.splitext(file_name)[1].lower()
-
                 if is_path_excluded(file_path, path_exclusions):
-                    yield {"file_path": file_path, "status": "skipped", "reason": "Excluded path"}
+                    yield {
+                        "file_path": file_path,
+                        "canonical_path": canonical_path,
+                        "status": "skipped",
+                        "reason": "Excluded path",
+                    }
                     continue
-
                 if is_ext_excluded(ext, ext_exclusions):
-                    yield {"file_path": file_path, "status": "skipped", "reason": "Excluded extension"}
+                    yield {
+                        "file_path": file_path,
+                        "canonical_path": canonical_path,
+                        "status": "skipped",
+                        "reason": "Excluded extension",
+                    }
                     continue
-
-                if ext not in enabled_exts:
-                    yield {"file_path": file_path, "status": "skipped", "reason": "Unsupported or disabled extension"}
+                if ext not in enabled_exts or not enabled_exts[ext]:
+                    yield {
+                        "file_path": file_path,
+                        "canonical_path": canonical_path,
+                        "status": "skipped",
+                        "reason": "Unsupported or disabled extension",
+                    }
                     continue
-
-                try:
-                    mtime = os.path.getmtime(file_path)
-                    modified_at_iso = datetime.utcfromtimestamp(mtime).isoformat()
-                except Exception as e:
-                    yield {"file_path": file_path, "status": "failed", "reason": f"Cannot read mtime: {str(e)}"}
-                    continue
-
-                # Check Qdrant skip logic
-                if qdrant_client and collection_name:
-                    if check_file_exists_and_unchanged(qdrant_client, collection_name, file_path, modified_at_iso):
-                        yield {"file_path": file_path, "status": "skipped", "reason": "Unchanged file already in Qdrant"}
-                        continue
 
                 yield {
                     "file_path": file_path,
+                    "canonical_path": canonical_path,
                     "file_name": file_name,
                     "extension": ext,
-                    "modified_at_iso": modified_at_iso,
-                    "status": "pending"
+                    "force_reindex": canonical_path in changed,
+                    "status": "pending",
                 }
+
+
+def walk_folders(
+    db: Session,
+    qdrant_client: Any = None,
+    collection_name: Optional[str] = None,
+) -> Generator[Dict[str, Any], None, None]:
+    """Compatibility wrapper; Qdrant arguments are intentionally ignored."""
+    yield from walk_folders_stream(db)

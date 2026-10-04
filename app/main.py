@@ -7,7 +7,7 @@ from fastapi.templating import Jinja2Templates
 from starlette.middleware.sessions import SessionMiddleware
 from sqlalchemy.orm import Session
 
-from app.database import engine, Base, get_db
+from app.database import engine, Base, get_db, SessionLocal, upgrade_schema
 from app.config import seed_default_configs, get_config, get_raw_initial_api_key
 from app.logger import setup_logger
 from app.auth import verify_session
@@ -19,8 +19,9 @@ from app.routers import auth, index, search, config, incremental, reclassify
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Startup tasks
+    upgrade_schema(engine)
     Base.metadata.create_all(bind=engine)
-    db = next(get_db())
+    db = SessionLocal()
     try:
         seed_default_configs(db)
         cfg = get_config(db)
@@ -65,7 +66,12 @@ app.include_router(reclassify.router)
 def render_page(template_name: str, request: Request, active_page: str, context: dict = None):
     if not verify_session(request):
         return RedirectResponse(url="/login", status_code=status.HTTP_303_SEE_OTHER)
-    ctx = {"request": request, "active_page": active_page}
+    app_js_path = os.path.join(STATIC_DIR, "js", "app.js")
+    ctx = {
+        "request": request,
+        "active_page": active_page,
+        "static_asset_version": int(os.path.getmtime(app_js_path)),
+    }
     if context:
         ctx.update(context)
     return templates.TemplateResponse(request=request, name=template_name, context=ctx)

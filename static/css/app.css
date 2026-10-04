@@ -336,6 +336,26 @@ body {
     transition: width 0.3s ease;
 }
 
+.progress-bar-fill.progress-indeterminate {
+    animation: pulse 1.2s ease-in-out infinite;
+}
+
+.discovery-pulse {
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 0.45rem;
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+}
+
+.pulse-dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background: var(--brand-primary);
+    animation: pulse 1.2s ease-in-out infinite;
+}
+
 .progress-subtext {
     font-size: 0.8rem;
     color: var(--text-secondary);

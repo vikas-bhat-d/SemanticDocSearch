@@ -28,13 +28,20 @@ async def reclassify_file(
     config = get_config(db)
     qdrant = get_qdrant_client(host=config.qdrant_host, port=config.qdrant_port)
 
-    count = update_payload_for_file(
-        client=qdrant,
-        collection_name=config.collection_name,
-        file_path=body.file_path,
-        departments=body.departments,
-        doc_types=body.doc_types
-    )
+    try:
+        count = update_payload_for_file(
+            client=qdrant,
+            collection_name=config.collection_name,
+            file_path=body.file_path,
+            departments=body.departments,
+            doc_types=body.doc_types,
+            raise_errors=True,
+        )
+    except Exception as exc:
+        raise HTTPException(
+            status_code=status.HTTP_502_BAD_GATEWAY,
+            detail=f"Qdrant reclassification failed: {exc}",
+        )
 
     return {
         "status": "success",

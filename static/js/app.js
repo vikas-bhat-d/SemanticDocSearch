@@ -3,6 +3,7 @@ let dashboardInterval = null;
 let eventSource = null;
 let isStreamPaused = false;
 let logHistoryCache = [];
+let lastDashboardStatus = null;
 const departmentCache = new Map();
 const docTypeCache = new Map();
 
@@ -62,23 +63,48 @@ async function updateDashboardStatus() {
             badge.innerText = data.status;
         }
 
-        document.getElementById('progress-percentage').innerText = `${data.progress_percentage || 0}%`;
-        document.getElementById('progress-bar-fill').style.width = `${data.progress_percentage || 0}%`;
-        document.getElementById('indexed-count').innerText = data.indexed_files || 0;
-        document.getElementById('total-count').innerText = data.total_files || 0;
+        const progressLabel = document.getElementById('progress-percentage');
+        const progressBar = document.getElementById('progress-bar-fill');
+        const processedCount = document.getElementById('processed-count');
+        const discoveredCount = document.getElementById('discovered-count');
+        const progressHint = document.getElementById('progress-hint');
+        const discoveryIndicator = document.getElementById('discovery-indicator');
+        const isDiscovering = data.status === 'RUNNING' && !data.discovery_complete;
+        if (progressLabel) progressLabel.innerText = data.progress_percentage == null ? '…' : `${data.progress_percentage}%`;
+        if (progressBar) {
+            progressBar.style.width = data.progress_percentage == null ? '35%' : `${data.progress_percentage}%`;
+            progressBar.classList.toggle('progress-indeterminate', data.progress_percentage == null);
+        }
+        if (processedCount) processedCount.innerText = data.processed_files || 0;
+        if (discoveredCount) discoveredCount.innerText = data.discovery_complete
+            ? (data.discovered_files ?? data.total_files ?? 0)
+            : `${data.discovered_files || 0}…`;
+        if (progressHint) progressHint.innerText = isDiscovering ? 'Discovering files' : (data.status === 'STOPPING' ? 'Stopping — finishing in-progress files...' : '');
+        if (discoveryIndicator) discoveryIndicator.style.display = isDiscovering ? 'flex' : 'none';
+        const indexedCount = document.getElementById('indexed-count');
+        if (indexedCount) indexedCount.innerText = data.indexed_files || 0;
 
         document.getElementById('stat-indexed').innerText = data.indexed_files || 0;
+        const statDiscovered = document.getElementById('stat-discovered');
+        if (statDiscovered) statDiscovered.innerText = data.discovered_files || 0;
         document.getElementById('stat-skipped').innerText = data.skipped_files || 0;
         document.getElementById('stat-failed').innerText = data.failed_files || 0;
         document.getElementById('stat-deleted').innerText = data.deleted_files || 0;
 
-        if (data.status === 'RUNNING' || data.status === 'STOPPING') {
+        if (data.status === 'RUNNING') {
             if (btnStart) btnStart.disabled = true;
-            if (btnStop) btnStop.disabled = (data.status === 'STOPPING');
+            if (btnStop) btnStop.disabled = false;
+        } else if (data.status === 'STOPPING') {
+            if (btnStart) btnStart.disabled = true;
+            if (btnStop) btnStop.disabled = true;
         } else {
             if (btnStart) btnStart.disabled = false;
             if (btnStop) btnStop.disabled = true;
+            if ((data.status === 'COMPLETED' || data.status === 'STOPPED' || data.status === 'FAILED') && lastDashboardStatus !== data.status) {
+                loadRecentRuns();
+            }
         }
+        lastDashboardStatus = data.status;
     } catch (err) {
         console.error("Dashboard status update error:", err);
     }
@@ -121,7 +147,7 @@ async function loadRecentRuns() {
                 <td><span class="badge badge-${run.status.toLowerCase()}">${run.status}</span></td>
                 <td>${run.started_at ? new Date(run.started_at).toLocaleString() : '-'}</td>
                 <td>${run.stopped_at ? new Date(run.stopped_at).toLocaleString() : '-'}</td>
-                <td>${run.total_files}</td>
+                <td>${run.discovered_files ?? run.total_files ?? 0}</td>
                 <td>${run.indexed_files}</td>
                 <td>${run.skipped_files}</td>
                 <td>${run.failed_files}</td>
@@ -571,10 +597,31 @@ async function previewXml() {
 async function loadSettings() {
     try {
         const cfg = await apiRequest('/api/config/settings');
+        const requiredSettings = [
+            'conversion_timeout_seconds',
+            'qdrant_timeout_seconds',
+            'queue_put_timeout_seconds',
+            'worker_shutdown_timeout_seconds'
+        ];
+        const missingSettings = requiredSettings.filter(name => cfg[name] == null);
+        if (missingSettings.length > 0) {
+            throw new Error(`Settings API response is missing: ${missingSettings.join(', ')}`);
+        }
         document.getElementById('embedding-model').value = cfg.embedding_model;
         document.getElementById('embedding-dimensions').value = cfg.embedding_dimensions;
         document.getElementById('parallel-workers').value = cfg.parallel_workers;
+        document.getElementById('index-queue-capacity').value = cfg.index_queue_capacity;
+        document.getElementById('embedding-batch-size').value = cfg.embedding_batch_size;
+        document.getElementById('embedding-concurrency').value = cfg.embedding_concurrency;
+        document.getElementById('qdrant-upsert-batch-size').value = cfg.qdrant_upsert_batch_size;
+        document.getElementById('qdrant-upsert-max-bytes').value = cfg.qdrant_upsert_max_bytes;
         document.getElementById('max-file-size-mb').value = cfg.max_file_size_mb;
+        document.getElementById('max-markdown-chars').value = cfg.max_markdown_chars;
+        document.getElementById('max-chunk-chars').value = cfg.max_chunk_chars;
+        document.getElementById('conversion-timeout-seconds').value = cfg.conversion_timeout_seconds;
+        document.getElementById('qdrant-timeout-seconds').value = cfg.qdrant_timeout_seconds;
+        document.getElementById('queue-put-timeout-seconds').value = cfg.queue_put_timeout_seconds;
+        document.getElementById('worker-shutdown-timeout-seconds').value = cfg.worker_shutdown_timeout_seconds;
         document.getElementById('chunk-size').value = cfg.chunk_size;
         document.getElementById('chunk-overlap').value = cfg.chunk_overlap;
         document.getElementById('rows-per-chunk').value = cfg.rows_per_chunk;
@@ -595,7 +642,19 @@ async function saveSettings() {
         embedding_model: document.getElementById('embedding-model').value.trim(),
         embedding_dimensions: parseInt(document.getElementById('embedding-dimensions').value),
         parallel_workers: parseInt(document.getElementById('parallel-workers').value),
+        index_workers: parseInt(document.getElementById('parallel-workers').value),
+        index_queue_capacity: parseInt(document.getElementById('index-queue-capacity').value),
+        embedding_batch_size: parseInt(document.getElementById('embedding-batch-size').value),
+        embedding_concurrency: parseInt(document.getElementById('embedding-concurrency').value),
+        qdrant_upsert_batch_size: parseInt(document.getElementById('qdrant-upsert-batch-size').value),
+        qdrant_upsert_max_bytes: parseInt(document.getElementById('qdrant-upsert-max-bytes').value),
         max_file_size_mb: parseInt(document.getElementById('max-file-size-mb').value),
+        max_markdown_chars: parseInt(document.getElementById('max-markdown-chars').value),
+        max_chunk_chars: parseInt(document.getElementById('max-chunk-chars').value),
+        conversion_timeout_seconds: parseFloat(document.getElementById('conversion-timeout-seconds').value),
+        qdrant_timeout_seconds: parseFloat(document.getElementById('qdrant-timeout-seconds').value),
+        queue_put_timeout_seconds: parseFloat(document.getElementById('queue-put-timeout-seconds').value),
+        worker_shutdown_timeout_seconds: parseFloat(document.getElementById('worker-shutdown-timeout-seconds').value),
         chunk_size: parseInt(document.getElementById('chunk-size').value),
         chunk_overlap: parseInt(document.getElementById('chunk-overlap').value),
         rows_per_chunk: parseInt(document.getElementById('rows-per-chunk').value),

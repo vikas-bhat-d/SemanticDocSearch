@@ -28,6 +28,12 @@ class SettingsUpdateRequest(BaseModel):
     embedding_model: Optional[str] = None
     embedding_dimensions: Optional[int] = None
     parallel_workers: Optional[int] = None
+    index_workers: Optional[int] = None
+    index_queue_capacity: Optional[int] = None
+    embedding_batch_size: Optional[int] = None
+    embedding_concurrency: Optional[int] = None
+    qdrant_upsert_batch_size: Optional[int] = None
+    qdrant_upsert_max_bytes: Optional[int] = None
     qdrant_host: Optional[str] = None
     qdrant_port: Optional[int] = None
     collection_name: Optional[str] = None
@@ -39,6 +45,13 @@ class SettingsUpdateRequest(BaseModel):
     search_per_page: Optional[int] = None
     search_excerpt_count: Optional[int] = None
     max_file_size_mb: Optional[int] = None
+    max_markdown_chars: Optional[int] = None
+    max_chunk_chars: Optional[int] = None
+    conversion_timeout_seconds: Optional[float] = None
+    qdrant_timeout_seconds: Optional[float] = None
+    counter_flush_interval: Optional[int] = None
+    queue_put_timeout_seconds: Optional[float] = None
+    worker_shutdown_timeout_seconds: Optional[float] = None
     old_password: Optional[str] = None
     new_password: Optional[str] = None
     regenerate_api_key: Optional[bool] = False
@@ -86,6 +99,12 @@ async def get_settings(
         "embedding_model": cfg.embedding_model,
         "embedding_dimensions": cfg.embedding_dimensions,
         "parallel_workers": cfg.parallel_workers,
+        "index_workers": cfg.index_workers,
+        "index_queue_capacity": cfg.index_queue_capacity,
+        "embedding_batch_size": cfg.embedding_batch_size,
+        "embedding_concurrency": cfg.embedding_concurrency,
+        "qdrant_upsert_batch_size": cfg.qdrant_upsert_batch_size,
+        "qdrant_upsert_max_bytes": cfg.qdrant_upsert_max_bytes,
         "qdrant_host": cfg.qdrant_host,
         "qdrant_port": cfg.qdrant_port,
         "collection_name": cfg.collection_name,
@@ -97,6 +116,13 @@ async def get_settings(
         "search_per_page": cfg.search_per_page,
         "search_excerpt_count": cfg.search_excerpt_count,
         "max_file_size_mb": cfg.max_file_size_mb,
+        "max_markdown_chars": cfg.max_markdown_chars,
+        "max_chunk_chars": cfg.max_chunk_chars,
+        "conversion_timeout_seconds": cfg.conversion_timeout_seconds,
+        "qdrant_timeout_seconds": cfg.qdrant_timeout_seconds,
+        "counter_flush_interval": cfg.counter_flush_interval,
+        "queue_put_timeout_seconds": cfg.queue_put_timeout_seconds,
+        "worker_shutdown_timeout_seconds": cfg.worker_shutdown_timeout_seconds,
         "initial_api_key": init_key
     }
 
@@ -126,10 +152,19 @@ async def update_settings(
             row.value = hash_secret(new_api_key)
 
     # Update generic config values
+    effective_index_workers = body.index_workers if body.index_workers is not None else body.parallel_workers
+    effective_parallel_workers = body.parallel_workers if body.parallel_workers is not None else body.index_workers
     update_dict = {
         "embedding_model": body.embedding_model,
         "embedding_dimensions": str(body.embedding_dimensions) if body.embedding_dimensions else None,
-        "parallel_workers": str(body.parallel_workers) if body.parallel_workers else None,
+        "parallel_workers": str(effective_parallel_workers) if effective_parallel_workers else None,
+        # Keep the old UI/API setting as an alias for the new worker setting.
+        "index_workers": str(effective_index_workers) if effective_index_workers else None,
+        "index_queue_capacity": str(body.index_queue_capacity) if body.index_queue_capacity else None,
+        "embedding_batch_size": str(body.embedding_batch_size) if body.embedding_batch_size else None,
+        "embedding_concurrency": str(body.embedding_concurrency) if body.embedding_concurrency else None,
+        "qdrant_upsert_batch_size": str(body.qdrant_upsert_batch_size) if body.qdrant_upsert_batch_size else None,
+        "qdrant_upsert_max_bytes": str(body.qdrant_upsert_max_bytes) if body.qdrant_upsert_max_bytes else None,
         "qdrant_host": body.qdrant_host,
         "qdrant_port": str(body.qdrant_port) if body.qdrant_port else None,
         "collection_name": body.collection_name,
@@ -141,6 +176,13 @@ async def update_settings(
         "search_per_page": str(body.search_per_page) if body.search_per_page else None,
         "search_excerpt_count": str(body.search_excerpt_count) if body.search_excerpt_count else None,
         "max_file_size_mb": str(body.max_file_size_mb) if body.max_file_size_mb else None,
+        "max_markdown_chars": str(body.max_markdown_chars) if body.max_markdown_chars else None,
+        "max_chunk_chars": str(body.max_chunk_chars) if body.max_chunk_chars else None,
+        "conversion_timeout_seconds": str(body.conversion_timeout_seconds) if body.conversion_timeout_seconds else None,
+        "qdrant_timeout_seconds": str(body.qdrant_timeout_seconds) if body.qdrant_timeout_seconds else None,
+        "counter_flush_interval": str(body.counter_flush_interval) if body.counter_flush_interval else None,
+        "queue_put_timeout_seconds": str(body.queue_put_timeout_seconds) if body.queue_put_timeout_seconds else None,
+        "worker_shutdown_timeout_seconds": str(body.worker_shutdown_timeout_seconds) if body.worker_shutdown_timeout_seconds else None,
     }
 
     for k, v in update_dict.items():

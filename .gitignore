@@ -19,6 +19,7 @@ venv.bak/
 
 # SQLite Databases & Application Data
 data/*.db
+data/*.db-*
 data/*.sqlite3
 data/*.sqlite
 

@@ -3,6 +3,31 @@ def test_get_settings(authenticated_client):
     assert res.status_code == 200
     data = res.json()
     assert "embedding_model" in data
+    assert data["conversion_timeout_seconds"] == 300.0
+    assert data["qdrant_timeout_seconds"] == 30.0
+    assert data["queue_put_timeout_seconds"] == 0.25
+    assert data["worker_shutdown_timeout_seconds"] == 30.0
+
+
+def test_timeout_settings_can_be_updated(authenticated_client):
+    res = authenticated_client.put(
+        "/api/config/settings",
+        json={
+            "conversion_timeout_seconds": 600,
+            "qdrant_timeout_seconds": 45,
+            "queue_put_timeout_seconds": 0.5,
+            "worker_shutdown_timeout_seconds": 90,
+        },
+    )
+    assert res.status_code == 200
+
+    settings = authenticated_client.get("/api/config/settings")
+    assert settings.status_code == 200
+    data = settings.json()
+    assert data["conversion_timeout_seconds"] == 600.0
+    assert data["qdrant_timeout_seconds"] == 45.0
+    assert data["queue_put_timeout_seconds"] == 0.5
+    assert data["worker_shutdown_timeout_seconds"] == 90.0
 
 
 def test_folders_crud(authenticated_client):

@@ -1,6 +1,6 @@
 from datetime import datetime
 from sqlalchemy import (
-    Column, Integer, String, Text, DateTime, ForeignKey, CheckConstraint
+    Column, Integer, String, Text, DateTime, ForeignKey, CheckConstraint, Boolean
 )
 from sqlalchemy.orm import relationship
 from app.database import Base
@@ -73,11 +73,20 @@ class IndexRun(Base):
     status = Column(String, nullable=False, default="running")  # running | completed | stopped | failed
     changed_xml_path = Column(Text, nullable=True)
     deleted_xml_path = Column(Text, nullable=True)
+    # ``total_files`` is retained for old records and clients.  New runs use
+    # discovered/processed counters because discovery is intentionally lazy.
     total_files = Column(Integer, default=0)
+    discovered_files = Column(Integer, default=0)
+    processed_files = Column(Integer, default=0)
+    discovery_complete = Column(Boolean, default=False)
     indexed_files = Column(Integer, default=0)
     skipped_files = Column(Integer, default=0)
     failed_files = Column(Integer, default=0)
     deleted_files = Column(Integer, default=0)
+    details_complete = Column(Boolean, default=True)
+    detail_rows_retained = Column(Integer, default=0)
+    lease_owner = Column(String, nullable=True)
+    lease_expires_at = Column(DateTime, nullable=True)
 
     files = relationship("IndexRunFile", back_populates="run", cascade="all, delete-orphan")
 

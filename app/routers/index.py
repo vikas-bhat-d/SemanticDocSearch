@@ -87,10 +87,15 @@ async def list_index_runs(
             "changed_xml_path": r.changed_xml_path,
             "deleted_xml_path": r.deleted_xml_path,
             "total_files": r.total_files,
+            "discovered_files": r.discovered_files,
+            "processed_files": r.processed_files,
+            "discovery_complete": bool(r.discovery_complete),
             "indexed_files": r.indexed_files,
             "skipped_files": r.skipped_files,
             "failed_files": r.failed_files,
-            "deleted_files": r.deleted_files
+            "deleted_files": r.deleted_files,
+            "details_complete": bool(r.details_complete),
+            "detail_rows_retained": r.detail_rows_retained or 0,
         }
         for r in runs
     ]

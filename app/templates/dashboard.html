@@ -23,8 +23,13 @@
             <div class="progress-bar-bg">
                 <div id="progress-bar-fill" class="progress-bar-fill" style="width: 0%;"></div>
             </div>
+            <div id="discovery-indicator" class="discovery-pulse" style="display:none;">
+                <span class="pulse-dot"></span> Discovering files...
+            </div>
             <div class="progress-subtext">
-                <span id="indexed-count">0</span> / <span id="total-count">0</span> files processed
+                <span id="processed-count">0</span> / <span id="discovered-count">~</span> discovered
+                (<span id="indexed-count">0</span> indexed)
+                <span class="progress-hint" id="progress-hint"></span>
             </div>
         </div>
 
@@ -45,6 +50,14 @@
             <div class="stat-content">
                 <span class="stat-number" id="stat-indexed">0</span>
                 <span class="stat-label">Indexed Files</span>
+            </div>
+        </div>
+
+        <div class="card stat-box stat-discovered">
+            <div class="stat-icon"><svg class="ui-icon" aria-hidden="true"><use href="#icon-search"></use></svg></div>
+            <div class="stat-content">
+                <span class="stat-number" id="stat-discovered">0</span>
+                <span class="stat-label">Files Found</span>
             </div>
         </div>
 
@@ -85,7 +98,7 @@
                     <th>Status</th>
                     <th>Started At</th>
                     <th>Stopped At</th>
-                    <th>Total</th>
+                    <th>Discovered</th>
                     <th>Indexed</th>
                     <th>Skipped</th>
                     <th>Failed</th>

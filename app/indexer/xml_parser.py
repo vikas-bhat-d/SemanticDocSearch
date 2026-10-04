@@ -1,7 +1,9 @@
 import os
 import re
 import xml.etree.ElementTree as ET
-from typing import List, Tuple
+from typing import Dict, List, Set, Tuple
+
+from app.indexer.paths import canonical_file_path, normalize_file_path
 
 
 def convert_backup_path(backup_path: str) -> str:
@@ -70,3 +72,29 @@ def parse_incremental_xml(xml_path_or_content: str) -> List[Tuple[str, str]]:
             results.append(("FILE", converted))
 
     return results
+
+
+def parse_incremental_inputs(
+    changed_xml: str = None,
+    deleted_xml: str = None,
+) -> Tuple[Set[str], Set[str], Dict[str, str]]:
+    """Parse both XML inputs once and apply deleted-over-changed precedence.
+
+    The first two return values are canonical path keys.  The mapping gives
+    each key a normalized path suitable for Qdrant operations.
+    """
+    changed_paths: Dict[str, str] = {}
+    deleted_paths: Dict[str, str] = {}
+    for type_str, path in parse_incremental_xml(changed_xml or ""):
+        if type_str == "FILE":
+            normalized = normalize_file_path(path)
+            changed_paths[canonical_file_path(normalized)] = normalized
+    for type_str, path in parse_incremental_xml(deleted_xml or ""):
+        if type_str == "FILE":
+            normalized = normalize_file_path(path)
+            deleted_paths[canonical_file_path(normalized)] = normalized
+
+    deleted_keys = set(deleted_paths)
+    changed_keys = set(changed_paths) - deleted_keys
+    paths = {**changed_paths, **deleted_paths}
+    return changed_keys, deleted_keys, paths
