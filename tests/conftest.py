@@ -43,7 +43,7 @@ def mock_qdrant(mocker):
     # Mock scroll
     client.scroll.return_value = ([], None)
 
-    # Mock search
+    # Mock Qdrant search
     search_hit = MagicMock()
     search_hit.score = 0.95
     search_hit.payload = {
@@ -56,7 +56,7 @@ def mock_qdrant(mocker):
         "section_context": "Section: Leave Policy",
         "content": "computer hardware policy details"
     }
-    client.search.return_value = [search_hit]
+    client.query_points.return_value.points = [search_hit]
 
     mocker.patch("app.indexer.qdrant_ops.get_qdrant_client", return_value=client)
     mocker.patch("app.search.engine.get_qdrant_client", return_value=client)

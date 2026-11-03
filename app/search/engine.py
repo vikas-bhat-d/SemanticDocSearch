@@ -82,7 +82,8 @@ class SearchEngine:
             top_k=top_k,
             departments=departments,
             doc_types=doc_types,
-            extensions=extensions
+            extensions=extensions,
+            query_text=None if exact_mode else raw_q,
         )
 
         # 4. Group by file

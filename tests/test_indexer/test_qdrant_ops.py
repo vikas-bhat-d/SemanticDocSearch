@@ -8,11 +8,20 @@ from app.indexer.qdrant_ops import (
     upsert_point_batch,
     upsert_file_chunks
 )
+from qdrant_client.http import models as rest_models
 
 
 def test_qdrant_ops_wrapper(mock_qdrant):
     ensure_collection(mock_qdrant, "knowledge_base", 384)
     assert mock_qdrant.get_collections.called
+    content_index = next(
+        call for call in mock_qdrant.create_payload_index.call_args_list
+        if call.kwargs["field_name"] == "content"
+    )
+    assert content_index.kwargs["field_schema"] == rest_models.TextIndexParams(
+        type=rest_models.TextIndexType.TEXT,
+        scoring=True,
+    )
 
     exists = check_file_exists_and_unchanged(mock_qdrant, "knowledge_base", r"C:\test.docx", "2024-01-01T00:00:00")
     assert exists is False
@@ -25,6 +34,22 @@ def test_qdrant_ops_wrapper(mock_qdrant):
         "payload": {"file_path": r"C:\test.docx"}
     }])
     assert mock_qdrant.upsert.called
+
+
+def test_ensure_collection_creates_text_index_for_new_collection(mock_qdrant):
+    mock_qdrant.get_collections.return_value.collections = []
+
+    ensure_collection(mock_qdrant, "knowledge_base", 384)
+
+    mock_qdrant.create_collection.assert_called_once()
+    mock_qdrant.create_payload_index.assert_any_call(
+        collection_name="knowledge_base",
+        field_name="content",
+        field_schema=rest_models.TextIndexParams(
+            type=rest_models.TextIndexType.TEXT,
+            scoring=True,
+        ),
+    )
 
 
 def test_qdrant_timeouts_are_integer_seconds(mock_qdrant):

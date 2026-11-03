@@ -33,6 +33,7 @@ paths are accessible to the process.
   - [Search indexed documents](#search-indexed-documents)
     - [Standalone search page](#standalone-search-page)
     - [Search API](#search-api)
+    - [Hybrid search implementation](#hybrid-search-implementation)
   - [HTTP API quick reference](#http-api-quick-reference)
   - [Data, logs, and backups](#data-logs-and-backups)
   - [Testing](#testing)
@@ -452,9 +453,10 @@ Supported query parameters:
 | `exact` | `true` for strict phrase filtering |
 
 Quoted text, for example `"leave policy"`, also enables exact phrase
-behavior. Normal semantic searches expand configured synonyms, embed the
-expanded query, retrieve the top chunks from Qdrant, group them by file, and
-return the best excerpts per file.
+behavior. Normal searches expand configured synonyms for dense retrieval and
+combine it with BM25 text retrieval using RRF. Exact-mode searches retain the
+dense retrieval path and the existing phrase check. Results are grouped by
+file, and the best excerpts are returned per file.
 
 A successful response has this shape:
 
@@ -486,6 +488,107 @@ A successful response has this shape:
   "exact_mode": false
 }
 ```
+
+### Hybrid search implementation
+
+Normal (non-exact) searches combine dense semantic retrieval with a full-text
+BM25 query as prefetches, then fuse their ranked results with Reciprocal Rank
+Fusion (RRF). RRF combines ranks rather than adding raw scores, which is useful
+because dense and BM25 scores have different scales. See
+[Qdrant's hybrid and multi-stage query documentation](https://qdrant.tech/documentation/search/hybrid-queries/).
+
+The approach below uses the existing `content` payload field for BM25. It
+doesn't require a second embedding model or a sparse vector for every chunk.
+
+#### 1. Create a BM25 text index
+
+Collection setup in
+[`app/indexer/qdrant_ops.py`](./app/indexer/qdrant_ops.py) creates a full-text
+index for `content` with BM25 scoring enabled:
+
+```python
+from qdrant_client import models
+
+client.create_payload_index(
+    collection_name=collection_name,
+    field_name="content",
+    field_schema=models.TextIndexParams(
+        type=models.TextIndexType.TEXT,
+        scoring=True,
+    ),
+)
+```
+
+`scoring=True` enables BM25 scoring for the text field. The indexer calls
+collection setup for both new and existing collections, so this index is
+ensured on index runs. Qdrant can build it from payloads already stored in the
+collection, so existing chunks do not need to be uploaded again. See
+[Qdrant full-text search](https://qdrant.tech/documentation/search/text-search/full-text-search/)
+and [payload index configuration](https://qdrant.tech/documentation/manage-data/indexing/#full-text-index).
+
+#### 2. Prefetch both rankings and fuse them
+
+Keep generating the dense query vector as the search code does today. Reuse
+the current department, document-type, and extension filter for both
+prefetches:
+
+```python
+from qdrant_client import models
+
+response = client.query_points(
+    collection_name=collection_name,
+    prefetch=[
+        models.Prefetch(
+            query=models.TextQuery(text=raw_query),
+            using="content",
+            filter=search_filter,
+            limit=top_k,
+        ),
+        models.Prefetch(
+            query=query_vector,
+            filter=search_filter,
+            limit=top_k,
+        ),
+    ],
+    query=models.FusionQuery(fusion=models.Fusion.RRF),
+    limit=top_k,
+    with_payload=True,
+)
+
+raw_results = response.points
+```
+
+Here, `using="content"` selects the BM25 text index. The dense prefetch omits
+`using` because this project creates a single unnamed dense vector. If the
+collection is later changed to use a named dense vector, set `using` to that
+vector's name.
+
+Use the fused points in the existing result grouping and excerpt logic. Apply
+the same filters to both prefetches so that neither retrieval path introduces
+results outside the requested departments, document types, or extensions.
+Start with the configured `search_top_k` for each prefetch and the fused
+result limit; then tune candidate depth against representative queries,
+especially because results are grouped by file after retrieval.
+
+#### Integration notes
+
+- BM25 scoring on the text index requires Qdrant Server v1.20.0 or newer.
+  This project requires `qdrant-client>=1.20.0` for `TextIndexParams`,
+  `FusionQuery`, and the hybrid Query API.
+- Hybrid scores are fused ranking scores, not the existing dense cosine
+  scores. Treat them as ranking values; don't compare them to the old scores
+  or reuse thresholds calibrated for dense search.
+- The BM25 text query is term-based ranked search, not a strict exact-phrase
+  constraint. Keep the existing exact-mode behavior separate from the hybrid
+  path.
+- The current dense query uses the synonym-expanded text. Start BM25 with the
+  raw user query to avoid expanding lexical matches unintentionally, then
+  evaluate whether applying configured synonyms to BM25 improves results.
+- If BM25 over payload text is not sufficient and learned sparse retrieval is
+  needed, Qdrant also supports sparse-vector queries such as SPLADE++. That
+  approach requires generating and storing sparse vectors for indexed chunks
+  as well as generating them for queries. See
+  [Qdrant sparse-vector search](https://qdrant.tech/documentation/search/text-search/sparse-vector-search/).
 
 ## HTTP API quick reference
 

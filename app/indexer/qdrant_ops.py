@@ -35,12 +35,26 @@ def ensure_collection(client: QdrantClient, collection_name: str, dimensions: in
         )
 
     # Also ensure indexes on an existing collection after upgrades.
-    for field in ("file_path", "index_roots", "departments", "doc_types", "file_extension"):
+    payload_indexes = (
+        ("file_path", rest_models.PayloadSchemaType.KEYWORD),
+        ("index_roots", rest_models.PayloadSchemaType.KEYWORD),
+        ("departments", rest_models.PayloadSchemaType.KEYWORD),
+        ("doc_types", rest_models.PayloadSchemaType.KEYWORD),
+        ("file_extension", rest_models.PayloadSchemaType.KEYWORD),
+        (
+            "content",
+            rest_models.TextIndexParams(
+                type=rest_models.TextIndexType.TEXT,
+                scoring=True,
+            ),
+        ),
+    )
+    for field_name, field_schema in payload_indexes:
         try:
             client.create_payload_index(
                 collection_name=collection_name,
-                field_name=field,
-                field_schema=rest_models.PayloadSchemaType.KEYWORD,
+                field_name=field_name,
+                field_schema=field_schema,
             )
         except Exception:
             # Qdrant reports an error when an index already exists.  The
@@ -468,6 +482,7 @@ def search_qdrant(
     departments: Optional[List[str]] = None,
     doc_types: Optional[List[str]] = None,
     extensions: Optional[List[str]] = None,
+    query_text: Optional[str] = None,
 ) -> List[Any]:
     must_conditions = []
     if departments:
@@ -483,19 +498,33 @@ def search_qdrant(
             key="file_extension", match=rest_models.MatchAny(any=extensions)
         ))
     search_filter = rest_models.Filter(must=must_conditions) if must_conditions else None
-    if hasattr(client, "search"):
-        return client.search(
+
+    if query_text is None:
+        return client.query_points(
             collection_name=collection_name,
-            query_vector=query_vector,
+            query=query_vector,
             limit=top_k,
             query_filter=search_filter,
             with_payload=True,
-        )
+        ).points
+
     return client.query_points(
         collection_name=collection_name,
-        query=query_vector,
+        prefetch=[
+            rest_models.Prefetch(
+                query=rest_models.TextQuery(text=query_text),
+                using="content",
+                filter=search_filter,
+                limit=top_k,
+            ),
+            rest_models.Prefetch(
+                query=query_vector,
+                filter=search_filter,
+                limit=top_k,
+            ),
+        ],
+        query=rest_models.FusionQuery(fusion=rest_models.Fusion.RRF),
         limit=top_k,
-        query_filter=search_filter,
         with_payload=True,
     ).points
 
