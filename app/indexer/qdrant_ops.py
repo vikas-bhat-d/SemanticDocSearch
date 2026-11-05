@@ -477,13 +477,28 @@ def upsert_file_chunks(
 def search_qdrant(
     client: QdrantClient,
     collection_name: str,
-    query_vector: List[float],
+    query_vector: Optional[List[float]],
     top_k: int = 50,
     departments: Optional[List[str]] = None,
     doc_types: Optional[List[str]] = None,
     extensions: Optional[List[str]] = None,
     query_text: Optional[str] = None,
+    semantic_weight: float = 1.0,
+    keyword_weight: float = 0.0,
 ) -> List[Any]:
+    if (
+        not math.isfinite(semantic_weight)
+        or not math.isfinite(keyword_weight)
+        or semantic_weight < 0
+        or keyword_weight < 0
+        or (semantic_weight == 0 and keyword_weight == 0)
+    ):
+        raise ValueError("Search weights must be finite, non-negative, and not both zero")
+    if semantic_weight > 0 and query_vector is None:
+        raise ValueError("A query vector is required when semantic_weight is greater than zero")
+    if keyword_weight > 0 and not query_text:
+        raise ValueError("Query text is required when keyword_weight is greater than zero")
+
     must_conditions = []
     if departments:
         must_conditions.append(rest_models.FieldCondition(
@@ -499,10 +514,20 @@ def search_qdrant(
         ))
     search_filter = rest_models.Filter(must=must_conditions) if must_conditions else None
 
-    if query_text is None:
+    if semantic_weight > 0 and keyword_weight == 0:
         return client.query_points(
             collection_name=collection_name,
             query=query_vector,
+            limit=top_k,
+            query_filter=search_filter,
+            with_payload=True,
+        ).points
+
+    if semantic_weight == 0:
+        return client.query_points(
+            collection_name=collection_name,
+            query=rest_models.TextQuery(text=query_text),
+            using="content",
             limit=top_k,
             query_filter=search_filter,
             with_payload=True,
@@ -512,18 +537,20 @@ def search_qdrant(
         collection_name=collection_name,
         prefetch=[
             rest_models.Prefetch(
+                query=query_vector,
+                filter=search_filter,
+                limit=top_k,
+            ),
+            rest_models.Prefetch(
                 query=rest_models.TextQuery(text=query_text),
                 using="content",
                 filter=search_filter,
                 limit=top_k,
             ),
-            rest_models.Prefetch(
-                query=query_vector,
-                filter=search_filter,
-                limit=top_k,
-            ),
         ],
-        query=rest_models.FusionQuery(fusion=rest_models.Fusion.RRF),
+        query=rest_models.RrfQuery(
+            rrf=rest_models.Rrf(weights=[semantic_weight, keyword_weight])
+        ),
         limit=top_k,
         with_payload=True,
     ).points

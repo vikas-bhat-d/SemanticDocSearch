@@ -1,5 +1,6 @@
 import re
 import html
+import math
 from typing import List, Dict, Any, Optional
 from sqlalchemy.orm import Session
 from app.config import get_config
@@ -13,10 +14,7 @@ class SearchEngine:
         self.db = db
         self.config = get_config(db)
         self.qdrant = get_qdrant_client(host=self.config.qdrant_host, port=self.config.qdrant_port)
-        self.embedder = Embedder(
-            model_name=self.config.embedding_model,
-            dimensions=self.config.embedding_dimensions
-        )
+        self.embedder: Optional[Embedder] = None
 
     def search(
         self,
@@ -26,8 +24,19 @@ class SearchEngine:
         extensions: Optional[List[str]] = None,
         page: int = 1,
         per_page: int = 10,
-        exact: bool = False
+        exact: bool = False,
+        semantic_weight: float = 1.0,
+        keyword_weight: float = 1.0,
     ) -> Dict[str, Any]:
+        if (
+            not math.isfinite(semantic_weight)
+            or not math.isfinite(keyword_weight)
+            or semantic_weight < 0
+            or keyword_weight < 0
+            or (semantic_weight == 0 and keyword_weight == 0)
+        ):
+            raise ValueError("Search weights must be finite, non-negative, and not both zero")
+
         if not query or not query.strip():
             return {
                 "results": [],
@@ -53,27 +62,23 @@ class SearchEngine:
             exact_phrase = raw_q.lower()
 
         synonyms_used = []
-        if exact_mode:
-            search_text = raw_q.replace('"', '')
-        else:
+        search_text = raw_q.replace('"', '')
+        if semantic_weight > 0 and not exact_mode:
             search_text, synonyms_used = expand_query(raw_q, self.db)
 
-        # 2. Embed query
-        query_vectors = self.embedder.embed_batch([search_text])
-        if not query_vectors:
-            return {
-                "results": [],
-                "total_files": 0,
-                "total_pages": 0,
-                "page": page,
-                "per_page": per_page,
-                "query": query,
-                "synonyms_used": [],
-                "exact_mode": exact_mode
-            }
-        query_vec = query_vectors[0]
+        query_vec = None
+        if semantic_weight > 0:
+            if self.embedder is None:
+                self.embedder = Embedder(
+                    model_name=self.config.embedding_model,
+                    dimensions=self.config.embedding_dimensions
+                )
+            query_vectors = self.embedder.embed_batch([search_text])
+            if not query_vectors:
+                raise RuntimeError("Embedding model returned no vector for the search query")
+            query_vec = query_vectors[0]
 
-        # 3. Vector search
+        # 3. Retrieve from the enabled search sources and fuse when both are enabled.
         top_k = self.config.search_top_k
         raw_results = search_qdrant(
             client=self.qdrant,
@@ -83,7 +88,9 @@ class SearchEngine:
             departments=departments,
             doc_types=doc_types,
             extensions=extensions,
-            query_text=None if exact_mode else raw_q,
+            query_text=raw_q,
+            semantic_weight=semantic_weight,
+            keyword_weight=keyword_weight,
         )
 
         # 4. Group by file

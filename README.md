@@ -436,6 +436,8 @@ curl.exe --get "http://127.0.0.1:8000/api/search" `
   --data-urlencode "q=computer security policy" `
   --data-urlencode "department=HR" `
   --data-urlencode "extension=.docx" `
+  --data-urlencode "semantic_weight=0.7" `
+  --data-urlencode "keyword_weight=0.3" `
   --data-urlencode "page=1" `
   --data-urlencode "per_page=10"
 ```
@@ -451,12 +453,28 @@ Supported query parameters:
 | `page` | 1-based page number |
 | `per_page` | Results per page, from 1 to 100 |
 | `exact` | `true` for strict phrase filtering |
+| `semantic_weight` | Non-negative dense-retrieval weight; `0` disables semantic retrieval (default `1.0`) |
+| `keyword_weight` | Non-negative BM25-retrieval weight; `0` disables keyword retrieval (default `1.0`) |
+
+At least one weight must be greater than zero. When both are positive, Qdrant
+fuses dense and BM25 rankings with weighted RRF. Setting one weight to zero
+selects only the other retriever; this also avoids computing a dense embedding
+when `semantic_weight=0`. The weights are relative ranking influence, not
+percentages of results, and do not need to sum to `1`.
+
+Examples:
+
+```text
+/api/search?q=leave%20policy&semantic_weight=0.7&keyword_weight=0.3
+/api/search?q=leave%20policy&semantic_weight=0&keyword_weight=1
+/api/search?q=leave%20policy&semantic_weight=1&keyword_weight=0
+```
 
 Quoted text, for example `"leave policy"`, also enables exact phrase
-behavior. Normal searches expand configured synonyms for dense retrieval and
-combine it with BM25 text retrieval using RRF. Exact-mode searches retain the
-dense retrieval path and the existing phrase check. Results are grouped by
-file, and the best excerpts are returned per file.
+behavior. `semantic_weight` and `keyword_weight` select and combine dense
+semantic and BM25 retrieval; `exact=true` independently filters retrieved
+chunks to those containing the phrase. Results are grouped by file, and the
+best excerpts are returned per file.
 
 A successful response has this shape:
 
@@ -491,10 +509,13 @@ A successful response has this shape:
 
 ### Hybrid search implementation
 
-Normal (non-exact) searches combine dense semantic retrieval with a full-text
-BM25 query as prefetches, then fuse their ranked results with Reciprocal Rank
-Fusion (RRF). RRF combines ranks rather than adding raw scores, which is useful
-because dense and BM25 scores have different scales. See
+When both retrieval weights are positive, the search combines dense semantic
+retrieval with a full-text BM25 query as prefetches, then fuses their ranked
+results with Reciprocal Rank Fusion (RRF). The `semantic_weight` and
+`keyword_weight` parameters control the relative contributions; if either is
+zero, that retrieval branch is skipped. RRF combines ranks rather than adding
+raw scores, which is useful because dense and BM25 scores have different
+scales. See
 [Qdrant's hybrid and multi-stage query documentation](https://qdrant.tech/documentation/search/hybrid-queries/).
 
 The approach below uses the existing `content` payload field for BM25. It
@@ -539,18 +560,20 @@ response = client.query_points(
     collection_name=collection_name,
     prefetch=[
         models.Prefetch(
+            query=query_vector,
+            filter=search_filter,
+            limit=top_k,
+        ),
+        models.Prefetch(
             query=models.TextQuery(text=raw_query),
             using="content",
             filter=search_filter,
             limit=top_k,
         ),
-        models.Prefetch(
-            query=query_vector,
-            filter=search_filter,
-            limit=top_k,
-        ),
     ],
-    query=models.FusionQuery(fusion=models.Fusion.RRF),
+    query=models.RrfQuery(
+        rrf=models.Rrf(weights=[semantic_weight, keyword_weight])
+    ),
     limit=top_k,
     with_payload=True,
 )
@@ -558,10 +581,11 @@ response = client.query_points(
 raw_results = response.points
 ```
 
-Here, `using="content"` selects the BM25 text index. The dense prefetch omits
-`using` because this project creates a single unnamed dense vector. If the
-collection is later changed to use a named dense vector, set `using` to that
-vector's name.
+The dense prefetch comes first, so `semantic_weight` is the first RRF weight.
+The second prefetch uses `using="content"` to select the BM25 text index. The
+dense prefetch omits `using` because this project creates a single unnamed
+dense vector. If the collection is later changed to use a named dense vector,
+set `using` to that vector's name.
 
 Use the fused points in the existing result grouping and excerpt logic. Apply
 the same filters to both prefetches so that neither retrieval path introduces
@@ -572,15 +596,16 @@ especially because results are grouped by file after retrieval.
 
 #### Integration notes
 
-- BM25 scoring on the text index requires Qdrant Server v1.20.0 or newer.
-  This project requires `qdrant-client>=1.20.0` for `TextIndexParams`,
-  `FusionQuery`, and the hybrid Query API.
+- Weighted RRF is available from Qdrant Server v1.17.0; BM25 scoring on the
+  text index requires Qdrant Server v1.20.0 or newer. This project requires
+  `qdrant-client>=1.20.0` for `TextIndexParams`, `RrfQuery`, and the hybrid
+  Query API.
 - Hybrid scores are fused ranking scores, not the existing dense cosine
   scores. Treat them as ranking values; don't compare them to the old scores
   or reuse thresholds calibrated for dense search.
 - The BM25 text query is term-based ranked search, not a strict exact-phrase
-  constraint. Keep the existing exact-mode behavior separate from the hybrid
-  path.
+  constraint. `exact=true` remains a phrase filter on retrieved candidates;
+  the weights independently determine which retrievers run.
 - The current dense query uses the synonym-expanded text. Start BM25 with the
   raw user query to avoid expanding lexical matches unintentionally, then
   evaluate whether applying configured synonyms to BM25 improves results.
@@ -589,6 +614,36 @@ especially because results are grouped by file after retrieval.
   approach requires generating and storing sparse vectors for indexed chunks
   as well as generating them for queries. See
   [Qdrant sparse-vector search](https://qdrant.tech/documentation/search/text-search/sparse-vector-search/).
+
+### Observed weight comparison
+
+These results were collected from the local search API on 2026-11-05 using
+Qdrant 1.20.0. All requests used the same query, no metadata filters,
+`exact=false`, and `per_page=5`:
+
+> scalable key hierarchies master keys data keys HSM key centre trusted third
+> party key distribution between users
+
+| `semantic_weight` | `keyword_weight` | API `total_files` | Top five results (rank, filename, API score) |
+|---:|---:|---:|---|
+| 1.0 | 0.0 | 151 | 1. `BIS703-module-4-textbook.pdf` (0.7668)<br>2. `BIS703-module-4-pdf.pdf` (0.6612)<br>3. `BIS703-module-5-textbook.pdf` (0.4884)<br>4. `BIS703-module-5-pdf.pdf` (0.4384)<br>5. `22Module-5 (1).pdf` (0.4292) |
+| 0.7 | 0.3 | 141 | 1. `BIS703-module-4-textbook.pdf` (0.6425)<br>2. `BIS703-module-4-pdf.pdf` (0.3897)<br>3. `BIS703-module-5-textbook.pdf` (0.0520)<br>4. `BIS703-module-5-pdf.pdf` (0.0287)<br>5. `22Module-5 (1).pdf` (0.0186) |
+| 1.0 | 1.0 | 140 | 1. `BIS703-module-4-textbook.pdf` (1.0000)<br>2. `BIS703-module-4-pdf.pdf` (0.6667)<br>3. `BIS703-module-5-textbook.pdf` (0.0812)<br>4. `BIS703-module-5-pdf.pdf` (0.0563)<br>5. `BIS703-module-3-textbook.pdf` (0.0413) |
+| 0.3 | 0.7 | 134 | 1. `BIS703-module-4-textbook.pdf` (0.6425)<br>2. `BIS703-module-4-pdf.pdf` (0.3897)<br>3. `BIS703-module-5-textbook.pdf` (0.0312)<br>4. `BIS703-module-5-pdf.pdf` (0.0294)<br>5. `BIS703-module-3-textbook.pdf` (0.0281) |
+| 0.0 | 1.0 | 142 | 1. `BIS703-module-4-textbook.pdf` (79.3094)<br>2. `BIS703-module-4-pdf.pdf` (62.6532)<br>3. `BIS703-module-5-pdf.pdf` (32.9433)<br>4. `BIS703-module-3-textbook.pdf` (32.5934)<br>5. `BIS703-module-5-textbook.pdf` (31.6425) |
+
+Both `BIS703-module-4` files ranked first and second in every configuration.
+The semantic-only ranking favored the module 5 textbook/PDF and another
+module 5 file in its remaining top-five slots; keyword-only instead put the
+module 3 textbook at rank 4. The mixed configurations retained the same top
+four module 4/module 5 results, with the fifth result varying by weight.
+
+Scores are shown as returned for reference, but **do not compare score
+magnitudes between configurations**: dense similarity, BM25, and fused RRF
+scores have different scales. `total_files` is the number of files represented
+in the retrieved candidate set, not a count of all documents in the
+collection. This is one query's observed ranking, not a general evaluation of
+which weights perform best.
 
 ## HTTP API quick reference
 
@@ -618,7 +673,7 @@ The browser UI uses the same endpoints listed below. JSON requests should use
 | `POST /api/reclassify` | Session | Update classifications for every point of one file |
 | `GET /api/logs/history` | Session | Read recent log lines |
 | `GET /api/logs/stream` | Session | Receive live logs as Server-Sent Events |
-| `GET /api/search` | None by default | Semantic or exact document search |
+| `GET /api/search` | None by default | Semantic, BM25 keyword, weighted hybrid, or exact document search |
 
 The API key is passed as `X-API-Key`. It is accepted for the three index
 control/status endpoints that use general API authentication. Configuration,
